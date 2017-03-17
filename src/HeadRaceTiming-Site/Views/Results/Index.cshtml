@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Results";
+}
+    <iron-ajax url="/data.json" last-response="{{data}}" auto></iron-ajax>
+    <iron-list scroll-target="document" items="[[data]]" as="item">
+        <template>
+            <div>
+                Crew Name: [[item.crewName]]
+            </div>
+        </template>
+    </iron-list>
