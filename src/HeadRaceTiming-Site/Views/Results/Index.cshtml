@@ -4,7 +4,8 @@
     <iron-ajax url="/data.json" last-response="{{data}}" auto></iron-ajax>
 
 <div class="header-row">
-    Crew Name
+    <div class="name">Crew Name</div>
+    <div class="time">Time</div>
 </div>
     <iron-list scroll-target="document" items="[[data]]" as="item">
         <template>
