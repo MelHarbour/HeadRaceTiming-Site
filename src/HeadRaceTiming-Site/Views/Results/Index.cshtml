@@ -9,7 +9,7 @@
 </div>
     <iron-list scroll-target="document" items="[[data]]" as="item">
         <template>
-            <div class="row">
+            <div class="row" onclick="crewDetails.open()">
                 <div class="name">
                     [[item.crewName]]
                 </div>
@@ -19,3 +19,4 @@
             </div>
         </template>
     </iron-list>
+

@@ -21,6 +21,7 @@
     <link rel="import" href="~/lib/iron-list/iron-list.html">
     <link rel="import" href="~/lib/iron-ajax/iron-ajax.html">
     <link rel="import" href="~/lib/iron-flex-layout/iron-flex-layout.html">
+    <link rel="import" href="~/lib/paper-dialog/paper-dialog.html">
     <custom-style>
         <style is="custom-style">
             body {
@@ -48,6 +49,10 @@
                 padding-right: 24px;
                 border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
                 color: rgba(0,0,0,0.87);
+            }
+            .row:hover {
+                background-color: #eeeeee;
+                cursor: pointer;
             }
 
             .name {
@@ -79,7 +84,20 @@
                 </app-header-layout>
         </template>
     </dom-bind>   
-
+    <paper-dialog id="crewDetails" with-backdrop>
+        <table>
+            <tr><th>Seat</th><th>Name</th></tr>
+            <tr><td>Bow</td><td>Jane Bloggs</td></tr>
+            <tr><td>2</td><td>Jane Bloggs</td></tr>
+            <tr><td>3</td><td>Jane Bloggs</td></tr>
+            <tr><td>4</td><td>Jane Bloggs</td></tr>
+            <tr><td>5</td><td>Jane Bloggs</td></tr>
+            <tr><td>6</td><td>Jane Bloggs</td></tr>
+            <tr><td>7</td><td>Jane Bloggs</td></tr>
+            <tr><td>Stroke</td><td>Jane Bloggs</td></tr>
+            <tr><td>Cox</td><td>Jane Bloggs</td></tr>
+        </table>
+    </paper-dialog>
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
