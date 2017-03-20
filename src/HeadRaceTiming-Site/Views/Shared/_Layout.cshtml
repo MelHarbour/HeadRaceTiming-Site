@@ -32,14 +32,6 @@
                 color: #fff;
             }
 
-                app-header paper-icon-button {
-                    --paper-icon-button-ink-color: white;
-                }
-
-            app-drawer-layout:not([narrow]) [drawer-toggle] {
-                display: none;
-            }
-
             .header-row {
                 @@apply(--layout-horizontal);
                 line-height: 56px;
@@ -72,15 +64,10 @@
 <body>
     <dom-bind>
         <template>
-            <app-drawer-layout fullbleed>
-                <app-drawer slot="drawer">
-                    <app-toolbar>App name</app-toolbar>
-                </app-drawer>
-                <app-header-layout>
+                <app-header-layout fullbleed>
 
                     <app-header reveals>
                         <app-toolbar>
-                            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
                             <div main-title>Head Race Timing</div>
                         </app-toolbar>
                     </app-header>
@@ -90,8 +77,6 @@
                     </div>
 
                 </app-header-layout>
-
-            </app-drawer-layout>
         </template>
     </dom-bind>   
 
