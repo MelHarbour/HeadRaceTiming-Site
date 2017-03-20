@@ -13,6 +13,11 @@ namespace HeadRaceTiming_Site.Controllers
             return View();
         }
 
+        public IActionResult Crew()
+        {
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View();
