@@ -1,5 +1,11 @@
-﻿@{
+﻿@using HeadRaceTimingSite.Models
+@model IEnumerable<Competition>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-Testing
+<div class="header-row">
+    <div class="name">Event Name</div>
+</div>
+
+@Html.DisplayForModel()
