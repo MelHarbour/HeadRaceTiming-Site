@@ -6,9 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HeadRaceTiming_Site.Controllers
 {
-    public class HomeController : Controller
+    public class ResultsController : Controller
     {
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Crew()
         {
             return View();
         }
