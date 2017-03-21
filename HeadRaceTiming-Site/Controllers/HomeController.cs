@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HeadRaceTiming_Site.Controllers
+namespace HeadRaceTimingSite.Controllers
 {
     public class HomeController : Controller
     {

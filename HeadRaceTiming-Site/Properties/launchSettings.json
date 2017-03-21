@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "HeadRaceTiming_Site": {
+    "HeadRaceTimingSite": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
