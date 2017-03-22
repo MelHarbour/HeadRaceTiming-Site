@@ -1,7 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Results";
+﻿@model HeadRaceTimingSite.Models.Competition
+@{
+    ViewData["Title"] = Model.Name;
 }
-    <iron-ajax url="/data.json" last-response="{{data}}" auto></iron-ajax>
+    <iron-ajax url="/api/CrewApi/" last-response="{{data}}" auto></iron-ajax>
 
 <div class="header-row">
     <div class="name">Crew Name</div>
@@ -11,7 +12,7 @@
         <template>
             <div class="row" onclick="location.href='Results/Crew'">
                 <div class="name">
-                    [[item.crewName]]
+                    [[item.name]]
                 </div>
                 <div class="time">
                     [[item.time]]

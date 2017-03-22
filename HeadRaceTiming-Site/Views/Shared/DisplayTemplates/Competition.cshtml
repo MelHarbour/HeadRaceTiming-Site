@@ -1,7 +1,7 @@
 ﻿@model HeadRaceTimingSite.Models.Competition
 
-<div class="row" onclick="location.href='Results'">
+<div class="row" onclick="location.href='Competition/Details/@Model.CompetitionId'">
     <div class="name">
-        @Html.DisplayFor(x => x.Name)
+        @Model.Name
     </div>
 </div>
