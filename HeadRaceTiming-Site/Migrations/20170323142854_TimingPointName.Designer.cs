@@ -8,9 +8,10 @@ using HeadRaceTimingSite.Models;
 namespace HeadRaceTimingSite.Migrations
 {
     [DbContext(typeof(TimingSiteContext))]
-    partial class TimingSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20170323142854_TimingPointName")]
+    partial class TimingPointName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -53,9 +54,11 @@ namespace HeadRaceTimingSite.Migrations
 
                     b.Property<int>("CrewId");
 
+                    b.Property<int>("SectionId");
+
                     b.Property<TimeSpan>("TimeOfDay");
 
-                    b.Property<int>("TimingPointId");
+                    b.Property<int?>("TimingPointId");
 
                     b.HasKey("ResultId");
 

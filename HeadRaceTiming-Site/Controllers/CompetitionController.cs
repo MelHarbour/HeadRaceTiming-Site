@@ -24,7 +24,7 @@ namespace HeadRaceTimingSite.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            Competition competition = await _context.Competitions
+            Competition competition = await _context.Competitions.Include(x => x.TimingPoints)
                 .SingleOrDefaultAsync(c => c.CompetitionId == id);
             return View(competition);
         }

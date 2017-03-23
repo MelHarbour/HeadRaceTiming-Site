@@ -8,6 +8,7 @@ namespace HeadRaceTimingSite.Models
     public class TimingPoint
     {
         public int TimingPointId { get; set; }
+        public string Name { get; set; }
         public int Order { get; set; }
 
         public List<Result> Results { get; set; }
