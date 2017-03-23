@@ -10,7 +10,7 @@ namespace HeadRaceTimingSite.Models
         public int CompetitionId { get; set; }
         public string Name { get; set; }
 
-        public List<Section> Sections { get; set; }
+        public List<TimingPoint> TimingPoints { get; set; }
         public List<Crew> Crews { get; set; }
     }
 }

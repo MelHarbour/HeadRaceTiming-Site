@@ -14,6 +14,6 @@ namespace HeadRaceTimingSite.Models
         public Crew Crew { get; set; }
 
         public int SectionId { get; set; }
-        public Section Section { get; set; }
+        public TimingPoint TimingPoint { get; set; }
     }
 }

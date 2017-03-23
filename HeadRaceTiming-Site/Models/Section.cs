@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace HeadRaceTimingSite.Models
 {
-    public class Section
+    public class TimingPoint
     {
-        public int SectionId { get; set; }
+        public int TimingPointId { get; set; }
 
         public List<Result> Results { get; set; }
 
