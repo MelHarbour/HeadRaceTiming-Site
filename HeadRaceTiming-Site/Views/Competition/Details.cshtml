@@ -8,18 +8,16 @@
 <div class="name">Crew Name</div>
 <div class="time">Time</div>
 </div>
-<iron-selector attr-for-selected="crewId">
-    <iron-list id="competition-list" scroll-target="document" items="[[data]]" as="item">
-        <template>
-            <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/'+this.dataCrewId">
-                <div class="name">
-                    [[item.crewId]]
-                    [[item.name]]
-                </div>
-                <div class="time">
-                    [[item.time]]
-                </div>
+<iron-list scroll-target="document" items="[[data]]" as="item">
+    <template>
+        <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/'+this.dataCrewId">
+            <div class="name">
+                [[item.crewId]]
+                [[item.name]]
             </div>
-        </template>
-    </iron-list>
-</iron-selector>
+            <div class="time">
+                [[item.time]]
+            </div>
+        </div>
+    </template>
+</iron-list>
