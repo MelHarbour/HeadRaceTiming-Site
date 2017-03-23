@@ -7,5 +7,11 @@
 <div class="header-row">
     <div class="name">Event Name</div>
 </div>
-
-@Html.DisplayForModel()
+@foreach (var item in Model)
+{
+<div class="row" onclick="location.href='Competition/Details/@item.CompetitionId'">
+    <div class="name">
+        @item.Name
+    </div>
+</div>
+}

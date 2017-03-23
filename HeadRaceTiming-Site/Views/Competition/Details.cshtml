@@ -2,16 +2,18 @@
 @{
     ViewData["Title"] = Model.Name;
 }
-    <iron-ajax url="/api/CrewApi/" last-response="{{data}}" auto></iron-ajax>
+<iron-ajax url="/api/CrewApi/" last-response="{{data}}" auto></iron-ajax>
 
-<div class="header-row">
-    <div class="name">Crew Name</div>
-    <div class="time">Time</div>
+<div class="header-row" onclick="handleTap">
+<div class="name">Crew Name</div>
+<div class="time">Time</div>
 </div>
-    <iron-list scroll-target="document" items="[[data]]" as="item">
+<iron-selector attr-for-selected="crewId">
+    <iron-list id="competition-list" scroll-target="document" items="[[data]]" as="item">
         <template>
-            <div class="row" onclick="location.href='Results/Crew'">
+            <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/'+this.dataCrewId">
                 <div class="name">
+                    [[item.crewId]]
                     [[item.name]]
                 </div>
                 <div class="time">
@@ -20,4 +22,4 @@
             </div>
         </template>
     </iron-list>
-
+</iron-selector>

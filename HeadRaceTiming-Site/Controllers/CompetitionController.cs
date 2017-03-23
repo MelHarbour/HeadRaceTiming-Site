@@ -17,6 +17,11 @@ namespace HeadRaceTimingSite.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Competitions.ToListAsync());
+        }
+
         public async Task<IActionResult> Details(int? id)
         {
             Competition competition = await _context.Competitions
