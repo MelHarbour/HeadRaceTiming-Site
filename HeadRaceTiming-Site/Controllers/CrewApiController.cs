@@ -23,7 +23,7 @@ namespace HeadRaceTimingSite.Controllers
         [HttpGet]
         public async Task<IEnumerable<Crew>> GetAll()
         {
-            return await _context.Crews.ToListAsync();
+            return await _context.Crews.Include(x => x.Competition.TimingPoints).Include(x => x.Results).ToListAsync();
         }
     }
 }
