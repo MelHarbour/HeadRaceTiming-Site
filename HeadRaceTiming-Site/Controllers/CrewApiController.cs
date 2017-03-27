@@ -25,5 +25,18 @@ namespace HeadRaceTimingSite.Controllers
         {
             return await _context.Crews.Include(x => x.Competition.TimingPoints).Include(x => x.Results).ToListAsync();
         }
+
+        [HttpGet("{id}")]
+        public async Task<Crew> GetById(int id)
+        {
+            return await _context.Crews.FirstOrDefaultAsync(x => x.CrewId == id);
+        }
+
+        [HttpGet("ByCompetition/{id}")]
+        public async Task<IEnumerable<Crew>> GetByCompetition(int id)
+        {
+            return await _context.Crews.Where(c => c.CompetitionId == id)
+                .Include(x => x.Competition.TimingPoints).Include(x => x.Results).ToListAsync();
+        }
     }
 }

@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = Model.Name;
 }
-<iron-ajax url="/api/CrewApi/" last-response="{{data}}" auto></iron-ajax>
+<iron-ajax url="/api/CrewApi/ByCompetition/@Model.CompetitionId" last-response="{{data}}" auto></iron-ajax>
 
 <div class="header-row" onclick="handleTap">
 <div class="name">Crew Name</div>
