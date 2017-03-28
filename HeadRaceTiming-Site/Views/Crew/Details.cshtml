@@ -1,0 +1,41 @@
+﻿@model HeadRaceTimingSite.Models.Crew
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="bodyDetails">
+    <paper-card>
+        <h2>Crew Details</h2>
+        Start Number: @Model.StartNumber
+        <table>
+            <thead>
+                <tr><th>Seat</th><th>Name</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Bow</td><td>Jane Bloggs</td></tr>
+                <tr><td>2</td><td>Jane Bloggs</td></tr>
+                <tr><td>3</td><td>Jane Bloggs</td></tr>
+                <tr><td>4</td><td>Jane Bloggs</td></tr>
+                <tr><td>5</td><td>Jane Bloggs</td></tr>
+                <tr><td>6</td><td>Jane Bloggs</td></tr>
+                <tr><td>7</td><td>Jane Bloggs</td></tr>
+                <tr><td>Stroke</td><td>Jane Bloggs</td></tr>
+                <tr><td>Cox</td><td>Jane Bloggs</td></tr>
+            </tbody>
+        </table>
+    </paper-card>
+    <paper-card>
+        <h2>Section Times</h2>
+        <table>
+            <thead>
+                <tr><th>Timing Point</th><th>Time</th><th>Section Time</th><th>Total Time</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Start</td><td>13:30:00</td><td></td><td></td></tr>
+                <tr><td>Barnes</td><td>13:34:00</td><td>4:00.0</td><td>4:00.0</td></tr>
+                <tr><td>Hammersmith</td><td>13:42:00</td><td>8:00.0</td><td>12:00.0</td></tr>
+                <tr><td>Finish</td><td>13:50:00</td><td>8:00.0</td><td>20:00.0</td></tr>
+            </tbody>
+        </table>
+    </paper-card>
+</div>

@@ -41,7 +41,17 @@
                 border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
                 color: rgba(0,0,0,0.54);
             }
-
+            .dataRow {
+                @@apply(--layout-horizontal);
+                line-height: 48px;
+                margin-bottom: 8px;
+            }
+            .item {
+                @@apply(--layout-flex);
+            }
+            .itemData {
+                @@apply(--layout-horizontal);
+            }
             .row {
                 @@apply(--layout-horizontal);
                 line-height: 48px;
@@ -63,6 +73,29 @@
                 width: 50px;
                 text-align: right;
             }
+            .bodyDetails {
+                margin-left: 24px;
+                margin-right: 24px;
+                margin-top: 24px;
+            }
+            paper-card {
+                padding-left: 16px;
+                padding-right: 16px;
+                padding-bottom: 24px;
+                margin-bottom: 16px;
+            }
+            paper-card h2 {
+                @@apply(--paper-font-title);
+            }
+            paper-card table {
+                width: 100%;
+            }
+            paper-card tr, paper-card td {
+                border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
+            }
+            paper-card th {
+                text-align: left;
+            }
         </style>
     </custom-style>
 </head>
@@ -73,7 +106,7 @@
 
                     <app-header reveals>
                         <app-toolbar>
-                            <div main-title>Head Race Timing</div>
+                            <div main-title>@ViewData["Title"]</div>
                         </app-toolbar>
                     </app-header>
 
