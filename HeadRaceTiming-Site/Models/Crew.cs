@@ -20,18 +20,26 @@ namespace HeadRaceTimingSite.Models
             }
         }
 
-        public TimeSpan? RunTime(TimingPoint startPoint, TimingPoint finishPoint)
+        public TimeSpan? RunTime(int startPointId, int finishPointId)
         {
             if (Results == null)
                 return null;
 
-            Result start = Results.First(r => r.TimingPointId == startPoint.TimingPointId);
-            Result finish = Results.First(r => r.TimingPointId == finishPoint.TimingPointId);
+            Result start = Results.First(r => r.TimingPointId == startPointId);
+            Result finish = Results.First(r => r.TimingPointId == finishPointId);
 
             if (start != null && finish != null)
                 return finish.TimeOfDay - start.TimeOfDay;
             else
                 return null;
+        }
+
+        public TimeSpan? RunTime(TimingPoint startPoint, TimingPoint finishPoint)
+        {
+            if (Results == null)
+                return null;
+
+            return RunTime(startPoint.TimingPointId, finishPoint.TimingPointId);
         }
 
         public List<Result> Results { get; set; }

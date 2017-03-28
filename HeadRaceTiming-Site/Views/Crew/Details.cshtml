@@ -31,10 +31,28 @@
                 <tr><th>Timing Point</th><th>Time</th><th>Section Time</th><th>Total Time</th></tr>
             </thead>
             <tbody>
-                <tr><td>Start</td><td>13:30:00</td><td></td><td></td></tr>
-                <tr><td>Barnes</td><td>13:34:00</td><td>4:00.0</td><td>4:00.0</td></tr>
-                <tr><td>Hammersmith</td><td>13:42:00</td><td>8:00.0</td><td>12:00.0</td></tr>
-                <tr><td>Finish</td><td>13:50:00</td><td>8:00.0</td><td>20:00.0</td></tr>
+                @{ 
+                    int? previous = null;
+                    int first = Model.Competition.TimingPoints.OrderBy(p => p.Order).First().TimingPointId;
+                }
+
+                @foreach (var point in Model.Competition.TimingPoints.OrderBy(p => p.Order))
+                {
+                    String sectionTime = String.Empty;
+                    String totalTime = String.Empty;
+                    if (previous.HasValue)
+                    {
+                        sectionTime = Model.RunTime(previous.Value, point.TimingPointId).ToString();
+                        totalTime = Model.RunTime(first, point.TimingPointId).ToString();
+                    }
+                    <tr>
+                        <td>@point.Name</td>
+                        <td>@Model.Results.FirstOrDefault(r => r.TimingPointId == point.TimingPointId)?.TimeOfDay</td>
+                        <td>@sectionTime</td>
+                        <td>@totalTime</td>
+                    </tr>
+                    previous = point.TimingPointId;
+                }
             </tbody>
         </table>
     </paper-card>
