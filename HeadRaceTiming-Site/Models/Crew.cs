@@ -42,6 +42,11 @@ namespace HeadRaceTimingSite.Models
             return RunTime(startPoint.TimingPointId, finishPoint.TimingPointId);
         }
 
+        public int Placing(TimingPoint point)
+        {
+            return Competition.Crews.OrderBy(x => x.RunTime(this.Competition.TimingPoints.OrderBy(t => t.Order).First(), point)).ToList().IndexOf(this) + 1;
+        }
+
         public List<Result> Results { get; set; }
 
         public int CompetitionId { get; set; }
