@@ -51,5 +51,7 @@ namespace HeadRaceTimingSite.Models
 
         public int CompetitionId { get; set; }
         public Competition Competition { get; set; }
+
+        public List<CrewAthlete> Athletes { get; set; }
     }
 }
