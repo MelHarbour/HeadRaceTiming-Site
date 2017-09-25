@@ -5,14 +5,17 @@
 <iron-ajax url="/api/CrewApi/ByCompetition/@Model.CompetitionId" last-response="{{data}}" auto></iron-ajax>
 
 <div class="header-row" onclick="handleTap">
-<div class="name">Crew Name</div>
-<div class="time">Time</div>
+    <div class="startNumber">Start Number</div>
+    <div class="name">Crew Name</div>
+    <div class="time">Time</div>
 </div>
 <iron-list scroll-target="document" items="[[data]]" as="item">
     <template>
         <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/'+this.dataCrewId">
-            <div class="name">
+            <div class="startNumber">
                 [[item.startNumber]]
+            </div>
+            <div class="name">
                 [[item.name]]
             </div>
             <div class="time">
