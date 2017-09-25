@@ -8,14 +8,20 @@
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <RootNamespace>HeadRaceTimingSite</RootNamespace>
     <AssemblyName>HeadRaceTimingSite</AssemblyName>
+    <ApplicationInsightsResourceId>/subscriptions/9d891c91-f51f-42c9-87d6-dfe8c2e9e9dd/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/HeadRaceTiming-Site</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/9d891c91-f51f-42c9-87d6-dfe8c2e9e9dd/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/HeadRaceTiming-Site</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>

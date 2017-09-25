@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -98,6 +99,7 @@
             }
         </style>
     </custom-style>
+    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
     <dom-bind>
