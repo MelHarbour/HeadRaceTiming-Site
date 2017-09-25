@@ -10,5 +10,6 @@ namespace HeadRaceTimingSite.ViewModels
         public int StartNumber { get; set; }
         public string Name { get; set; }
         public TimeSpan? OverallTime { get; set; }
+        public int Rank { get; set; }
     }
 }

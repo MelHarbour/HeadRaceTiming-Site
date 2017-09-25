@@ -8,6 +8,7 @@
     <div class="startNumber">Start Number</div>
     <div class="name">Crew Name</div>
     <div class="time">Time</div>
+    <div class="rank">Rank</div>
 </div>
 <iron-list scroll-target="document" items="[[data]]" as="item">
     <template>
@@ -20,6 +21,9 @@
             </div>
             <div class="time">
                 [[item.overallTime]]
+            </div>
+            <div class="rank">
+                [[item.rank]]
             </div>
         </div>
     </template>
