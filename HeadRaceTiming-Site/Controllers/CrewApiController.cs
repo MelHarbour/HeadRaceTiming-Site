@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HeadRaceTimingSite.Models;
 using Microsoft.EntityFrameworkCore;
+using HeadRaceTimingSite.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,10 +28,13 @@ namespace HeadRaceTimingSite.Controllers
         }
 
         [HttpGet("ByCompetition/{id}")]
-        public async Task<IEnumerable<Crew>> GetByCompetition(int id)
+        public async Task<IEnumerable<ViewModels.Result>> GetByCompetition(int id)
         {
-            return await _context.Crews.Where(c => c.CompetitionId == id)
-                .Include(x => x.Competition.TimingPoints).Include(x => x.Results).ToListAsync();
+            IEnumerable<Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id)
+                .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
+                .ToListAsync();
+            return crews.Select(x => new ViewModels.Result() { Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime })
+                .ToList();
         }
     }
 }
