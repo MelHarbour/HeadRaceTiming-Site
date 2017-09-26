@@ -11,6 +11,10 @@ namespace HeadRaceTimingSite.ViewModels
         public int StartNumber { get; set; }
         public string Name { get; set; }
         public TimeSpan? OverallTime { get; set; }
-        public int Rank { get; set; }
+        public TimeSpan? FirstIntermediateTime { get; set; }
+        public TimeSpan? SecondIntermediateTime { get; set; }
+        public int? Rank { get; set; }
+        public int? FirstIntermediateRank { get; set; }
+        public int? SecondIntermediateRank { get; set; }
     }
 }

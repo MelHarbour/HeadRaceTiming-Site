@@ -33,7 +33,14 @@ namespace HeadRaceTimingSite.Controllers
             IEnumerable<Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id)
                 .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
                 .ToListAsync();
-            return crews.OrderBy(x => x.OverallTime).Select((x,i) => new ViewModels.Result() { CrewId = x.CrewId, Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = i+1 })
+            return crews.OrderBy(x => x.OverallTime).Select((x,i) => new ViewModels.Result()
+                    {
+                        CrewId = x.CrewId, Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = i+1,
+                        FirstIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId),
+                        SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId),
+                        FirstIntermediateRank = 0,
+                        SecondIntermediateRank = 0
+                    })
                 .ToList();
         }
 

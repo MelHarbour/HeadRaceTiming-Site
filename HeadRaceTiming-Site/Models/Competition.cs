@@ -14,5 +14,21 @@ namespace HeadRaceTimingSite.Models
 
         public List<TimingPoint> TimingPoints { get; set; }
         public List<Crew> Crews { get; set; }
+
+        public string FirstIntermediateName
+        {
+            get
+            {
+                return this.TimingPoints[1].Name;
+            }
+        }
+
+        public string SecondIntermediateName
+        {
+            get
+            {
+                return this.TimingPoints[2].Name;
+            }
+        }
     }
 }

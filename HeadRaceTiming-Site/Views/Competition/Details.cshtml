@@ -7,6 +7,14 @@
 <div class="header-row" onclick="handleTap">
     <div class="startNumber">Start Number</div>
     <div class="name">Crew Name</div>
+    @if (Model.ShowFirstIntermediate)
+    {
+        <div class="intermediate">@Model.FirstIntermediateName</div>
+    }
+    @if (Model.ShowSecondIntermediate)
+    {
+        <div class="intermediate">@Model.SecondIntermediateName</div>
+    }
     <div class="time">Time</div>
     <div class="rank">Rank</div>
 </div>
@@ -19,6 +27,18 @@
             <div class="name">
                 [[item.name]]
             </div>
+            @if (Model.ShowFirstIntermediate)
+            {
+            <div class="intermediate">
+                [[item.firstIntermediateTime]] ([[item.firstIntermediateRank]])
+            </div>
+            }
+            @if (Model.ShowSecondIntermediate)
+            {
+            <div class="intermediate">
+                [[item.secondIntermediateTime]] ([[item.secondIntermediateRank]])
+            </div>
+            }
             <div class="time">
                 [[item.overallTime]]
             </div>
