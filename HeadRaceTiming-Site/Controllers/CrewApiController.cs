@@ -27,13 +27,28 @@ namespace HeadRaceTimingSite.Controllers
             IEnumerable<Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id)
                 .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
                 .ToListAsync();
-            return crews.OrderBy(x => x.OverallTime).Select((x,i) => new ViewModels.Result()
+
+            List<ViewModels.Result> results = crews.OrderBy(x => x.OverallTime).Select((x,i) => new ViewModels.Result()
                     {
                         CrewId = x.CrewId, Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = i+1,
                         FirstIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId),
                         SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId)
                     })
                 .ToList();
+
+            int firstRank = 1;
+            foreach (var result in results.Where(x => x.FirstIntermediateTime.HasValue).OrderBy(x => x.FirstIntermediateTime))
+            {
+                result.FirstIntermediateRank = firstRank++;
+            }
+
+            int secondRank = 1;
+            foreach (var result in results.Where(x => x.SecondIntermediateTime.HasValue).OrderBy(x => x.SecondIntermediateTime))
+            {
+                result.SecondIntermediateRank = secondRank++;
+            }
+
+            return results;
         }
 
         [HttpGet("ByCompetition/{id}/{search}")]
