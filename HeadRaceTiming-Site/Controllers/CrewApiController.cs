@@ -21,12 +21,6 @@ namespace HeadRaceTimingSite.Controllers
             _context = context;
         }
 
-        [HttpGet("{id}")]
-        public async Task<Crew> GetById(int id)
-        {
-            return await _context.Crews.FirstOrDefaultAsync(x => x.CrewId == id);
-        }
-
         [HttpGet("ByCompetition/{id}")]
         public async Task<IEnumerable<ViewModels.Result>> GetByCompetition(int id)
         {
@@ -37,9 +31,7 @@ namespace HeadRaceTimingSite.Controllers
                     {
                         CrewId = x.CrewId, Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = i+1,
                         FirstIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId),
-                        SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId),
-                        FirstIntermediateRank = 0,
-                        SecondIntermediateRank = 0
+                        SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId)
                     })
                 .ToList();
         }
