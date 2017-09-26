@@ -12,7 +12,7 @@
 </div>
 <iron-list scroll-target="document" items="[[data]]" as="item">
     <template>
-        <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/'+this.dataCrewId">
+        <div class="row" data-crew-id="[[item.crewId]]" on-tap="rowTap">
             <div class="startNumber">
                 [[item.startNumber]]
             </div>
@@ -28,3 +28,29 @@
         </div>
     </template>
 </iron-list>
+
+@section titleBar{
+    
+        <div main-title>@ViewData["Title"]</div>
+        <paper-icon-button icon="search" on-tap="searchToggle"></paper-icon-button>
+    <div class="search">
+        <paper-icon-button icon="arrow-back" on-tap="searchToggle"></paper-icon-button>
+        <input id="searchbox" flex>
+    </div>
+}
+
+@section scripts{ 
+    <script>
+        const app = document.getElementById('app');
+        var active = false;
+
+        app.searchToggle = function () {
+            active = !active;
+            $(".search").css("display", "block");
+        }
+
+        app.rowTap = function (e) {
+            location.href = '/Crew/Details/' + e.target.parentNode.dataCrewId;
+        }
+    </script>
+}

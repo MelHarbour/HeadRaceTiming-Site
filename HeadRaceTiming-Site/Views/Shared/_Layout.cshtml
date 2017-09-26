@@ -103,18 +103,28 @@
             paper-card th {
                 text-align: left;
             }
+            .search {
+                display:none;
+            }
         </style>
     </custom-style>
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
-    <dom-bind>
+    <dom-bind id="app">
         <template>
                 <app-header-layout fullbleed>
 
                     <app-header reveals>
                         <app-toolbar>
-                            <div main-title>@ViewData["Title"]</div>
+                            @if (IsSectionDefined("titleBar"))
+                            {
+                                @RenderSection("titleBar", required: false)
+                            }
+                            else
+                            {
+                                <div main-title>@ViewData["Title"]</div>
+                            }
                         </app-toolbar>
                     </app-header>
 
@@ -136,7 +146,6 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>
