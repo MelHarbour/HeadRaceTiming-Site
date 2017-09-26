@@ -12,15 +12,9 @@
                 <tr><th>Seat</th><th>Name</th></tr>
             </thead>
             <tbody>
-                <tr><td>Bow</td><td>Jane Bloggs</td></tr>
-                <tr><td>2</td><td>Jane Bloggs</td></tr>
-                <tr><td>3</td><td>Jane Bloggs</td></tr>
-                <tr><td>4</td><td>Jane Bloggs</td></tr>
-                <tr><td>5</td><td>Jane Bloggs</td></tr>
-                <tr><td>6</td><td>Jane Bloggs</td></tr>
-                <tr><td>7</td><td>Jane Bloggs</td></tr>
-                <tr><td>Stroke</td><td>Jane Bloggs</td></tr>
-                <tr><td>Cox</td><td>Jane Bloggs</td></tr>
+                @foreach (var athlete in Model.Athletes.OrderBy(x => x.Position)) {
+                    <tr><td>@athlete.PositionDescription</td><td>@athlete.Athlete.FirstName @athlete.Athlete.LastName</td></tr>
+                }
             </tbody>
         </table>
     </paper-card>

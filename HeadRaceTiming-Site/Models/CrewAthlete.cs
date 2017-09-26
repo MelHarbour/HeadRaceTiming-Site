@@ -12,5 +12,18 @@ namespace HeadRaceTimingSite.Models
         public int Position { get; set; }
         public Crew Crew { get; set; }
         public Athlete Athlete { get; set; }
+        public string PositionDescription {
+            get
+            {
+                if (Position == 1)
+                    return "Bow";
+                if (Position == 8)
+                    return "Stroke";
+                if (Position == 9)
+                    return "Cox";
+                else
+                    return Position.ToString();
+            }
+        }
     }
 }

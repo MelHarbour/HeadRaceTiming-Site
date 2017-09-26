@@ -33,7 +33,7 @@ namespace HeadRaceTimingSite.Controllers
             IEnumerable<Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id)
                 .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
                 .ToListAsync();
-            return crews.OrderBy(x => x.OverallTime).Select((x,i) => new ViewModels.Result() { Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = i+1 })
+            return crews.OrderBy(x => x.OverallTime).Select((x,i) => new ViewModels.Result() { CrewId = x.CrewId, Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = i+1 })
                 .ToList();
         }
 
@@ -45,7 +45,7 @@ namespace HeadRaceTimingSite.Controllers
                 .ToListAsync();
             string lowerSearch = search.ToLower();
 
-            return crews.OrderBy(x => x.OverallTime).Select((x, i) => new ViewModels.Result() { Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = i + 1 })
+            return crews.OrderBy(x => x.OverallTime).Select((x, i) => new ViewModels.Result() { CrewId = x.CrewId, Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = i + 1 })
                 .Where(x => x.Name.ToLower().Contains(lowerSearch))
                 .ToList();
         }

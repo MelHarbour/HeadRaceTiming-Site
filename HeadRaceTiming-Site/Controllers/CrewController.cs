@@ -23,6 +23,8 @@ namespace HeadRaceTiming_Site.Controllers
                 .Include(c => c.Results)
                 .Include(c => c.Competition.Crews)
                 .Include("Competition.Crews.Results")
+                .Include(c => c.Athletes)
+                .Include("Athletes.Athlete")
                 .SingleOrDefaultAsync(c => c.CrewId == id);
             return View(crew);
         }
