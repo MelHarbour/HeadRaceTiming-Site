@@ -30,20 +30,30 @@ namespace HeadRaceTimingSite.Controllers
 
         private List<ViewModels.Result> BuildResultsList(IEnumerable<Crew> crews)
         {
-            List<ViewModels.Result> results = crews.OrderBy(x => x.OverallTime).Select((x, i) => new ViewModels.Result()
+            List<ViewModels.Result> results = crews.OrderBy(x => x.OverallTime).Select(x => new ViewModels.Result()
             {
                 CrewId = x.CrewId,
                 Name = x.Name,
                 StartNumber = x.StartNumber,
                 OverallTime = x.OverallTime,
-                Rank = (i + 1).ToString(),
                 FirstIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId),
                 SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId)
-            })
-                .ToList();
+            }).ToList();
+
+            int overallRank = 1;
+            TimeSpan previousTime = TimeSpan.Zero;
+            foreach (var result in results.Where(x => x.OverallTime.HasValue).OrderBy(x => x.OverallTime))
+            {
+                result.Rank = (overallRank++).ToString();
+                if (result.OverallTime == previousTime)
+                {
+                    result.Rank = result.Rank + "=";
+                }
+                previousTime = result.OverallTime.Value;
+            }
 
             int firstRank = 1;
-            TimeSpan previousTime = TimeSpan.Zero;
+            previousTime = TimeSpan.Zero;
             foreach (var result in results.Where(x => x.FirstIntermediateTime.HasValue).OrderBy(x => x.FirstIntermediateTime))
             {
                 result.FirstIntermediateRank = (firstRank++).ToString();
