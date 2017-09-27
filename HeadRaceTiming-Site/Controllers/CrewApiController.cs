@@ -55,9 +55,15 @@ namespace HeadRaceTimingSite.Controllers
             }
 
             int secondRank = 1;
+            previousTime = TimeSpan.Zero;
             foreach (var result in results.Where(x => x.SecondIntermediateTime.HasValue).OrderBy(x => x.SecondIntermediateTime))
             {
                 result.SecondIntermediateRank = (secondRank++).ToString();
+                if (result.SecondIntermediateTime == previousTime)
+                {
+                    result.SecondIntermediateRank = result.SecondIntermediateRank+ "=";
+                }
+                previousTime = result.SecondIntermediateTime.Value;
             }
 
             return results;
