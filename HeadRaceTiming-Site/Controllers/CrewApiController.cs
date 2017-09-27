@@ -30,7 +30,7 @@ namespace HeadRaceTimingSite.Controllers
 
             List<ViewModels.Result> results = crews.OrderBy(x => x.OverallTime).Select((x,i) => new ViewModels.Result()
                     {
-                        CrewId = x.CrewId, Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = i+1,
+                        CrewId = x.CrewId, Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = (i+1).ToString(),
                         FirstIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId),
                         SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId)
                     })
@@ -39,13 +39,13 @@ namespace HeadRaceTimingSite.Controllers
             int firstRank = 1;
             foreach (var result in results.Where(x => x.FirstIntermediateTime.HasValue).OrderBy(x => x.FirstIntermediateTime))
             {
-                result.FirstIntermediateRank = firstRank++;
+                result.FirstIntermediateRank = (firstRank++).ToString();
             }
 
             int secondRank = 1;
             foreach (var result in results.Where(x => x.SecondIntermediateTime.HasValue).OrderBy(x => x.SecondIntermediateTime))
             {
-                result.SecondIntermediateRank = secondRank++;
+                result.SecondIntermediateRank = (secondRank++).ToString();
             }
 
             return results;
@@ -59,7 +59,7 @@ namespace HeadRaceTimingSite.Controllers
                 .ToListAsync();
             string lowerSearch = search.ToLower();
 
-            return crews.OrderBy(x => x.OverallTime).Select((x, i) => new ViewModels.Result() { CrewId = x.CrewId, Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = i + 1 })
+            return crews.OrderBy(x => x.OverallTime).Select((x, i) => new ViewModels.Result() { CrewId = x.CrewId, Name = x.Name, StartNumber = x.StartNumber, OverallTime = x.OverallTime, Rank = (i + 1).ToString() })
                 .Where(x => x.Name.ToLower().Contains(lowerSearch))
                 .ToList();
         }
