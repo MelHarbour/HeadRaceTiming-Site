@@ -4,14 +4,19 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="header-row">
-    <div class="name">Event Name</div>
-</div>
 @foreach (var item in Model)
 {
-<div class="row" onclick="location.href='Competition/Details/@item.CompetitionId'">
-    <div class="name">
-        @item.Name
-    </div>
-</div>
+    <paper-card data-competition-id="@item.CompetitionId" class="competitionCard" heading="@item.Name" on-tap="cardTap">
+
+    </paper-card>
+}
+
+@section scripts{
+    <script>
+        const app = document.getElementById('app');
+        
+        app.cardTap = function (e) {
+            location.href = 'Competition/Details/' + e.target.getAttribute("data-competition-id");
+        }
+    </script>
 }

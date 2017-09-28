@@ -94,6 +94,13 @@
                 padding-bottom: 24px;
                 margin-bottom: 16px;
             }
+            .competitionCard {
+                margin-top: 16px;
+                margin-left: 16px;
+                margin-right: 16px;
+                width: 250px;
+                cursor: pointer;
+            }
             paper-card h2 {
                 @@apply(--paper-font-title);
             }
@@ -131,9 +138,7 @@
                         </app-toolbar>
                     </app-header>
 
-                    <div>
-                        @RenderBody()
-                    </div>
+                    @RenderBody()
 
                 </app-header-layout>
         </template>
