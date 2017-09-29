@@ -24,6 +24,7 @@ namespace HeadRaceTimingSite.Models
             get { return TextColor.ToArgb(); }
             set { TextColor = Color.FromArgb(value); }
         }
+        public string ImageUriText { get; set; }
 
         [NotMapped]
         public Color BackgroundColor { get; set; }

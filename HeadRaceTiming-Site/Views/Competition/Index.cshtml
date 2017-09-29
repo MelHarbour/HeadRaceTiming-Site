@@ -6,9 +6,17 @@
 
 @foreach (var item in Model)
 {
-    <paper-card data-competition-id="@item.CompetitionId" class="competitionCard" heading="@item.Name" on-tap="cardTap" style="--paper-card-background-color: #@item.BackgroundHtmlColor; --paper-card-header-color: #@item.TextHtmlColor">
+    @if (String.IsNullOrEmpty(item.ImageUriText)) {
+        <paper-card data-competition-id="@item.CompetitionId" class="competitionCard" heading="@item.Name" on-tap="cardTap" style="--paper-card-background-color: #@item.BackgroundHtmlColor; --paper-card-header-color: #@item.TextHtmlColor">
 
-    </paper-card>
+        </paper-card>
+    }
+    else
+    {
+        <paper-card data-competition-id="@item.CompetitionId" class="competitionCard" on-tap="cardTap" image="@item.ImageUriText" style="--paper-card-background-color: #@item.BackgroundHtmlColor">
+            <div class="card-content" style="color:#@item.TextHtmlColor">@item.Name</div>
+        </paper-card>
+    }
 }
 
 @section scripts{
