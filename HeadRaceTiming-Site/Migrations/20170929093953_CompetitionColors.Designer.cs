@@ -11,9 +11,10 @@ using System;
 namespace HeadRaceTimingSite.Migrations
 {
     [DbContext(typeof(TimingSiteContext))]
-    partial class TimingSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20170929093953_CompetitionColors")]
+    partial class CompetitionColors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,15 +40,13 @@ namespace HeadRaceTimingSite.Migrations
                     b.Property<int>("CompetitionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("BackgroundArgb");
+                    b.Property<int>("Argb");
 
                     b.Property<string>("Name");
 
                     b.Property<bool>("ShowFirstIntermediate");
 
                     b.Property<bool>("ShowSecondIntermediate");
-
-                    b.Property<int>("TextArgb");
 
                     b.HasKey("CompetitionId");
 

@@ -6,7 +6,7 @@
 
 @foreach (var item in Model)
 {
-    <paper-card data-competition-id="@item.CompetitionId" class="competitionCard" heading="@item.Name" on-tap="cardTap">
+    <paper-card data-competition-id="@item.CompetitionId" class="competitionCard" heading="@item.Name" on-tap="cardTap" style="--paper-card-background-color: #@item.BackgroundHtmlColor; --paper-card-header-color: #@item.TextHtmlColor">
 
     </paper-card>
 }
