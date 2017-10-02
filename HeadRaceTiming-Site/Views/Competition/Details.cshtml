@@ -26,10 +26,6 @@
             $(".search").css("display", "block");
         }
 
-        app.rowTap = function (e) {
-            location.href = '/Crew/Details/' + e.target.parentNode.dataCrewId;
-        }
-
         app.downloadData = function () {
             location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
         }

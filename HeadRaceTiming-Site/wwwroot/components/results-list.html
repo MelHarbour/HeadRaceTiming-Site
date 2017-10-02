@@ -133,6 +133,10 @@
                     ajaxElement.generateRequest();
                 }, 2000);
             }
+
+            rowTap() {
+                location.href = '/Crew/Details/' + e.target.parentNode.dataCrewId;
+            }
           
         }
 
