@@ -1,4 +1,6 @@
 ﻿<link rel="import" href="/lib/polymer/polymer.html">
+<link rel="import" href="/lib/iron-ajax/iron-ajax.html" />
+<link rel="import" href="/lib/iron-list/iron-list.html" />
 
 <dom-module id="results-list">
     <template>
@@ -64,7 +66,7 @@
             }
         </style>
 
-        <iron-ajax url$="/api/CrewApi/ByCompetition/[[competitionId]]" last-response="{{data}}" auto></iron-ajax>
+        <iron-ajax id="ajax" url$="/api/CrewApi/ByCompetition/[[competitionId]]" last-response="{{data}}" on-response="updateData" auto></iron-ajax>
 
         <div class="header-row" onclick="handleTap">
             <div class="startNumber">Start Number</div>
@@ -123,6 +125,13 @@
                     showSecondIntermediate: Boolean,
                     data: Array
                 }
+            }
+
+            updateData() {
+                var ajaxElement = this.$.ajax;
+                setTimeout(function () {
+                    ajaxElement.generateRequest();
+                }, 2000);
             }
           
         }
