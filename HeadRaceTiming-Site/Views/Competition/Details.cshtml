@@ -2,52 +2,8 @@
 @{
     ViewData["Title"] = Model.Name;
 }
-<iron-ajax url="/api/CrewApi/ByCompetition/@Model.CompetitionId" last-response="{{data}}" auto></iron-ajax>
 
-<div class="header-row" onclick="handleTap">
-    <div class="startNumber">Start Number</div>
-    <div class="name">Crew Name</div>
-    @if (Model.ShowFirstIntermediate)
-    {
-        <div class="intermediate">@Model.FirstIntermediateName</div>
-    }
-    @if (Model.ShowSecondIntermediate)
-    {
-        <div class="intermediate">@Model.SecondIntermediateName</div>
-    }
-    <div class="time">Time</div>
-    <div class="rank">Rank</div>
-</div>
-<iron-list scroll-target="document" items="[[data]]" as="item">
-    <template>
-        <div class="row" data-crew-id="[[item.crewId]]" on-tap="rowTap">
-            <div class="startNumber">
-                [[item.startNumber]]
-            </div>
-            <div class="name">
-                [[item.name]]
-            </div>
-            @if (Model.ShowFirstIntermediate)
-            {
-            <div class="intermediate">
-                [[item.firstIntermediateTime]] ([[item.firstIntermediateRank]])
-            </div>
-            }
-            @if (Model.ShowSecondIntermediate)
-            {
-            <div class="intermediate">
-                [[item.secondIntermediateTime]] ([[item.secondIntermediateRank]])
-            </div>
-            }
-            <div class="time">
-                [[item.overallTime]]
-            </div>
-            <div class="rank">
-                [[item.rank]]
-            </div>
-        </div>
-    </template>
-</iron-list>
+<results-list competition-id="@Model.CompetitionId" first-intermediate-name="Barnes" second-intermediate-name="Hammersmith" show-first-intermediate show-second-intermediate></results-list>
 
 @section titleBar{
     

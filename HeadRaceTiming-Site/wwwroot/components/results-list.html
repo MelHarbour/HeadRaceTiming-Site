@@ -1,0 +1,133 @@
+﻿<link rel="import" href="/lib/polymer/polymer.html">
+
+<dom-module id="results-list">
+    <template>
+        <style>
+            .header-row {
+                @apply(--layout-horizontal);
+                line-height: 56px;
+                padding-left: 24px;
+                padding-right: 24px;
+                border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
+                color: rgba(0,0,0,0.54);
+            }
+
+            .dataRow {
+                @apply(--layout-horizontal);
+                line-height: 48px;
+                margin-bottom: 8px;
+            }
+
+            .item {
+                @apply(--layout-flex);
+            }
+
+            .itemData {
+                @apply(--layout-horizontal);
+            }
+
+            .row {
+                @apply(--layout-horizontal);
+                line-height: 48px;
+                padding-left: 24px;
+                padding-right: 24px;
+                border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
+                color: rgba(0,0,0,0.87);
+            }
+
+            .row:hover {
+                background-color: #eeeeee;
+                cursor: pointer;
+            }
+
+            .startNumber {
+                width: 100px;
+            }
+
+            .name {
+                @apply(--layout-flex);
+            }
+
+            .intermediate {
+                width: 150px;
+                text-align: right;
+            }
+
+            .time {
+                width: 100px;
+                text-align: right;
+            }
+
+            .rank {
+                width: 50px;
+                text-align: right;
+            }
+        </style>
+
+        <iron-ajax url$="/api/CrewApi/ByCompetition/[[competitionId]]" last-response="{{data}}" auto></iron-ajax>
+
+        <div class="header-row" onclick="handleTap">
+            <div class="startNumber">Start Number</div>
+            <div class="name">Crew Name</div>
+            <template is="dom-if" if="[[showFirstIntermediate]]">
+                <div class="intermediate">[[firstIntermediateName]]</div>
+            </template>
+            <template is="dom-if" if="[[showSecondIntermediate]]">
+                <div class="intermediate">[[secondIntermediateName]]</div>
+            </template>
+            <div class="time">Time</div>
+            <div class="rank">Rank</div>
+</div>
+        <iron-list scroll-target="document" items="[[data]]" as="item">
+            <template>
+                <div class="row" data-crew-id="[[item.crewId]]" on-tap="rowTap">
+                    <div class="startNumber">
+                        [[item.startNumber]]
+                    </div>
+                    <div class="name">
+                        [[item.name]]
+                    </div>
+                    <template is="dom-if" if="[[showFirstIntermediate]]">
+                        <div class="intermediate">
+                            [[item.firstIntermediateTime]] ([[item.firstIntermediateRank]])
+                        </div>
+                    </template>
+                    <template is="dom-if" if="[[showSecondIntermediate]]">
+                        <div class="intermediate">
+                            [[item.secondIntermediateTime]] ([[item.secondIntermediateRank]])
+                        </div>
+                    </template>
+                    <div class="time">
+                        [[item.overallTime]]
+                    </div>
+                    <div class="rank">
+                        [[item.rank]]
+                    </div>
+                </div>
+            </template>
+        </iron-list>
+    </template>
+
+    <script>
+        // Define the element's API using an ES2015 class
+        class ResultsList extends Polymer.Element {
+
+            static get is() { return 'results-list'; }
+
+            static get properties() {
+                return {
+                    competitionId: Number,
+                    firstIntermediateName: String,
+                    secondIntermediateName: String,
+                    showFirstIntermediate: Boolean,
+                    showSecondIntermediate: Boolean,
+                    data: Array
+                }
+            }
+          
+        }
+
+        customElements.define(ResultsList.is, ResultsList);
+    </script>
+
+</dom-module>
