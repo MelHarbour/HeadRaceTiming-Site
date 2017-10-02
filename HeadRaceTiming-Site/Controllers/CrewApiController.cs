@@ -40,41 +40,9 @@ namespace HeadRaceTimingSite.Controllers
                 SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId)
             }).ToList();
 
-            int overallRank = 1;
-            TimeSpan previousTime = TimeSpan.Zero;
-            foreach (var result in results.Where(x => x.OverallTime.HasValue).OrderBy(x => x.OverallTime))
-            {
-                result.Rank = (overallRank++).ToString();
-                if (result.OverallTime == previousTime)
-                {
-                    result.Rank = result.Rank + "=";
-                }
-                previousTime = result.OverallTime.Value;
-            }
-
-            int firstRank = 1;
-            previousTime = TimeSpan.Zero;
-            foreach (var result in results.Where(x => x.FirstIntermediateTime.HasValue).OrderBy(x => x.FirstIntermediateTime))
-            {
-                result.FirstIntermediateRank = (firstRank++).ToString();
-                if (result.FirstIntermediateTime == previousTime)
-                {
-                    result.FirstIntermediateRank = result.FirstIntermediateRank + "=";
-                }
-                previousTime = result.FirstIntermediateTime.Value;
-            }
-
-            int secondRank = 1;
-            previousTime = TimeSpan.Zero;
-            foreach (var result in results.Where(x => x.SecondIntermediateTime.HasValue).OrderBy(x => x.SecondIntermediateTime))
-            {
-                result.SecondIntermediateRank = (secondRank++).ToString();
-                if (result.SecondIntermediateTime == previousTime)
-                {
-                    result.SecondIntermediateRank = result.SecondIntermediateRank+ "=";
-                }
-                previousTime = result.SecondIntermediateTime.Value;
-            }
+            ViewModels.Result.RankByOverall(results);
+            ViewModels.Result.RankByFirstIntermediate(results);
+            ViewModels.Result.RankBySecondIntermediate(results);
 
             return results;
         }

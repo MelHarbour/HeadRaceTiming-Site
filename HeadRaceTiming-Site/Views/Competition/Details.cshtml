@@ -53,6 +53,7 @@
     
         <div main-title>@ViewData["Title"]</div>
         <paper-icon-button icon="search" on-tap="searchToggle"></paper-icon-button>
+        <paper-icon-button icon="cloud-download" on-tap="downloadData"></paper-icon-button>
     <div class="search">
         <paper-icon-button icon="arrow-back" on-tap="searchToggle"></paper-icon-button>
         <input id="searchbox" flex>
@@ -71,6 +72,10 @@
 
         app.rowTap = function (e) {
             location.href = '/Crew/Details/' + e.target.parentNode.dataCrewId;
+        }
+
+        app.downloadData = function () {
+            location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
         }
     </script>
 }

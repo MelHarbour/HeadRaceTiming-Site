@@ -29,6 +29,31 @@ namespace HeadRaceTimingSite.Controllers
             return View(competition);
         }
 
+        [HttpGet]
+        [Produces("text/csv")]
+        public async Task<IActionResult> DetailsAsCsv(int? id)
+        {
+            IEnumerable<Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id)
+                .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
+                .ToListAsync();
+
+            List<ViewModels.Result> results = crews.OrderBy(x => x.OverallTime).Select(x => new ViewModels.Result()
+            {
+                CrewId = x.CrewId,
+                Name = x.Name,
+                StartNumber = x.StartNumber,
+                OverallTime = x.OverallTime,
+                FirstIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId),
+                SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId)
+            }).ToList();
+
+            ViewModels.Result.RankByOverall(results);
+            ViewModels.Result.RankByFirstIntermediate(results);
+            ViewModels.Result.RankBySecondIntermediate(results);
+
+            return Ok(results);
+        }
+
         public IActionResult Error()
         {
             return View();
