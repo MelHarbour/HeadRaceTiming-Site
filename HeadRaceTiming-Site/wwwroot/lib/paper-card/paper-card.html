@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../iron-image/iron-image.html">
-<link rel="import" href="../paper-styles/element-styles/paper-material.html">
+<link rel="import" href="../paper-styles/element-styles/paper-material-styles.html">
 <link rel="import" href="../paper-styles/default-theme.html">
 
 <!--
@@ -61,7 +61,7 @@ Custom property | Description | Default
 
 <dom-module id="paper-card">
   <template>
-    <style include="paper-material">
+    <style include="paper-material-styles">
       :host {
         display: inline-block;
         position: relative;
@@ -125,6 +125,26 @@ Custom property | Description | Default
         position:relative;
 
         @apply --paper-card-actions;
+      }
+
+      :host([elevation="1"]) {
+        @apply --paper-material-elevation-1;
+      }
+
+      :host([elevation="2"]) {
+        @apply --paper-material-elevation-2;
+      }
+
+      :host([elevation="3"]) {
+        @apply --paper-material-elevation-3;
+      }
+
+      :host([elevation="4"]) {
+        @apply --paper-material-elevation-4;
+      }
+
+      :host([elevation="5"]) {
+        @apply --paper-material-elevation-5;
       }
     </style>
 
@@ -237,13 +257,13 @@ Custom property | Description | Default
         return image ? 'false' : 'true';
       },
 
-      created: function() {
-        this.classList.add('paper-material');
-      },
-
       _headingChanged: function(heading) {
-        var label = this.getAttribute('aria-label');
-        this.setAttribute('aria-label', heading);
+        var currentHeading = this.getAttribute('heading'),
+            currentLabel = this.getAttribute('aria-label');
+
+        if (typeof currentLabel !== 'string' || currentLabel === currentHeading) {
+          this.setAttribute('aria-label', heading);
+        }
       },
 
       _computeHeadingClass: function(image) {
