@@ -8,8 +8,8 @@
 @section titleBar{
     
         <div main-title>@ViewData["Title"]</div>
-        <paper-icon-button icon="search" on-tap="searchToggle"></paper-icon-button>
-        <paper-icon-button icon="cloud-download" on-tap="downloadData"></paper-icon-button>
+        <paper-icon-button icon="search" id="searchButton"></paper-icon-button>
+        <paper-icon-button icon="cloud-download" id="downloadButton"></paper-icon-button>
     <div class="search">
         <paper-icon-button icon="arrow-back" on-tap="searchToggle"></paper-icon-button>
         <input id="searchbox" flex>
@@ -18,16 +18,16 @@
 
 @section scripts{ 
     <script>
-        const app = document.getElementById('app');
         var active = false;
 
-        app.searchToggle = function () {
-            active = !active;
-            $(".search").css("display", "block");
-        }
-
-        app.downloadData = function () {
-            location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
-        }
+        window.addEventListener('WebComponentsReady', function (e) {
+            document.querySelector("#searchButton").addEventListener("click", function (e) {
+                active = !active;
+                $(".search").css("display", "block");
+            });
+            document.querySelector("#downloadButton").addEventListener("click", function (e) {
+                location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
+            });
+        });
     </script>
 }

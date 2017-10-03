@@ -68,7 +68,7 @@
 
         <iron-ajax id="ajax" url$="/api/CrewApi/ByCompetition/[[competitionId]]" last-response="{{data}}" on-response="updateData" auto></iron-ajax>
 
-        <div class="header-row" onclick="handleTap">
+        <div class="header-row">
             <div class="startNumber">Start Number</div>
             <div class="name">Crew Name</div>
             <template is="dom-if" if="[[showFirstIntermediate]]">
@@ -79,10 +79,10 @@
             </template>
             <div class="time">Time</div>
             <div class="rank">Rank</div>
-</div>
-        <iron-list scroll-target="document" items="[[data]]" as="item">
+        </div>
+        <iron-list scroll-target="document" items="[[data]]" as="item" id="crewsList">
             <template>
-                <div class="row" data-crew-id="[[item.crewId]]" on-tap="rowTap">
+                <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/' + this.dataCrewId">
                     <div class="startNumber">
                         [[item.startNumber]]
                     </div>
@@ -124,7 +124,7 @@
                     showFirstIntermediate: Boolean,
                     showSecondIntermediate: Boolean,
                     data: Array
-                }
+                };
             }
 
             updateData() {
@@ -133,11 +133,6 @@
                     ajaxElement.generateRequest();
                 }, 2000);
             }
-
-            rowTap() {
-                location.href = '/Crew/Details/' + e.target.parentNode.dataCrewId;
-            }
-          
         }
 
         customElements.define(ResultsList.is, ResultsList);
