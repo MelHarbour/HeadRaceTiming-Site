@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadRaceTiming-Site", "HeadRaceTiming-Site\HeadRaceTiming-Site.csproj", "{33CA0930-6B54-4B6D-9291-71C9992EB5C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeadRaceTiming-Site", "HeadRaceTiming-Site\HeadRaceTiming-Site.csproj", "{33CA0930-6B54-4B6D-9291-71C9992EB5C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadRaceTiming-Site.Tests", "HeadRaceTiming-Site.Tests\HeadRaceTiming-Site.Tests.csproj", "{5F41C6CF-9201-4B25-BEBD-A6E9788D9AC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeadRaceTiming-Site.Tests", "HeadRaceTiming-Site.Tests\HeadRaceTiming-Site.Tests.csproj", "{5F41C6CF-9201-4B25-BEBD-A6E9788D9AC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD7B6BA8-3609-4026-84E8-8165267DA91B}
 	EndGlobalSection
 EndGlobal

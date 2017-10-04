@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using HeadRaceTimingSite.Models;
 using HeadRaceTimingSite.Formatters;
 using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Identity;
+using HeadRaceTimingSite.Services;
 
 namespace HeadRaceTimingSite
 {
@@ -23,6 +25,7 @@ namespace HeadRaceTimingSite
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("connectionStrings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("authentication.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -45,6 +48,20 @@ namespace HeadRaceTimingSite
             });
 
             services.AddDbContext<TimingSiteContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TimingSiteDatabase")));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<TimingSiteContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication()
+                .AddGoogle(options => {
+                    options.ClientId = Configuration["auth:google:client_id"];
+                    options.ClientSecret = Configuration["auth:google:client_secret"];
+                });
+
+            // Add application services.
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +79,8 @@ namespace HeadRaceTimingSite
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 

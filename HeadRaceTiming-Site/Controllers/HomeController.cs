@@ -7,6 +7,11 @@ namespace HeadRaceTimingSite.Controllers
 {
     public class HomeController : Controller
     {
+        public IActionResult Index()
+        {
+            return RedirectToAction(nameof(CompetitionController.Index), "Home");
+        }
+
         public IActionResult Error()
         {
             return View();
