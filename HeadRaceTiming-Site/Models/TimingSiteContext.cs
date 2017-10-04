@@ -4,16 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace HeadRaceTimingSite.Models
 {
-    public class TimingSiteContext : DbContext
+    public class TimingSiteContext : IdentityDbContext<ApplicationUser>
     {
         public TimingSiteContext(DbContextOptions<TimingSiteContext> options) : base(options)
         { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Competition>()
                 .HasMany(c => c.Crews)
                 .WithOne(c => c.Competition)
@@ -32,6 +35,7 @@ namespace HeadRaceTimingSite.Models
                 .OnDelete(DeleteBehavior.Restrict);
         }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Competition> Competitions { get; set; }
         public DbSet<Crew> Crews { get; set; }
         public DbSet<Result> Results { get; set; }

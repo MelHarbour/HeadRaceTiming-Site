@@ -23,6 +23,10 @@
     <link rel="import" href="~/lib/iron-flex-layout/iron-flex-layout.html">
     <link rel="import" href="~/lib/paper-card/paper-card.html">
     <link rel="import" href="~/components/results-list.html" />
+    <link rel="import" href="~/lib/paper-listbox/paper-listbox.html" />
+    <link rel="import" href="~/lib/paper-item/paper-item.html" />
+    <link rel="import" href="~/lib/paper-button/paper-button.html" />
+    <link rel="import" href="~/lib/iron-form/iron-form.html" />
     <custom-style>
         <style is="custom-style">
             body {
@@ -67,28 +71,41 @@
             .search {
                 display:none;
             }
+            app-drawer-layout:not([narrow]) [drawer-toggle] {
+                display: none;
+            }
+            paper-item {
+                color: #666;
+                cursor: pointer;
+            }
         </style>
     </custom-style>
 </head>
 <body>
-    <app-header-layout fullbleed>
+    <app-drawer-layout fullbleed>
+        <app-header-layout>
 
-        <app-header reveals>
-            <app-toolbar>
-                @if (IsSectionDefined("titleBar"))
-                {
-                    @RenderSection("titleBar", required: false)
-                }
-                else
-                {
-                    <div main-title>@ViewData["Title"]</div>
-                }
-            </app-toolbar>
-        </app-header>
+            <app-header slot="header" reveals>
+                <app-toolbar>
+                    @if (IsSectionDefined("titleBar"))
+                    {
+                        @RenderSection("titleBar", required: false)
+                    }
+                    else
+                    {
+                        <div main-title>@ViewData["Title"]</div>
+                    }
+                </app-toolbar>
+            </app-header>
 
-        @RenderBody()
+            @RenderBody()
 
-    </app-header-layout>
+            
+
+        </app-header-layout>
+        <app-drawer slot="drawer">
+            @await Html.PartialAsync("_LoginPartial")
+        </app-drawer></app-drawer-layout>
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>

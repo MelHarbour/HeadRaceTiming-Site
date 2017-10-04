@@ -13,12 +13,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <script>
   /**
-   * ### Notable breaking changes between 1.x and 2.x (hybrid):
-   *
-   * - `selectedValues` and `selectedItems` now have empty arrays as default
-   *   values. This may cause bindings or observers of these properties to
-   *   trigger at start up when they previously had not.
-   *
    * @polymerBehavior Polymer.IronMultiSelectableBehavior
    */
   Polymer.IronMultiSelectableBehaviorImpl = {
@@ -92,14 +86,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     _updateAttrForSelected: function() {
       if (!this.multi) {
         Polymer.IronSelectableBehavior._updateAttrForSelected.apply(this);
-      } else {
-        if (this.selectedItems && this.selectedItems.length > 0) {
-          this.selectedValues = this.selectedItems.map(function(selectedItem) {
-            return this._indexToValue(this.indexOf(selectedItem));
-          }, this).filter(function(unfilteredValue) {
-            return unfilteredValue != null;
-          }, this);
-        }
+      } else if (this.selectedItems && this.selectedItems.length > 0) {
+        this.selectedValues = this.selectedItems.map(function(selectedItem) {
+          return this._indexToValue(this.indexOf(selectedItem));
+        }, this).filter(function(unfilteredValue) {
+          return unfilteredValue != null;
+        }, this);
       }
     },
 

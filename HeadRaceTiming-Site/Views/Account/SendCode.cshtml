@@ -1,4 +1,4 @@
-﻿@model SendCodeViewModel
+﻿@model HeadRaceTimingSite.ViewModels.AccountViewModels.SendCodeViewModel
 @{
     ViewData["Title"] = "Send Verification Code";
 }
@@ -15,7 +15,3 @@
         </div>
     </div>
 </form>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}

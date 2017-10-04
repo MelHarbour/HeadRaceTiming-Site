@@ -59,6 +59,11 @@ namespace HeadRaceTimingSite
                     options.ClientSecret = Configuration["auth:google:client_secret"];
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminsOnly", policy => policy.RequireClaim("IsAdmin"));
+            });
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
