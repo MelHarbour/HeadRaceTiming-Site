@@ -12,7 +12,6 @@ using HeadRaceTimingSite.Models;
 using HeadRaceTimingSite.Formatters;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Identity;
-using HeadRaceTimingSite.Services;
 
 namespace HeadRaceTimingSite
 {
@@ -63,10 +62,6 @@ namespace HeadRaceTimingSite
             {
                 options.AddPolicy("AdminsOnly", policy => policy.RequireClaim("IsAdmin"));
             });
-
-            // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
