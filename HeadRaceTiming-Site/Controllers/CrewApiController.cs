@@ -47,10 +47,39 @@ namespace HeadRaceTimingSite.Controllers
             return results;
         }
 
-        [HttpGet("{id}")]
-        public async Task<Crew> GetById(int id)
+        [HttpGet("ById/{id}")]
+        public async Task<IEnumerable<CrewResult>> GetById(int id)
         {
-            return await _context.Crews.FirstOrDefaultAsync(x => x.CrewId == id);
+            Crew crew = await _context.Crews.Include(c => c.Results)
+                .Include("Results.TimingPoint").FirstAsync(x => x.CrewId == id);
+            List<CrewResult> viewResults = new List<CrewResult>();
+
+            Models.Result startResult = null;
+            Models.Result previousResult = null;
+
+            foreach (Models.Result result in crew.Results.OrderBy(x => x.TimingPoint.Order))
+            {
+                if (startResult != null)
+                {
+                    List<Models.Result> allResults = await _context.Results.Where(r => r.TimingPointId == result.TimingPointId).ToListAsync();
+                }
+                string rank = String.Empty;
+                viewResults.Add(new CrewResult()
+                {
+                    TimingPoint = result.TimingPoint.Name,
+                    TimeOfDay = result.TimeOfDay,
+                    SectionTime = startResult == null ? (TimeSpan?)null : crew.RunTime(previousResult.TimingPoint, result.TimingPoint),
+                    RunTime = startResult == null ? (TimeSpan?)null : crew.RunTime(startResult.TimingPoint, result.TimingPoint),
+                    Rank = rank
+                });
+                if (startResult == null)
+                {
+                    startResult = result;
+                }
+                previousResult = result;
+            }
+
+            return viewResults;
         }
 
         [HttpGet("ByCompetition/{id}")]
