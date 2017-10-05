@@ -82,7 +82,7 @@ namespace HeadRaceTimingSite.Controllers
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                return RedirectToAction(nameof(Login));
+                return RedirectToAction("Login");
             }
 
             // Sign in the user with this external login provider if the user already has a login.
@@ -166,7 +166,7 @@ namespace HeadRaceTimingSite.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction("Index", "Competition");
             }
         }
 
