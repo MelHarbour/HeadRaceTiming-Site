@@ -48,12 +48,11 @@ namespace HeadRaceTimingSite.Controllers
         //
         // POST: /Account/Logout
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(CompetitionController.Index));
+            return RedirectToAction("Index", "Competition");
         }
 
         //
