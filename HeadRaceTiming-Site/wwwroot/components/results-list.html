@@ -71,12 +71,8 @@
         <div class="header-row">
             <div class="startNumber">Start Number</div>
             <div class="name">Crew Name</div>
-            <template is="dom-if" if="[[showFirstIntermediate]]">
-                <div class="intermediate">[[firstIntermediateName]]</div>
-            </template>
-            <template is="dom-if" if="[[showSecondIntermediate]]">
-                <div class="intermediate">[[secondIntermediateName]]</div>
-            </template>
+            <div hidden$="[[!showFirstIntermediate]]" class="intermediate">[[firstIntermediateName]]</div>
+            <div hidden$="[[!showSecondIntermediate]]" class="intermediate">[[secondIntermediateName]]</div>
             <div class="time">Time</div>
             <div class="rank">Rank</div>
         </div>
@@ -89,16 +85,12 @@
                     <div class="name">
                         [[item.name]]
                     </div>
-                    <template is="dom-if" if="[[showFirstIntermediate]]">
-                        <div class="intermediate">
-                            [[item.firstIntermediateTime]] ([[item.firstIntermediateRank]])
-                        </div>
-                    </template>
-                    <template is="dom-if" if="[[showSecondIntermediate]]">
-                        <div class="intermediate">
-                            [[item.secondIntermediateTime]] ([[item.secondIntermediateRank]])
-                        </div>
-                    </template>
+                    <div hidden$="[[!showFirstIntermediate]]" class="intermediate">
+                        [[item.firstIntermediateTime]] ([[item.firstIntermediateRank]])
+                    </div>
+                    <div hidden$="[[!showSecondIntermediate]]" class="intermediate">
+                        [[item.secondIntermediateTime]] ([[item.secondIntermediateRank]])
+                    </div>
                     <div class="time">
                         [[item.overallTime]]
                     </div>
