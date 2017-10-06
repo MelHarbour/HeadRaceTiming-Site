@@ -54,16 +54,30 @@ namespace HeadRaceTimingSite.Controllers
                 .Include("Results.TimingPoint").FirstAsync(x => x.CrewId == id);
             List<CrewResult> viewResults = new List<CrewResult>();
 
+            List<Crew> allCrews = await _context.Crews.Include(c => c.Results)
+                .Include("Results.TimingPoint").ToListAsync();
+
             Models.Result startResult = null;
             Models.Result previousResult = null;
 
             foreach (Models.Result result in crew.Results.OrderBy(x => x.TimingPoint.Order))
             {
+                string rank = String.Empty;
+
                 if (startResult != null)
                 {
-                    List<Models.Result> allResults = await _context.Results.Where(r => r.TimingPointId == result.TimingPointId).ToListAsync();
+                    var allTimesAtPoint = allCrews.Select(x => new { CrewId = x.CrewId, RunTime = x.RunTime(startResult.TimingPoint, result.TimingPoint) }).OrderBy(x => x.RunTime).ToList();
+
+                    int overallRank = 1;
+                    TimeSpan previousTime = TimeSpan.Zero;
+                    foreach (var crewTime in allTimesAtPoint)
+                    {
+                        if (crewTime.CrewId == result.CrewId)
+                            rank = overallRank.ToString();
+                        overallRank++;
+                    }
                 }
-                string rank = String.Empty;
+                
                 viewResults.Add(new CrewResult()
                 {
                     TimingPoint = result.TimingPoint.Name,
