@@ -104,6 +104,24 @@ namespace HeadRaceTimingSite.Controllers
             return BuildResultsList(crews);
         }
 
+        [HttpGet("ByCompetitionAndPoint/{competitionId}/{timingPointId}")]
+        public async Task<IEnumerable<TimingPointResult>> GetByCompetitionAndPoint(int competitionId, int timingPointId)
+        {
+            IEnumerable<Crew> crews = await GetCrewList(competitionId);
+
+            Competition competition = await _context.Competitions.FirstOrDefaultAsync(x => x.CompetitionId == competitionId);
+            TimingPoint point = await _context.TimingPoints.FirstOrDefaultAsync(x => x.TimingPointId == timingPointId);
+
+            return crews.OrderBy(x => x.RunTime(competition.TimingPoints.FirstOrDefault().TimingPointId, timingPointId))
+                .Select(x => new TimingPointResult()
+            {
+                Name = x.Name,
+                StartNumber = x.StartNumber,
+                RunTime = x.RunTime(competition.TimingPoints.FirstOrDefault().TimingPointId, timingPointId),
+                Rank = x.Placing(point).ToString()
+            }).ToList();
+        }
+
         [HttpGet("ByCompetition/{id}/{search}")]
         public async Task<IEnumerable<ViewModels.Result>> GetByCompetition(int id, string search)
         {

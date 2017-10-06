@@ -29,6 +29,13 @@ namespace HeadRaceTimingSite.Controllers
             return View(competition);
         }
 
+        public async Task<IActionResult> LeaderBoards(int? id)
+        {
+            Competition competition = await _context.Competitions.Include(x => x.TimingPoints)
+                .SingleOrDefaultAsync(c => c.CompetitionId == id);
+            return View(competition);
+        }
+
         [HttpGet]
         [Produces("text/csv")]
         public async Task<IActionResult> DetailsAsCsv(int? id)

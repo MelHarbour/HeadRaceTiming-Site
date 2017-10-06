@@ -1,0 +1,42 @@
+﻿<link rel="import" href="/lib/polymer/polymer.html">
+<link rel="import" href="/lib/iron-ajax/iron-ajax.html" />
+
+<dom-module id="timingpoint-results-list">
+    <template>
+        <style>
+
+        </style>
+
+        <iron-ajax id="ajax" url$="/api/CrewApi/ByCompetitionAndPoint/[[competitionId]]/[[timingPointId]]" last-response="{{data}}" on-response="updateData" auto></iron-ajax>
+
+        <table>
+            <tr><th>Crew Name</th><th>Start Number</th><th>Time</th></tr>
+            <template is="dom-repeat" items="{{data}}">
+                <tr><td>[[item.name]]</td><td>[[item.startNumber]]</td><td>[[item.runTime]] ([[item.rank]])</td></tr>
+            </template>
+        </table>
+    </template>
+    <script>
+        class TimingpointResultsList extends Polymer.Element {
+
+            static get is() { return 'timingpoint-results-list'; }
+
+            static get properties() {
+                return {
+                    competitionId: Number,
+                    timingPointId: Number,
+                    data: Array
+                };
+            }
+
+            updateData() {
+                var ajaxElement = this.$.ajax;
+                setTimeout(function () {
+                    ajaxElement.generateRequest();
+                }, 2000);
+            }
+        }
+
+        customElements.define(TimingpointResultsList.is, TimingpointResultsList);
+    </script>
+</dom-module>

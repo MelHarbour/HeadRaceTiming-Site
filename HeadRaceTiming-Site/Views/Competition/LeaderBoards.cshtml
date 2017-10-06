@@ -1,0 +1,10 @@
+﻿@model HeadRaceTimingSite.Models.Competition
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+@foreach (var timingPoint in Model.TimingPoints) {
+    <paper-card heading="@timingPoint.Name">
+        <timingpoint-results-list competition-id="@Model.CompetitionId" timing-point-id="@timingPoint.TimingPointId"></timingpoint-results-list>
+    </paper-card>
+}
