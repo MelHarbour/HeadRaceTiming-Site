@@ -4,7 +4,9 @@
 }
 
 <div class="bodyDetails">
-    <paper-card heading="Crew Details">
+    <paper-card heading="Crew Details" @if (!String.IsNullOrEmpty(Model.ClubCode)) {
+        <text>image = "http://www.britishrowing.org/sites/all/themes/britishrowing/images/blades/</text>@Model.ClubCode.ToLower()<text>.gif"</text>
+        }>
         <div class="card-content">
             Start Number: @Model.StartNumber
             <table>
@@ -20,46 +22,8 @@
             </table>
         </div>
     </paper-card>
+    
     <paper-card heading="Section Times">
-        <div class="card-content">
-            <table>
-                <thead>
-                    <tr><th>Timing Point</th><th>Time</th><th>Section Time</th><th>Total Time</th></tr>
-                </thead>
-                <tbody>
-                    @{
-                        int? previous = null;
-                        int first = Model.Competition.TimingPoints.OrderBy(p => p.Order).First().TimingPointId;
-                    }
-
-                    @foreach (var point in Model.Competition.TimingPoints.OrderBy(p => p.Order))
-                    {
-                        String sectionTime = String.Empty;
-                        String totalTime = String.Empty;
-                        if (previous.HasValue)
-                        {
-                            sectionTime = Model.RunTime(previous.Value, point.TimingPointId).ToString();
-                            totalTime = Model.RunTime(first, point.TimingPointId).ToString();
-                        }
-                        <tr>
-                            <td>@point.Name</td>
-                            <td>@Model.Results.FirstOrDefault(r => r.TimingPointId == point.TimingPointId)?.TimeOfDay</td>
-                            <td>@sectionTime</td>
-                            <td>
-                                @totalTime
-                                @if (previous.HasValue)
-                                {
-                                    <text>(</text>@Model.Placing(point)<text>)</text>
-                                }
-                            </td>
-                        </tr>
-                        previous = point.TimingPointId;
-                    }
-                </tbody>
-            </table>
-        </div>
-    </paper-card>
-    <paper-card heading="Section Times Ajax">
         <div class="card-content">
             <crew-results-list crew-id="@Model.CrewId"></crew-results-list>
         </div>

@@ -11,6 +11,10 @@ namespace HeadRaceTimingSite.Models
         public int CrewId { get; set; }
         public string Name { get; set; }
         public int StartNumber { get; set; }
+        /// <summary>
+        /// This is the three letter code from British Rowing for the crew's club.
+        /// </summary>
+        public string ClubCode { get; set; }
 
         public TimeSpan? OverallTime
         {
