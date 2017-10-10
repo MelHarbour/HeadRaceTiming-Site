@@ -26,5 +26,31 @@ namespace HeadRaceTimingSite.Models
 
         public int TimingPointId { get; set; }
         public TimingPoint TimingPoint { get; set; }
+
+        public string Rank(List<Result> results)
+        {
+            int i = 1;
+
+            Result previous = null;
+            string returnString = String.Empty;
+            bool equalTime = false;
+
+            foreach (Result result in results)
+            {
+                if (previous != null && previous.TimeOfDay != result.TimeOfDay)
+                    i++;
+                if (result == this)
+                {
+                    returnString = i.ToString();
+                }
+                else
+                {
+                    if (result.TimeOfDay == this.TimeOfDay)
+                        equalTime = true;
+                }
+                previous = result;
+            }
+            return returnString + (equalTime ? "=" : String.Empty);
+        }
     }
 }
