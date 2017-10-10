@@ -46,9 +46,43 @@ namespace HeadRaceTimingSite.Models
             return RunTime(startPoint.TimingPointId, finishPoint.TimingPointId);
         }
 
-        public int Placing(TimingPoint point)
+        public TimingPoint StartPoint
         {
-            return Competition.Crews.OrderBy(x => x.RunTime(this.Competition.TimingPoints.OrderBy(t => t.Order).First(), point)).ToList().IndexOf(this) + 1;
+            get
+            {
+                return this.Competition.TimingPoints.First();
+            }
+        }
+
+        public string Rank(List<Crew> results, TimingPoint finishTimingPoint)
+        {
+            return Rank(results, StartPoint, finishTimingPoint);
+        }
+
+        public string Rank(List<Crew> results, TimingPoint startTimingPoint, TimingPoint finishTimingPoint)
+        {
+            int i = 1;
+
+            Crew previous = null;
+            string returnString = String.Empty;
+            bool equalTime = false;
+
+            foreach (Crew result in results)
+            {
+                if (previous != null && previous.RunTime(startTimingPoint, finishTimingPoint) != result.RunTime(startTimingPoint, finishTimingPoint))
+                    i++;
+                if (result == this)
+                {
+                    returnString = i.ToString();
+                }
+                else
+                {
+                    if (result.RunTime(startTimingPoint, finishTimingPoint) == this.RunTime(startTimingPoint, finishTimingPoint))
+                        equalTime = true;
+                }
+                previous = result;
+            }
+            return returnString + (equalTime ? "=" : String.Empty);
         }
 
         public List<Result> Results { get; set; }

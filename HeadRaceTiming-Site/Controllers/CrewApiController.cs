@@ -118,7 +118,7 @@ namespace HeadRaceTimingSite.Controllers
                 Name = x.Name,
                 StartNumber = x.StartNumber,
                 RunTime = x.RunTime(competition.TimingPoints.FirstOrDefault().TimingPointId, timingPointId),
-                Rank = x.Placing(point).ToString()
+                Rank = x.Rank(crews.ToList(), point).ToString()
             }).ToList();
         }
 

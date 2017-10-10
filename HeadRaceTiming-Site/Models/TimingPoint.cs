@@ -11,6 +11,16 @@ namespace HeadRaceTimingSite.Models
         public string Name { get; set; }
         public int Order { get; set; }
 
+        public TimingPoint()
+        {
+
+        }
+
+        public TimingPoint(int timingPointId)
+        {
+            TimingPointId = timingPointId;
+        }
+
         public List<Result> Results { get; set; }
 
         public int CompetitionId { get; set; }
