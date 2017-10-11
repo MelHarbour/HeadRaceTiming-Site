@@ -33,7 +33,7 @@ namespace HeadRaceTimingSite.Models
             Result finish = Results.First(r => r.TimingPointId == finishPointId);
 
             if (start != null && finish != null)
-                return finish.TimeOfDay - start.TimeOfDay;
+                return TimeSpan.FromSeconds(Math.Round((finish.TimeOfDay - start.TimeOfDay).TotalSeconds, 1));
             else
                 return null;
         }
