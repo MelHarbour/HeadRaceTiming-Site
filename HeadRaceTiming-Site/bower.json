@@ -21,7 +21,8 @@
     "gulp": "v3.9.1",
     "iron-resizable-behavior": "v2.0.1",
     "iron-collapse": "v2.0.0",
-    "paper-behaviors": "v2.0.1"
+    "paper-behaviors": "v2.0.1",
+    "paper-tabs": "v2.0.0"
   },
   "resolutions": {
     "webcomponentsjs": "v1.0.14",
