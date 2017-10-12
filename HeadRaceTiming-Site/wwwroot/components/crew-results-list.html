@@ -4,7 +4,33 @@
 <dom-module id="crew-results-list">
     <template>
         <style>
-
+            table {
+                border-spacing: 0px;
+                border-collapse: collapse;
+            }
+            td {
+                @apply(--paper-font-body2);
+            }
+            th {
+                @apply(--paper-font-body1);
+            }
+            tr, td {
+                border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
+            }
+            tr {
+                height: 48px;
+            }
+            td, th {
+                text-align:right;
+                padding-left: 56px;
+            }
+            td:first-child, th:first-child {
+                padding-left: 24px;
+                text-align:left;
+            }
+            td:last-child, th:last-child {
+                padding-right: 24px;
+            }
         </style>
 
         <iron-ajax id="ajax" url$="/api/CrewApi/ById/[[crewId]]" last-response="{{data}}" on-response="updateData" auto></iron-ajax>
@@ -12,7 +38,9 @@
         <table>
             <tr><th>Point</th><th>Time of Day</th><th>Section Time</th><th>Total Time</th></tr>
             <template is="dom-repeat" items="{{data}}">
-                <tr><td>[[item.timingPoint]]</td><td>[[item.timeOfDay]]</td><td>[[item.sectionTime]]</td><td>[[item.runTime]] ([[item.rank]])</td></tr>
+                <tr><td>[[item.timingPoint]]</td><td>[[item.timeOfDay]]</td><td>[[item.sectionTime]]</td><td><template is="dom-if" if="{{item.rank}}">
+    [[item.runTime]] ([[item.rank]])
+</template></td></tr>
             </template>
         </table>
     </template>
