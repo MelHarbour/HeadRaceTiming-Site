@@ -47,7 +47,8 @@ namespace HeadRaceTimingSite.Controllers
 
         //
         // POST: /Account/Logout
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
