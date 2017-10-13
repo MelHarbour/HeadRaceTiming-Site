@@ -36,13 +36,12 @@ namespace HeadRaceTimingSite.Controllers
                 Name = x.Name,
                 StartNumber = x.StartNumber,
                 OverallTime = x.OverallTime,
+                Rank = x.Rank(crews, x.Competition.TimingPoints.Last()),
+                FirstIntermediateRank = x.Rank(crews, x.Competition.TimingPoints[1]),
+                SecondIntermediateRank = x.Rank(crews, x.Competition.TimingPoints[2]),
                 FirstIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId),
                 SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId)
             }).ToList();
-
-            ViewModels.Result.RankByOverall(results);
-            ViewModels.Result.RankByFirstIntermediate(results);
-            ViewModels.Result.RankBySecondIntermediate(results);
 
             return results;
         }
@@ -51,46 +50,27 @@ namespace HeadRaceTimingSite.Controllers
         public async Task<IEnumerable<CrewResult>> GetById(int id)
         {
             Crew crew = await _context.Crews.Include(c => c.Results)
-                .Include("Results.TimingPoint").FirstAsync(x => x.CrewId == id);
+                .Include("Results.TimingPoint").Include(c => c.Competition.TimingPoints).FirstAsync(x => x.CrewId == id);
             List<CrewResult> viewResults = new List<CrewResult>();
 
             List<Crew> allCrews = await _context.Crews.Include(c => c.Results)
                 .Include("Results.TimingPoint").ToListAsync();
 
-            Models.Result startResult = null;
             Models.Result previousResult = null;
+            bool isFirst = true;
 
             foreach (Models.Result result in crew.Results.OrderBy(x => x.TimingPoint.Order))
             {
-                string rank = String.Empty;
-
-                if (startResult != null)
-                {
-                    var allTimesAtPoint = allCrews.Select(x => new { CrewId = x.CrewId, RunTime = x.RunTime(startResult.TimingPoint, result.TimingPoint) }).OrderBy(x => x.RunTime).ToList();
-
-                    int overallRank = 1;
-                    TimeSpan previousTime = TimeSpan.Zero;
-                    foreach (var crewTime in allTimesAtPoint)
-                    {
-                        if (crewTime.CrewId == result.CrewId)
-                            rank = overallRank.ToString();
-                        overallRank++;
-                    }
-                }
-                
                 viewResults.Add(new CrewResult()
                 {
                     TimingPoint = result.TimingPoint.Name,
                     TimeOfDay = result.TimeOfDay,
-                    SectionTime = startResult == null ? (TimeSpan?)null : crew.RunTime(previousResult.TimingPoint, result.TimingPoint),
-                    RunTime = startResult == null ? (TimeSpan?)null : crew.RunTime(startResult.TimingPoint, result.TimingPoint),
-                    Rank = rank
+                    SectionTime = isFirst ? (TimeSpan?)null : crew.RunTime(previousResult.TimingPoint, result.TimingPoint),
+                    RunTime = isFirst ? (TimeSpan?)null : crew.RunTime(crew.Competition.TimingPoints.First(), result.TimingPoint),
+                    Rank = crew.Rank(allCrews, result.TimingPoint)
                 });
-                if (startResult == null)
-                {
-                    startResult = result;
-                }
                 previousResult = result;
+                isFirst = false;
             }
 
             return viewResults;
