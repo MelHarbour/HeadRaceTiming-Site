@@ -14,7 +14,7 @@
     </div>
     <div class="search">
         <paper-icon-button icon="arrow-back" id="backButton"></paper-icon-button>
-        <paper-input class="flexChild"></paper-input>
+        <paper-input class="flexChild" id="searchBox"></paper-input>
     </div>
 }
 
@@ -33,6 +33,9 @@
             });
             document.querySelector("#downloadButton").addEventListener("click", function (e) {
                 location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
+            });
+            document.querySelector("#searchBox").addEventListener("value-changed", function (e) {
+                alert(document.querySelector("#searchBox").value);
             });
         });
     </script>
