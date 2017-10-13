@@ -38,7 +38,7 @@
         <table>
             <tr><th>Point</th><th>Time of Day</th><th>Section Time</th><th>Total Time</th></tr>
             <template is="dom-repeat" items="{{data}}">
-                <tr><td>[[item.timingPoint]]</td><td>[[item.timeOfDay]]</td><td>[[item.sectionTime]]</td><td><template is="dom-if" if="{{item.rank}}">
+                <tr><td>[[item.timingPoint]]</td><td>[[item.timeOfDay]]</td><td>[[item.sectionTime]]</td><td><template is="dom-if" if="{{item.runTime}}">
     [[item.runTime]] ([[item.rank]])
 </template></td></tr>
             </template>

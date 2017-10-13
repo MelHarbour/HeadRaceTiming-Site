@@ -54,7 +54,7 @@ namespace HeadRaceTimingSite.Models
             }
         }
 
-        public string Rank(List<Crew> results, TimingPoint finishTimingPoint)
+        public string Rank(IEnumerable<Crew> results, TimingPoint finishTimingPoint)
         {
             return Rank(results, StartPoint, finishTimingPoint);
         }

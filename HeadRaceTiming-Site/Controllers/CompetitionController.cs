@@ -50,13 +50,12 @@ namespace HeadRaceTimingSite.Controllers
                 Name = x.Name,
                 StartNumber = x.StartNumber,
                 OverallTime = x.OverallTime,
+                Rank = x.Rank(crews, x.Competition.TimingPoints.Last()),
+                FirstIntermediateRank = x.Rank(crews, x.Competition.TimingPoints[1]),
+                SecondIntermediateRank = x.Rank(crews, x.Competition.TimingPoints[2]),
                 FirstIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId),
                 SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId)
             }).ToList();
-
-            ViewModels.Result.RankByOverall(results);
-            ViewModels.Result.RankByFirstIntermediate(results);
-            ViewModels.Result.RankBySecondIntermediate(results);
 
             return Ok(results);
         }
