@@ -59,7 +59,7 @@ namespace HeadRaceTimingSite.Models
             return Rank(results, StartPoint, finishTimingPoint);
         }
 
-        public string Rank(List<Crew> results, TimingPoint startTimingPoint, TimingPoint finishTimingPoint)
+        public string Rank(IEnumerable<Crew> results, TimingPoint startTimingPoint, TimingPoint finishTimingPoint)
         {
             int i = 1;
 
