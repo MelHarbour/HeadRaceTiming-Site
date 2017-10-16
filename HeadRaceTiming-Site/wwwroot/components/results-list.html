@@ -49,7 +49,7 @@
             }
         </style>
 
-        <iron-ajax id="ajax" url$="/api/CrewApi/ByCompetition/[[competitionId]]" last-response="{{data}}" on-response="updateData" auto></iron-ajax>
+        <iron-ajax id="ajax" url$="/api/CrewApi/ByCompetition/[[competitionId]]/[[searchValue]]" last-response="{{data}}" on-response="updateData" auto></iron-ajax>
 
         <div class="header-row">
             <div class="startNumber">Start Number</div>
@@ -106,7 +106,7 @@
                 var ajaxElement = this.$.ajax;
                 setTimeout(function () {
                     ajaxElement.generateRequest();
-                }, 2000);
+                }, 10000);
             }
         }
 

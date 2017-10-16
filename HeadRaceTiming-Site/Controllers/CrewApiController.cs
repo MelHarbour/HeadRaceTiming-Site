@@ -84,6 +84,15 @@ namespace HeadRaceTimingSite.Controllers
             return BuildResultsList(crews);
         }
 
+        [HttpGet("ByCompetition/{id}/{searchValue}")]
+        public async Task<IEnumerable<ViewModels.Result>> GetByCompetition(int id, string searchValue)
+        {
+            IEnumerable<Crew> crews = await GetCrewList(id);
+            List<ViewModels.Result> results = BuildResultsList(crews);
+
+            return results.Where(x => x.Name.ToUpper().Contains(searchValue.ToUpper()));
+        }
+
         [HttpGet("ByCompetitionAndPoint/{competitionId}/{timingPointId}")]
         public async Task<IEnumerable<TimingPointResult>> GetByCompetitionAndPoint(int competitionId, int timingPointId)
         {
@@ -100,16 +109,6 @@ namespace HeadRaceTimingSite.Controllers
                 RunTime = x.RunTime(competition.TimingPoints.FirstOrDefault().TimingPointId, timingPointId),
                 Rank = x.Rank(crews.ToList(), point).ToString()
             }).ToList();
-        }
-
-        [HttpGet("ByCompetition/{id}/{search}")]
-        public async Task<IEnumerable<ViewModels.Result>> GetByCompetition(int id, string search)
-        {
-            IEnumerable<Crew> crews = await GetCrewList(id);
-
-            string lowerSearch = search.ToLower();
-
-            return BuildResultsList(crews.Where(x => x.Name.ToLower().Contains(lowerSearch)));
         }
     }
 }

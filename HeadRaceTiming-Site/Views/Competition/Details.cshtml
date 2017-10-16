@@ -3,7 +3,7 @@
     ViewData["Title"] = Model.Name;
 }
 
-<results-list competition-id="@Model.CompetitionId" first-intermediate-name="Barnes" second-intermediate-name="Hammersmith" show-first-intermediate show-second-intermediate></results-list>
+<results-list competition-id="@Model.CompetitionId" first-intermediate-name="Barnes" second-intermediate-name="Hammersmith" search-value="{{searchValue}}" show-first-intermediate show-second-intermediate></results-list>
 
 @section titleBar{
     
@@ -14,7 +14,7 @@
     </div>
     <div class="search">
         <paper-icon-button icon="arrow-back" id="backButton"></paper-icon-button>
-        <paper-input class="flexChild" id="searchBox"></paper-input>
+        <paper-input class="flexChild" id="searchBox" value="{{searchValue}}"></paper-input>
     </div>
 }
 
@@ -33,9 +33,6 @@
             });
             document.querySelector("#downloadButton").addEventListener("click", function (e) {
                 location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
-            });
-            document.querySelector("#searchBox").addEventListener("value-changed", function (e) {
-                alert(document.querySelector("#searchBox").value);
             });
         });
     </script>
