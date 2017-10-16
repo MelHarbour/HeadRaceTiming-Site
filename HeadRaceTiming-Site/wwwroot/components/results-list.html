@@ -61,24 +61,26 @@
         </div>
         <iron-list scroll-target="document" items="[[data]]" as="item" id="crewsList">
             <template>
-                <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/' + this.dataCrewId">
-                    <div class="startNumber">
-                        [[item.startNumber]]
-                    </div>
-                    <div class="name">
-                        [[item.name]]
-                    </div>
-                    <div hidden$="[[!showFirstIntermediate]]" class="intermediate">
-                        [[item.firstIntermediateTime]] ([[item.firstIntermediateRank]])
-                    </div>
-                    <div hidden$="[[!showSecondIntermediate]]" class="intermediate">
-                        [[item.secondIntermediateTime]] ([[item.secondIntermediateRank]])
-                    </div>
-                    <div class="time">
-                        [[item.overallTime]]
-                    </div>
-                    <div class="rank">
-                        [[item.rank]]
+                <div>
+                    <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/' + this.dataCrewId">
+                        <div class="startNumber">
+                            [[item.startNumber]]
+                        </div>
+                        <div class="name">
+                            [[item.name]]
+                        </div>
+                        <div hidden$="[[!showFirstIntermediate]]" class="intermediate">
+                            [[item.firstIntermediateTime]] ([[item.firstIntermediateRank]])
+                        </div>
+                        <div hidden$="[[!showSecondIntermediate]]" class="intermediate">
+                            [[item.secondIntermediateTime]] ([[item.secondIntermediateRank]])
+                        </div>
+                        <div class="time">
+                            [[item.overallTime]]
+                        </div>
+                        <div class="rank">
+                            [[item.rank]]
+                        </div>
                     </div>
                 </div>
             </template>
@@ -106,7 +108,7 @@
                 var ajaxElement = this.$.ajax;
                 setTimeout(function () {
                     ajaxElement.generateRequest();
-                }, 10000);
+                }, 20000);
             }
         }
 
