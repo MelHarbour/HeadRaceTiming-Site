@@ -5,61 +5,44 @@
 <dom-module id="results-list">
     <template>
         <style>
-            .header-row {
+            .header-row, .row {
                 @apply(--layout-horizontal);
                 line-height: 56px;
                 padding-left: 24px;
                 padding-right: 24px;
                 border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
+            }
+            .header-row {
                 color: rgba(0,0,0,0.54);
             }
-
             .dataRow {
                 @apply(--layout-horizontal);
                 line-height: 48px;
                 margin-bottom: 8px;
             }
-
             .item {
                 @apply(--layout-flex);
             }
-
             .itemData {
                 @apply(--layout-horizontal);
             }
-
             .row {
-                @apply(--layout-horizontal);
-                line-height: 48px;
-                padding-left: 24px;
-                padding-right: 24px;
-                border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
                 color: rgba(0,0,0,0.87);
             }
-
             .row:hover {
                 background-color: #eeeeee;
                 cursor: pointer;
             }
-
             .startNumber {
                 width: 100px;
             }
-
             .name {
                 @apply(--layout-flex);
             }
-
-            .intermediate {
+            .intermediate, .time {
                 width: 100px;
                 text-align: right;
             }
-
-            .time {
-                width: 100px;
-                text-align: right;
-            }
-
             .rank {
                 width: 50px;
                 text-align: right;
@@ -114,6 +97,7 @@
                     secondIntermediateName: String,
                     showFirstIntermediate: Boolean,
                     showSecondIntermediate: Boolean,
+                    searchValue: String,
                     data: Array
                 };
             }
