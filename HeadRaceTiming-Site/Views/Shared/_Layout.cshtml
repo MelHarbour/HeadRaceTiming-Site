@@ -75,12 +75,25 @@
             .search {
                 display: none;
             }
-            .flexChild {
-                @@apply(--layout-flex);
-                display: inline-block;
-            }
             app-drawer-layout:not([narrow]) [drawer-toggle] {
                 display: none;
+            }
+            .searchTools {
+                display: none;
+            }
+            #searchBox {
+                @@apply(--layout-flex);
+                --paper-input-container-color: white;
+                --paper-input-container-input-color: white;
+                --paper-input-container-underline: {
+                    display: none;
+                };
+                --paper-input-container-underline-focus: {
+                    display: none;
+                };
+                --paper-input-container-underline-disabled: {
+                    display: none;
+                };
             }
             paper-item {
                 color: #666;
