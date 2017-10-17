@@ -49,7 +49,7 @@
             }
         </style>
 
-        <iron-ajax id="ajax" url$="/api/CrewApi/ByCompetition/[[competitionId]]/[[searchValue]]" last-response="{{data}}" on-response="updateData" auto></iron-ajax>
+        <iron-ajax id="ajax" url$="/api/CrewApi/ByCompetition/[[competitionId]]/[[searchValue]]" last-response="{{data}}" on-response="updateData"></iron-ajax>
 
         <div class="header-row">
             <div class="startNumber">Start Number</div>
@@ -109,6 +109,13 @@
                 setTimeout(function () {
                     ajaxElement.generateRequest();
                 }, 2000);
+            }
+
+            ready() {
+                super.ready();
+                Polymer.RenderStatus.afterNextRender(this, function () {
+                    this.updateData();
+                });
             }
         }
 
