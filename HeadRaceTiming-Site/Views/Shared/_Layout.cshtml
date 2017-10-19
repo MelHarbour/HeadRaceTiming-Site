@@ -63,15 +63,6 @@
             paper-card h2 {
                 @@apply(--paper-font-title);
             }
-            paper-card table {
-                width: 100%;
-            }
-            paper-card tr, paper-card td {
-                border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
-            }
-            paper-card th {
-                text-align: left;
-            }
             .search {
                 display: none;
             }
@@ -105,6 +96,16 @@
             .card-table {
                 padding-left: 0px;
                 padding-right: 0px;
+                width: 100%;
+            }
+            .card-table {
+                --paper-card-header: {
+                    margin-left: 16px;
+                    margin-right: 16px;
+                };
+                --paper-card-header-image: {
+                    --iron-image-width: auto;
+                };
             }
             .card-table .card-content {
                 padding-left: 0px;
@@ -113,6 +114,7 @@
             .card-table table {
                 border-spacing: 0px;
                 border-collapse: collapse;
+                width: 100%;
             }
             .card-table td {
                 @@apply(--paper-font-body2);
