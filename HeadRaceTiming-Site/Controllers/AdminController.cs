@@ -27,6 +27,12 @@ namespace HeadRaceTimingSite.Controllers
         {
             return View(await _context.ApplicationUsers.FirstAsync(x => x.Id == id));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Import()
+        {
+            return View();
+        }
         
         public IActionResult Error()
         {
