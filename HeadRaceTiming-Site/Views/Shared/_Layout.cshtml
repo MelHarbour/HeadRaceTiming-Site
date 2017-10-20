@@ -32,7 +32,7 @@
     <link rel="import" href="~/lib/paper-input/paper-input.html" />
     <custom-style>
         <style is="custom-style">
-            body {
+            body, .card-table th {
                 @@apply(--paper-font-body1);
             }
 
@@ -63,13 +63,10 @@
             paper-card h2 {
                 @@apply(--paper-font-title);
             }
-            .search {
+            .search, .searchTools {
                 display: none;
             }
             app-drawer-layout:not([narrow]) [drawer-toggle] {
-                display: none;
-            }
-            .searchTools {
                 display: none;
             }
             #searchBox {
@@ -118,9 +115,6 @@
             }
             .card-table td {
                 @@apply(--paper-font-body2);
-            }
-            .card-table th {
-                @@apply(--paper-font-body1);
             }
             .card-table tr, .card-table td {
                 border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
