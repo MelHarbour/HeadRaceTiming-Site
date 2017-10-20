@@ -52,6 +52,8 @@ namespace HeadRaceTimingSite
                 .AddEntityFrameworkStores<TimingSiteContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
+
             services.AddAuthentication()
                 .AddGoogle(options => {
                     options.ClientId = Configuration["auth:google:client_id"];

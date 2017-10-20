@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeadRaceTimingSite.Controllers
 {
+    [Authorize(Policy = "AdminsOnly")]
     public class AdminController : Controller
     {
         private readonly TimingSiteContext _context;
