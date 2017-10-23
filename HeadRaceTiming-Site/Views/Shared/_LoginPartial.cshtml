@@ -9,10 +9,6 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <paper-item onclick="location.href='/Manage'">@UserManager.GetUserName(User)</paper-item>
-    @if ((await AuthorizationService.AuthorizeAsync(User, "AdminsOnly")).Succeeded)
-    {
-        <paper-item onclick="location.href='/Admin/ImportAthletes'">Import Athletes</paper-item>
-    }
     <paper-item onclick="document.getElementById('logoutForm').submit()">Log out</paper-item>
     <form method="post" action="/Account/Logout" id="logoutForm">
     @Html.AntiForgeryToken()
@@ -23,3 +19,14 @@ else
     <paper-item onclick="location.href='/Account/Register'">Register</paper-item>
     <paper-item onclick="location.href='/Account/Login'">Login</paper-item>
 }
+@if ((await AuthorizationService.AuthorizeAsync(User, "AdminsOnly")).Succeeded)
+{
+    <paper-icon-item onclick="location.href='/Admin/ImportAthletes'">
+        <iron-icon icon="file-upload" slot="item-icon"></iron-icon>
+        Import Athletes
+    </paper-icon-item>
+}
+<paper-icon-item onclick="location.href='/Help'">
+    <iron-icon icon="help" slot="item-icon"></iron-icon>
+    Help
+</paper-icon-item>
