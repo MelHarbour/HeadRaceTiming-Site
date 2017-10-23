@@ -1,12 +1,18 @@
 @using Microsoft.AspNetCore.Identity
 @using HeadRaceTimingSite.Models
+@using Microsoft.AspNetCore.Authorization
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IAuthorizationService AuthorizationService
 
 @if (SignInManager.IsSignedIn(User))
 {
     <paper-item onclick="location.href='/Manage'">@UserManager.GetUserName(User)</paper-item>
+    @if ((await AuthorizationService.AuthorizeAsync(User, "AdminsOnly")).Succeeded)
+    {
+        <paper-item onclick="location.href='/Admin/ImportAthletes'">Import Athletes</paper-item>
+    }
     <paper-item onclick="document.getElementById('logoutForm').submit()">Log out</paper-item>
     <form method="post" action="/Account/Logout" id="logoutForm">
     @Html.AntiForgeryToken()

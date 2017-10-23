@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using HeadRaceTimingSite.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using HeadRaceTimingSite.ViewModels;
 
 namespace HeadRaceTimingSite.Controllers
 {
@@ -29,12 +30,19 @@ namespace HeadRaceTimingSite.Controllers
             return View(await _context.ApplicationUsers.FirstAsync(x => x.Id == id));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Import()
+        [HttpGet]
+        public IActionResult ImportAthletes()
         {
             return View();
         }
-        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportAthletes(ImportAthletesViewModel viewModel)
+        {
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View();

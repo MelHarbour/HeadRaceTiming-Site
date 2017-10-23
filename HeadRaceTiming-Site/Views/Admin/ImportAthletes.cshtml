@@ -1,0 +1,9 @@
+﻿@using HeadRaceTimingSite.Models
+
+Import athletes
+
+<form method="post" action="/Admin/ImportAthletes" id="importForm">
+    @Html.AntiForgeryToken()
+    <paper-input type="file" style="width: 50%"></paper-input>
+    <paper-button raised onclick="importForm.submit()">Submit</paper-button>
+</form>
