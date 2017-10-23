@@ -15,6 +15,10 @@ namespace HeadRaceTimingSite.Models
         /// This is the three letter code from British Rowing for the crew's club.
         /// </summary>
         public string ClubCode { get; set; }
+        /// <summary>
+        /// This is the Crew ID as used by BROE
+        /// </summary>
+        public int? BroeCrewId { get; set; }
 
         public TimeSpan? OverallTime
         {
