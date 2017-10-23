@@ -7,6 +7,8 @@ using HeadRaceTimingSite.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using HeadRaceTimingSite.ViewModels;
+using CsvHelper;
+using System.IO;
 
 namespace HeadRaceTimingSite.Controllers
 {
@@ -40,6 +42,8 @@ namespace HeadRaceTimingSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ImportAthletes(ImportAthletesViewModel viewModel)
         {
+            CsvReader csv = new CsvReader(new StreamReader(viewModel.CsvUpload.OpenReadStream()));
+            csv.Configuration.PrepareHeaderForMatch = header => header.Replace(" ", String.Empty);
             return View();
         }
 
