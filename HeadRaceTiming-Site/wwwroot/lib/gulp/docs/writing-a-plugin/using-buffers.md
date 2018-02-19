@@ -9,8 +9,7 @@ If your plugin is relying on a buffer based library, you will probably choose to
 
 ```js
 var through = require('through2');
-var gutil = require('gulp-util');
-var PluginError = gutil.PluginError;
+var PluginError = require('plugin-error');
 
 // consts
 const PLUGIN_NAME = 'gulp-prefixer';
@@ -66,7 +65,7 @@ Unfortunately, the above plugin will error when using gulp.src in non-buffered (
 
 ## Some plugins based on buffers
 
-* [gulp-coffee](https://github.com/wearefractal/gulp-coffee)
+* [gulp-coffee](https://github.com/contra/gulp-coffee)
 * [gulp-svgmin](https://github.com/ben-eb/gulp-svgmin)
 * [gulp-marked](https://github.com/lmtm/gulp-marked)
 * [gulp-svg2ttf](https://github.com/nfroidure/gulp-svg2ttf)

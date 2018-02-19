@@ -15,5 +15,7 @@ namespace HeadRaceTimingSite.ViewModels
         [Required]
         [DataType(DataType.Upload)]
         public IFormFile CsvUpload { get; set; }
+
+        public string Message { get; set; }
     }
 }

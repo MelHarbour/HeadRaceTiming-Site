@@ -35,16 +35,32 @@ namespace HeadRaceTimingSite.Controllers
         [HttpGet]
         public IActionResult ImportAthletes()
         {
-            return View();
+            ImportAthletesViewModel viewModel = new ImportAthletesViewModel();
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ImportAthletes(ImportAthletesViewModel viewModel)
+        public async Task<IActionResult> ImportAthletes(ImportAthletesViewModel importAthletesViewModel)
         {
-            CsvReader csv = new CsvReader(new StreamReader(viewModel.CsvUpload.OpenReadStream()));
+            CsvReader csv = new CsvReader(new StreamReader(importAthletesViewModel.CsvUpload.OpenReadStream()));
             csv.Configuration.PrepareHeaderForMatch = header => header.Replace(" ", String.Empty);
-            return View();
+
+            var records = csv.GetRecords<CsvCrewAthlete>();
+
+            importAthletesViewModel.Message = records.Count().ToString();
+
+            var crews = await _context.Crews.Where(x => x.CompetitionId == importAthletesViewModel.CompetitionId).ToListAsync();
+
+            foreach (CsvCrewAthlete csvAthlete in records)
+            {
+                if (crews.First(x => x.BroeCrewId == csvAthlete.CrewID) != null)
+                {
+                    
+                }
+            }
+
+            return View(importAthletesViewModel);
         }
 
         public IActionResult Error()
@@ -61,20 +77,20 @@ namespace HeadRaceTimingSite.Controllers
             public int Position { get; set; }
             public string MembershipNumber { get; set; }
             public string Surname { get; set; }
-            public string FirstName { get; set; }
+            public string FirstNames { get; set; }
             public int Age { get; set; }
             public DateTime DofB { get; set; }
             public char Gender { get; set; }
-            public bool Cox { get; set; }
+            public string Cox { get; set; }
             public string MembersClubName { get; set; }
             public string MembersClubIndexCode { get; set; }
             public int RowingPRI { get; set; }
             public int ScullingPRI { get; set; }
             public int RowingPRIMax { get; set; }
             public int ScullingPRIMax { get; set; }
-            public int RowingPoints { get; set; }
-            public int ScullingPoints { get; set; }
-            public bool Substitute { get; set; }
+            public string RowingPoints { get; set; }
+            public string ScullingPoints { get; set; }
+            public string Substitute { get; set; }
         }
     }
 }

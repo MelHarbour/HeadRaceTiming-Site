@@ -1,9 +1,18 @@
-﻿@using HeadRaceTimingSite.Models
+﻿@model HeadRaceTimingSite.ViewModels.ImportAthletesViewModel
+@{
+    ViewData["Title"] = "Import Athletes";
+}
+<h1>Import athletes</h1>
 
-Import athletes
+@Model.Message
 
-<form method="post" action="/Admin/ImportAthletes" id="importForm">
+<form method="post" action="/Admin/ImportAthletes" id="importForm" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
-    <paper-input type="file" style="width: 50%"></paper-input>
+    <input type="text" name="competitionid" />
+    <paper-input-container>
+        <iron-input slot="input">
+            <input name="csvupload" type="file" />
+        </iron-input>
+    </paper-input-container>
     <paper-button raised onclick="importForm.submit()">Submit</paper-button>
 </form>

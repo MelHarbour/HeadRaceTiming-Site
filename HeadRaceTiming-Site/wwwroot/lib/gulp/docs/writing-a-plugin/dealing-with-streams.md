@@ -2,18 +2,17 @@
 
 > It is highly recommended to write plugins supporting streams. Here is some information on creating a gulp plugin that supports streams.
 
-> Make sure to follow the best practice regarding error handling and add the line that make the gulp plugin re-emit the first error caught during the transformation of the content
+> Make sure to follow the best practices regarding error handling and add a line that makes the gulp plugin re-emit the first error caught during the transformation of the content.
 
 [Writing a Plugin](README.md) > Writing stream based plugins
 
 ## Dealing with streams
 
-Let's implement a plugin prepending some text to files. This plugin supports all possible forms of file.contents.
+Let's implement a plugin prepending some text to files. This plugin supports all possible forms of `file.contents`.
 
 ```js
 var through = require('through2');
-var gutil = require('gulp-util');
-var PluginError = gutil.PluginError;
+var PluginError = require('plugin-error');
 
 // consts
 const PLUGIN_NAME = 'gulp-prefixer';
@@ -73,7 +72,7 @@ gulp.src('files/**/*.js', { buffer: false })
   .pipe(gulp.dest('modified-files'));
 ```
 
-## Some plugins using streams
+## Some plugins using streams
 
 * [gulp-svgicons2svgfont](https://github.com/nfroidure/gulp-svgiconstosvgfont)
 
