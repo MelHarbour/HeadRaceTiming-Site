@@ -64,9 +64,9 @@ namespace HeadRaceTimingSite.Controllers
                 viewResults.Add(new CrewResult()
                 {
                     TimingPoint = result.TimingPoint.Name,
-                    TimeOfDay = result.TimeOfDay,
-                    SectionTime = isFirst ? (TimeSpan?)null : crew.RunTime(previousResult.TimingPoint, result.TimingPoint),
-                    RunTime = isFirst ? (TimeSpan?)null : crew.RunTime(crew.Competition.TimingPoints.First(), result.TimingPoint),
+                    TimeOfDay = String.Format("{0:hh\\:mm\\:ss\\.ff}", result.TimeOfDay),
+                    SectionTime = isFirst ? String.Empty : String.Format("{0:mm\\:ss\\.ff}", crew.RunTime(previousResult.TimingPoint, result.TimingPoint)),
+                    RunTime = isFirst ? String.Empty : String.Format("{0:mm\\:ss\\.ff}", crew.RunTime(crew.Competition.TimingPoints.First(), result.TimingPoint)),
                     Rank = crew.Rank(allCrews, result.TimingPoint)
                 });
                 previousResult = result;

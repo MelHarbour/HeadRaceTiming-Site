@@ -8,9 +8,9 @@ namespace HeadRaceTimingSite.ViewModels
     public class CrewResult
     {
         public string TimingPoint { get; set; }
-        public TimeSpan? TimeOfDay { get; set; }
-        public TimeSpan? SectionTime { get; set; }
-        public TimeSpan? RunTime { get; set; }
+        public string TimeOfDay { get; set; }
+        public string SectionTime { get; set; }
+        public string RunTime { get; set; }
         public string Rank { get; set; }
     }
 }
