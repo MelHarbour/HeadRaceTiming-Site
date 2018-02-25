@@ -1,9 +1,19 @@
 ﻿@model HeadRaceTimingSite.Models.Competition
 @{
     ViewData["Title"] = Model.Name;
+    ViewData["TitleColor"] = Model.BackgroundHtmlColor;
 }
 
 <results-list competition-id="@Model.CompetitionId" first-intermediate-name="Barnes" second-intermediate-name="Hammersmith" search-value="{{searchValue}}" show-first-intermediate show-second-intermediate></results-list>
+
+@section titleStyle{
+    <style>
+        app-header {
+            background-color: #@ViewData["TitleColor"];
+            color: #fff;
+        }
+    </style>
+}
 
 @section titleBar{
         <div main-title>@ViewData["Title"]</div>

@@ -1,6 +1,7 @@
 ﻿@model HeadRaceTimingSite.Models.Crew
 @{
     ViewData["Title"] = Model.Name;
+    ViewData["TitleColor"] = Model.Competition.BackgroundHtmlColor;
 }
 
 <div class="bodyDetails">
@@ -29,3 +30,12 @@
         </div>
     </paper-card>
 </div>
+
+@section titleStyle{
+    <style>
+        app-header {
+            background-color: #@ViewData["TitleColor"];
+            color: #fff;
+        }
+    </style>
+}

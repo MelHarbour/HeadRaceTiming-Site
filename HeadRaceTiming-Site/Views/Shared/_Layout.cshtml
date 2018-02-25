@@ -31,15 +31,24 @@
     <link rel="import" href="~/lib/paper-button/paper-button.html" />
     <link rel="import" href="~/lib/iron-form/iron-form.html" />
     <link rel="import" href="~/lib/paper-input/paper-input.html" />
+    @if (IsSectionDefined("titleStyle"))
+    {
+        @RenderSection("titleStyle", required: false)
+    }
+    else
+    {
+        <style>
+            app-header {
+                background-color: #00897B;
+                color: #fff;
+            }
+        </style>
+    }
+
     <custom-style>
         <style is="custom-style">
             body, .card-table th {
                 @@apply(--paper-font-body1);
-            }
-
-            app-header {
-                background-color: #00897B;
-                color: #fff;
             }
 
             .bodyDetails {
