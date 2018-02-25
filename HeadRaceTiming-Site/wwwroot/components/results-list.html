@@ -35,6 +35,8 @@
             }
             .startNumber {
                 width: 100px;
+                text-align: right;
+                margin-right: 8px;
             }
             .name {
                 @apply(--layout-flex);
@@ -52,17 +54,22 @@
         <iron-ajax id="ajax" url$="/api/CrewApi/ByCompetition/[[competitionId]]/[[searchValue]]" last-response="{{data}}" on-response="updateData"></iron-ajax>
 
         <div class="header-row">
+            <div class="rank">Rank</div>
             <div class="startNumber">Start Number</div>
             <div class="name">Crew Name</div>
             <div hidden$="[[!showFirstIntermediate]]" class="intermediate">[[firstIntermediateName]]</div>
             <div hidden$="[[!showSecondIntermediate]]" class="intermediate">[[secondIntermediateName]]</div>
             <div class="time">Time</div>
-            <div class="rank">Rank</div>
         </div>
         <iron-list scroll-target="document" items="[[data]]" as="item" id="crewsList">
             <template>
                 <div>
                     <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/' + this.dataCrewId">
+                        <div class="rank">
+                            <template is="dom-if" if="{{item.overallTime}}">
+                                [[item.rank]]
+                            </template>
+                        </div>
                         <div class="startNumber">
                             [[item.startNumber]]
                         </div>
@@ -77,9 +84,6 @@
                         </div>
                         <div class="time">
                             [[item.overallTime]]
-                        </div>
-                        <div class="rank">
-                            <template is="dom-if" if="{{item.overallTime}}">[[item.rank]]</template>
                         </div>
                     </div>
                 </div>
