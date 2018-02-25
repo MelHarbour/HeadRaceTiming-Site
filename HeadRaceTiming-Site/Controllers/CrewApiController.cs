@@ -30,18 +30,18 @@ namespace HeadRaceTimingSite.Controllers
 
         private List<ViewModels.Result> BuildResultsList(IEnumerable<Crew> crews)
         {
-            List<ViewModels.Result> results = crews.OrderBy(x => x.OverallTime).Select(x => new ViewModels.Result()
+            List<ViewModels.Result> results = crews.Select(x => new ViewModels.Result()
             {
                 CrewId = x.CrewId,
                 Name = x.Name,
                 StartNumber = x.StartNumber,
-                OverallTime = x.OverallTime,
+                OverallTime = String.Format("{0:mm\\:ss\\.ff}", x.OverallTime),
                 Rank = x.Rank(crews, x.Competition.TimingPoints.Last()),
                 FirstIntermediateRank = x.Rank(crews, x.Competition.TimingPoints[1]),
                 SecondIntermediateRank = x.Rank(crews, x.Competition.TimingPoints[2]),
-                FirstIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId),
-                SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId)
-            }).ToList();
+                FirstIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId)),
+                SecondIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId))
+            }).OrderBy(x => String.IsNullOrEmpty(x.Rank)).ThenBy(x => x.Rank).ToList();
 
             return results;
         }

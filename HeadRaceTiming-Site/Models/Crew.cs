@@ -71,7 +71,8 @@ namespace HeadRaceTimingSite.Models
             string returnString = String.Empty;
             bool equalTime = false;
 
-            foreach (Crew result in results)
+            foreach (Crew result in results.Where(x => x.RunTime(startTimingPoint, finishTimingPoint).HasValue)
+                .OrderBy(x => x.RunTime(startTimingPoint, finishTimingPoint)))
             {
                 if (previous != null && previous.RunTime(startTimingPoint, finishTimingPoint) != result.RunTime(startTimingPoint, finishTimingPoint))
                     i++;

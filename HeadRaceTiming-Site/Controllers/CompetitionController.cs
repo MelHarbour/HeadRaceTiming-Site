@@ -49,12 +49,12 @@ namespace HeadRaceTimingSite.Controllers
                 CrewId = x.CrewId,
                 Name = x.Name,
                 StartNumber = x.StartNumber,
-                OverallTime = x.OverallTime,
+                OverallTime = String.Format("{0:mm\\:ss\\.ff}", x.OverallTime),
                 Rank = x.Rank(crews, x.Competition.TimingPoints.Last()),
                 FirstIntermediateRank = x.Rank(crews, x.Competition.TimingPoints[1]),
                 SecondIntermediateRank = x.Rank(crews, x.Competition.TimingPoints[2]),
-                FirstIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId),
-                SecondIntermediateTime = x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId)
+                FirstIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId)),
+                SecondIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId))
             }).ToList();
 
             return Ok(results);
