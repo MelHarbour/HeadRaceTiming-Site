@@ -70,16 +70,16 @@
                             [[item.name]]
                         </div>
                         <div hidden$="[[!showFirstIntermediate]]" class="intermediate">
-                            [[item.firstIntermediateTime]] ([[item.firstIntermediateRank]])
+                            [[item.firstIntermediateTime]] <template is="dom-if" if="{{item.firstIntermediateTime}}">([[item.firstIntermediateRank]])</template>
                         </div>
                         <div hidden$="[[!showSecondIntermediate]]" class="intermediate">
-                            [[item.secondIntermediateTime]] ([[item.secondIntermediateRank]])
+                            [[item.secondIntermediateTime]] <template is="dom-if" if="{{item.secondIntermediateTime}}">([[item.secondIntermediateRank]])</template>
                         </div>
                         <div class="time">
                             [[item.overallTime]]
                         </div>
                         <div class="rank">
-                            [[item.rank]]
+                            <template is="dom-if" if="{{item.overallTime}}">[[item.rank]]</template>
                         </div>
                     </div>
                 </div>
