@@ -17,8 +17,6 @@
     "iron-form": "v2.2.1",
     "shadycss": "v1.1.1",
     "webcomponentsjs": "v1.1.0",
-    "PolymerElements/font-roboto": "1.1.0",
-    "PolymerElements/paper-card": "2.1.0",
     "gulp": "v4.0.0",
     "iron-resizable-behavior": "v2.1.0",
     "iron-collapse": "v2.2.0",
@@ -37,7 +35,9 @@
     "iron-validatable-behavior": "v2.1.0",
     "iron-autogrow-textarea": "v2.1.1",
     "iron-input": "v2.1.1",
-    "iron-a11y-announcer": "v2.1.0"
+    "iron-a11y-announcer": "v2.1.0",
+    "font-roboto": "PolymerElements/font-roboto#*",
+    "paper-card": "PolymerElements/paper-card#*"
   },
   "resolutions": {
     "webcomponentsjs": "v1.1.0",
