@@ -52,38 +52,8 @@
                 @@apply(--paper-font-body1);
             }
 
-            .bodyDetails {
-                margin-left: 24px;
-                margin-right: 24px;
-                margin-top: 24px;
-            }
-
-            paper-card {
-                padding-left: 16px;
-                padding-right: 16px;
-                padding-bottom: 24px;
-                margin-bottom: 16px;
-                margin-right: 16px;
-            }
-
-            .competitionCard {
-                margin-top: 16px;
-                margin-left: 16px;
-                margin-right: 16px;
-                width: 250px;
-                cursor: pointer;
-            }
-
             paper-card h2 {
                 @@apply(--paper-font-title);
-            }
-
-            .search, .searchTools {
-                display: none;
-            }
-
-            app-drawer-layout:not([narrow]) [drawer-toggle] {
-                display: none;
             }
 
             #searchBox {
@@ -104,70 +74,8 @@
                 }
             }
 
-            paper-item {
-                color: #666;
-                cursor: pointer;
-            }
-
-            paper-icon-item {
-                color: #666;
-                cursor: pointer;
-            }
-
-            .card-table {
-                padding-left: 0px;
-                padding-right: 0px;
-                width: 100%;
-            }
-
-            .card-table {
-                --paper-card-header: {
-                    margin-left: 16px;
-                    margin-right: 16px;
-                };
-                --paper-card-header-image: {
-                    --iron-image-width: auto;
-                };
-            }
-
-                .card-table .card-content {
-                    padding-left: 0px;
-                    padding-right: 0px;
-                }
-
-                .card-table table {
-                    border-spacing: 0px;
-                    border-collapse: collapse;
-                    width: 100%;
-                }
-
-                .card-table td {
-                    @@apply(--paper-font-body2);
-                }
-
-                .card-table tr, .card-table td {
-                    border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
-                }
-
-                .card-table tr {
-                    height: 48px;
-                }
-
-                .card-table td, th {
-                    text-align: left;
-                    padding-left: 56px;
-                }
-
-                    .card-table td:first-child, .card-table th:first-child {
-                        padding-left: 24px;
-                    }
-
-                    .card-table td:last-child, .card-table th:last-child {
-                        padding-right: 24px;
-                    }
-
-            app-drawer paper-item:first-child {
-                margin-top: 64px;
+            .card-table td {
+                @@apply(--paper-font-body2);
             }
         </style>
     </custom-style>
