@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico">
     <script src="~/lib/webcomponentsjs/webcomponents-loader.js"></script>
     <link rel="import" href="~/lib/polymer/polymer.html">
     <link rel="import" href="~/lib/polymer/polymer-element.html">
@@ -56,6 +57,7 @@
                 margin-right: 24px;
                 margin-top: 24px;
             }
+
             paper-card {
                 padding-left: 16px;
                 padding-right: 16px;
@@ -63,6 +65,7 @@
                 margin-bottom: 16px;
                 margin-right: 16px;
             }
+
             .competitionCard {
                 margin-top: 16px;
                 margin-left: 16px;
@@ -70,15 +73,19 @@
                 width: 250px;
                 cursor: pointer;
             }
+
             paper-card h2 {
                 @@apply(--paper-font-title);
             }
+
             .search, .searchTools {
                 display: none;
             }
+
             app-drawer-layout:not([narrow]) [drawer-toggle] {
                 display: none;
             }
+
             #searchBox {
                 @@apply(--layout-flex);
                 --paper-input-container-color: white;
@@ -96,19 +103,23 @@
                     font-size: 20px;
                 }
             }
+
             paper-item {
                 color: #666;
                 cursor: pointer;
             }
+
             paper-icon-item {
                 color: #666;
                 cursor: pointer;
             }
+
             .card-table {
                 padding-left: 0px;
                 padding-right: 0px;
                 width: 100%;
             }
+
             .card-table {
                 --paper-card-header: {
                     margin-left: 16px;
@@ -118,34 +129,43 @@
                     --iron-image-width: auto;
                 };
             }
-            .card-table .card-content {
-                padding-left: 0px;
-                padding-right: 0px;
-            }
-            .card-table table {
-                border-spacing: 0px;
-                border-collapse: collapse;
-                width: 100%;
-            }
-            .card-table td {
-                @@apply(--paper-font-body2);
-            }
-            .card-table tr, .card-table td {
-                border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
-            }
-            .card-table tr {
-                height: 48px;
-            }
-            .card-table td, th {
-                text-align:left;
-                padding-left: 56px;
-            }
-            .card-table td:first-child, .card-table th:first-child {
-                padding-left: 24px;
-            }
-            .card-table td:last-child, .card-table th:last-child {
-                padding-right: 24px;
-            }
+
+                .card-table .card-content {
+                    padding-left: 0px;
+                    padding-right: 0px;
+                }
+
+                .card-table table {
+                    border-spacing: 0px;
+                    border-collapse: collapse;
+                    width: 100%;
+                }
+
+                .card-table td {
+                    @@apply(--paper-font-body2);
+                }
+
+                .card-table tr, .card-table td {
+                    border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
+                }
+
+                .card-table tr {
+                    height: 48px;
+                }
+
+                .card-table td, th {
+                    text-align: left;
+                    padding-left: 56px;
+                }
+
+                    .card-table td:first-child, .card-table th:first-child {
+                        padding-left: 24px;
+                    }
+
+                    .card-table td:last-child, .card-table th:last-child {
+                        padding-right: 24px;
+                    }
+
             app-drawer paper-item:first-child {
                 margin-top: 64px;
             }
