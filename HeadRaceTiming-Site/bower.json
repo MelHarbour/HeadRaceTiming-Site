@@ -6,7 +6,7 @@
     "polymer": "v2.5.0",
     "app-layout": "v2.0.5",
     "paper-icon-button": "v2.1.0",
-    "iron-icons": "PolymerElements/iron-icons#2.0",
+    "iron-icons": "v2.1.0",
     "iron-list": "v2.0.12",
     "iron-ajax": "v2.1.2",
     "paper-styles": "v2.1.0",
@@ -33,11 +33,13 @@
     "iron-checked-element-behavior": "v2.1.0",
     "iron-form-element-behavior": "v2.1.0",
     "iron-validatable-behavior": "v2.1.0",
-    "iron-autogrow-textarea": "v2.1.1",
+    "iron-autogrow-textarea": "v2.2.0",
     "iron-input": "v2.1.1",
     "iron-a11y-announcer": "v2.1.0",
     "font-roboto": "PolymerElements/font-roboto#*",
-    "paper-card": "PolymerElements/paper-card#*"
+    "paper-card": "PolymerElements/paper-card#*",
+    "iron-media-query": "v2.1.0",
+    "iron-icon": "v2.1.0"
   },
   "resolutions": {
     "webcomponentsjs": "v1.1.0",
@@ -70,6 +72,8 @@
     "iron-ajax": "v2.1.2",
     "iron-form": "v2.2.1",
     "paper-icon-button": "v2.1.0",
-    "paper-item": "v2.1.0"
+    "paper-item": "v2.1.0",
+    "iron-autogrow-textarea": "v2.2.0",
+    "iron-icons": "v2.1.0"
   }
 }
