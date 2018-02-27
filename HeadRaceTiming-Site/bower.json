@@ -2,7 +2,6 @@
   "name": "asp.net",
   "private": true,
   "dependencies": {
-    "jquery": "3.3.1",
     "polymer": "v2.5.0",
     "app-layout": "v2.0.5",
     "paper-icon-button": "v2.1.0",
