@@ -2,21 +2,14 @@
     margin: 0px;
 }
 .bodyDetails {
-    margin-left: 24px;
-    margin-right: 24px;
-    margin-top: 24px;
+    margin: 24px 24px 0px 24px;
 }
 paper-card {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 24px;
-    margin-bottom: 16px;
-    margin-right: 16px;
+    padding: 0px 16px 24px 16px;
+    margin: 0px 16px 16px 0px;
 }
 .competitionCard {
-    margin-top: 16px;
-    margin-left: 16px;
-    margin-right: 16px;
+    margin: 16px 16px 0px 16px;
     width: 250px;
     cursor: pointer;
 }
