@@ -84,6 +84,8 @@ namespace HeadRaceTimingSite.Models
                 {
                     if (result.RunTime(startTimingPoint, finishTimingPoint) == this.RunTime(startTimingPoint, finishTimingPoint))
                         equalTime = true;
+                    else if (result.RunTime(startTimingPoint, finishTimingPoint) > this.RunTime(startTimingPoint, finishTimingPoint))
+                        break;
                 }
                 previous = result;
             }
