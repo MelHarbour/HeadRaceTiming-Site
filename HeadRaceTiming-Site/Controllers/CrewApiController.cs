@@ -30,16 +30,17 @@ namespace HeadRaceTimingSite.Controllers
 
         private List<ViewModels.Result> BuildResultsList(IEnumerable<Crew> crews)
         {
-            TimingPoint startPoint = crews.First().Competition.TimingPoints.First();
-            TimingPoint firstIntermediatePoint = crews.First().Competition.TimingPoints[1];
-            TimingPoint secondIntermediatePoint = crews.First().Competition.TimingPoints[2];
-            TimingPoint finishPoint = crews.First().Competition.TimingPoints.Last();
+            Competition competition = crews.First().Competition;
+            TimingPoint startPoint = competition.TimingPoints.First();
+            TimingPoint firstIntermediatePoint = competition.TimingPoints[1];
+            TimingPoint secondIntermediatePoint = competition.TimingPoints[2];
+            TimingPoint finishPoint = competition.TimingPoints.Last();
 
             IEnumerable<Crew> firstIntermediateCrewList = crews.Where(x => x.RunTime(startPoint, firstIntermediatePoint).HasValue).OrderBy(x => x.RunTime(startPoint, firstIntermediatePoint));
             IEnumerable<Crew> secondIntermediateCrewList = crews.Where(x => x.RunTime(startPoint, secondIntermediatePoint).HasValue).OrderBy(x => x.RunTime(startPoint, secondIntermediatePoint));
-            IEnumerable<Crew> finishCrewList = crews.Where(x => x.RunTime(startPoint, finishPoint).HasValue).OrderBy(x => x.RunTime(startPoint, finishPoint));
+            IEnumerable<Crew> finishCrewList = crews.OrderByDescending(x => x.RunTime(startPoint, finishPoint).HasValue).ThenBy(x => x.RunTime(startPoint, finishPoint));
 
-            List<ViewModels.Result> results = crews.Select(x => new ViewModels.Result()
+            List<ViewModels.Result> results = finishCrewList.Select(x => new ViewModels.Result()
             {
                 CrewId = x.CrewId,
                 Name = x.Name,
@@ -50,7 +51,7 @@ namespace HeadRaceTimingSite.Controllers
                 SecondIntermediateRank = x.Rank(secondIntermediateCrewList, startPoint, secondIntermediatePoint),
                 FirstIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId)),
                 SecondIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId))
-            }).OrderBy(x => String.IsNullOrEmpty(x.Rank)).ThenBy(x => x.Rank).ToList();
+            }).ToList();
 
             return results;
         }
