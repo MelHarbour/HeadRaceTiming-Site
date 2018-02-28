@@ -49,6 +49,10 @@
 
             .name {
                 @apply(--layout-flex);
+                height: 48px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             .intermediate, .time {
@@ -85,7 +89,7 @@
                         <div class="startNumber">
                             [[item.startNumber]]
                         </div>
-                        <div class="name">
+                        <div class="name" title="[[item.name]]">
                             [[item.name]]
                         </div>
                         <div hidden$="[[_logicalNand(showFirstIntermediate,wide)]]" class="intermediate">
