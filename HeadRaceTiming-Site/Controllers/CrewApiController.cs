@@ -30,17 +30,26 @@ namespace HeadRaceTimingSite.Controllers
 
         private List<ViewModels.Result> BuildResultsList(IEnumerable<Crew> crews)
         {
+            TimingPoint startPoint = crews.First().Competition.TimingPoints.First();
+            TimingPoint firstIntermediatePoint = crews.First().Competition.TimingPoints[1];
+            TimingPoint secondIntermediatePoint = crews.First().Competition.TimingPoints[2];
+            TimingPoint finishPoint = crews.First().Competition.TimingPoints.Last();
+
+            IEnumerable<Crew> firstIntermediateCrewList = crews.Where(x => x.RunTime(startPoint, firstIntermediatePoint).HasValue).OrderBy(x => x.RunTime(startPoint, firstIntermediatePoint));
+            IEnumerable<Crew> secondIntermediateCrewList = crews.Where(x => x.RunTime(startPoint, secondIntermediatePoint).HasValue).OrderBy(x => x.RunTime(startPoint, secondIntermediatePoint));
+            IEnumerable<Crew> finishCrewList = crews.Where(x => x.RunTime(startPoint, finishPoint).HasValue).OrderBy(x => x.RunTime(startPoint, finishPoint));
+
             List<ViewModels.Result> results = crews.Select(x => new ViewModels.Result()
             {
                 CrewId = x.CrewId,
                 Name = x.Name,
                 StartNumber = x.StartNumber,
                 OverallTime = String.Format("{0:mm\\:ss\\.ff}", x.OverallTime),
-                Rank = x.Rank(crews, x.Competition.TimingPoints.Last()),
-                FirstIntermediateRank = x.Rank(crews, x.Competition.TimingPoints[1]),
-                SecondIntermediateRank = x.Rank(crews, x.Competition.TimingPoints[2]),
-                FirstIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId)),
-                SecondIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId))
+                Rank = x.Rank(finishCrewList, startPoint, finishPoint),
+                FirstIntermediateRank = x.Rank(firstIntermediateCrewList, startPoint, firstIntermediatePoint),
+                SecondIntermediateRank = x.Rank(secondIntermediateCrewList, startPoint, secondIntermediatePoint),
+                FirstIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId)),
+                SecondIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId))
             }).OrderBy(x => String.IsNullOrEmpty(x.Rank)).ThenBy(x => x.Rank).ToList();
 
             return results;
@@ -59,6 +68,8 @@ namespace HeadRaceTimingSite.Controllers
             Models.Result previousResult = null;
             bool isFirst = true;
 
+            TimingPoint startPoint = crew.Competition.TimingPoints.First();
+
             foreach (Models.Result result in crew.Results.OrderBy(x => x.TimingPoint.Order))
             {
                 viewResults.Add(new CrewResult()
@@ -66,8 +77,10 @@ namespace HeadRaceTimingSite.Controllers
                     TimingPoint = result.TimingPoint.Name,
                     TimeOfDay = String.Format("{0:hh\\:mm\\:ss\\.ff}", result.TimeOfDay),
                     SectionTime = isFirst ? String.Empty : String.Format("{0:mm\\:ss\\.ff}", crew.RunTime(previousResult.TimingPoint, result.TimingPoint)),
-                    RunTime = isFirst ? String.Empty : String.Format("{0:mm\\:ss\\.ff}", crew.RunTime(crew.Competition.TimingPoints.First(), result.TimingPoint)),
-                    Rank = crew.Rank(allCrews, result.TimingPoint)
+                    RunTime = isFirst ? String.Empty : String.Format("{0:mm\\:ss\\.ff}", crew.RunTime(startPoint, result.TimingPoint)),
+                    Rank = isFirst ? String.Empty : crew.Rank(allCrews.Where(x => x.RunTime(startPoint, result.TimingPoint).HasValue)
+                        .OrderBy(x => x.RunTime(startPoint, result.TimingPoint)),
+                            startPoint, result.TimingPoint)
                 });
                 previousResult = result;
                 isFirst = false;
@@ -98,17 +111,18 @@ namespace HeadRaceTimingSite.Controllers
         {
             IEnumerable<Crew> crews = await GetCrewList(competitionId);
 
-            Competition competition = await _context.Competitions.FirstOrDefaultAsync(x => x.CompetitionId == competitionId);
+            TimingPoint startPoint = crews.First().StartPoint;
             TimingPoint point = await _context.TimingPoints.FirstOrDefaultAsync(x => x.TimingPointId == timingPointId);
 
-            return crews.OrderBy(x => x.RunTime(competition.TimingPoints.FirstOrDefault().TimingPointId, timingPointId))
-                .Select(x => new TimingPointResult()
+            crews = crews.OrderBy(x => x.RunTime(startPoint.TimingPointId, timingPointId));
+
+            return crews.Select(x => new TimingPointResult()
             {
                 Name = x.Name,
                 StartNumber = x.StartNumber,
-                RunTime = x.RunTime(competition.TimingPoints.FirstOrDefault().TimingPointId, timingPointId),
-                Rank = x.Rank(crews.ToList(), point).ToString()
-            }).ToList();
+                RunTime = x.RunTime(startPoint.TimingPointId, timingPointId),
+                Rank = x.Rank(crews.ToList(), startPoint, point).ToString()
+            }).OrderBy(x => x.RunTime).ToList();
         }
     }
 }

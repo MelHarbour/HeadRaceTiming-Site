@@ -58,11 +58,13 @@ namespace HeadRaceTimingSite.Models
             }
         }
 
-        public string Rank(IEnumerable<Crew> results, TimingPoint finishTimingPoint)
-        {
-            return Rank(results, StartPoint, finishTimingPoint);
-        }
-
+        /// <summary>
+        /// Returns the rank of the crew within a set of crews, based on a start and finish timing point.
+        /// </summary>
+        /// <param name="results">The list of crews to rank within. Required to contain the crew, and to be pre-sorted into order by whichever timing point is being used.</param>
+        /// <param name="startTimingPoint">The start timing point.</param>
+        /// <param name="finishTimingPoint">The finish timing point.</param>
+        /// <returns></returns>
         public string Rank(IEnumerable<Crew> results, TimingPoint startTimingPoint, TimingPoint finishTimingPoint)
         {
             int i = 1;
@@ -71,8 +73,7 @@ namespace HeadRaceTimingSite.Models
             string returnString = String.Empty;
             bool equalTime = false;
 
-            foreach (Crew result in results.Where(x => x.RunTime(startTimingPoint, finishTimingPoint).HasValue)
-                .OrderBy(x => x.RunTime(startTimingPoint, finishTimingPoint)))
+            foreach (Crew result in results)
             {
                 if (previous != null && previous.RunTime(startTimingPoint, finishTimingPoint) != result.RunTime(startTimingPoint, finishTimingPoint))
                     i++;
