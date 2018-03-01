@@ -19,11 +19,7 @@ paper-card {
 app-drawer-layout:not([narrow]) [drawer-toggle] {
     display: none;
 }
-paper-item {
-    color: #666;
-    cursor: pointer;
-}
-paper-icon-item {
+paper-item, paper-icon-item {
     color: #666;
     cursor: pointer;
 }
