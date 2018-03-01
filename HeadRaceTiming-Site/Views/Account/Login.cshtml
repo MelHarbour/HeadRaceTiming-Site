@@ -6,6 +6,10 @@
 @model HeadRaceTimingSite.ViewModels.AccountViewModels.LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
+@section imports { 
+<link rel="import" href="~/lib/iron-form/iron-form.html" />
+}
+
 @{
     ViewData["Title"] = "Log in";
 }

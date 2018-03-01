@@ -16,22 +16,18 @@
     <link rel="shortcut icon" href="~/favicon.ico">
     <script src="~/lib/webcomponentsjs/webcomponents-loader.js"></script>
     <link rel="import" href="~/lib/polymer/polymer.html">
-    <link rel="import" href="~/lib/polymer/polymer-element.html">
     <link rel="import" href="~/lib/paper-styles/typography.html">
     <link rel="import" href="~/lib/app-layout/app-layout.html">
     <link rel="import" href="~/lib/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="~/lib/iron-icons/iron-icons.html">
     <link rel="import" href="~/lib/iron-flex-layout/iron-flex-layout.html">
     <link rel="import" href="~/lib/paper-card/paper-card.html">
-    <link rel="import" href="~/components/results-list.html" />
-    <link rel="import" href="~/components/crew-results-list.html" />
-    <link rel="import" href="~/components/timingpoint-results-list.html" />
     <link rel="import" href="~/lib/paper-listbox/paper-listbox.html" />
     <link rel="import" href="~/lib/paper-item/paper-item.html" />
     <link rel="import" href="~/lib/paper-item/paper-icon-item.html" />
     <link rel="import" href="~/lib/paper-button/paper-button.html" />
-    <link rel="import" href="~/lib/iron-form/iron-form.html" />
     <link rel="import" href="~/lib/paper-input/paper-input.html" />
+    @RenderSection("imports", required: false)
     @if (IsSectionDefined("titleStyle"))
     {
         @RenderSection("titleStyle", required: false)

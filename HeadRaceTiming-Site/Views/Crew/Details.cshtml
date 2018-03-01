@@ -4,10 +4,12 @@
     ViewData["TitleColor"] = Model.Competition.BackgroundHtmlColor;
 }
 
+@section imports {
+    <link rel="import" href="~/components/crew-results-list.html" />
+}
+
 <div class="bodyDetails">
-    <paper-card class="card-table" heading="Crew Details" @if (!String.IsNullOrEmpty(Model.ClubCode)) {
-        <text>image = "http://www.britishrowing.org/sites/all/themes/britishrowing/images/blades/</text>@Model.ClubCode.ToLower()<text>.gif"</text>
-        }>
+    <paper-card class="card-table" heading="Crew Details" @if (!String.IsNullOrEmpty(Model.ClubCode)) { <text> image="http://www.britishrowing.org/sites/all/themes/britishrowing/images/blades/</text>@Model.ClubCode.ToLower()<text>.gif" </text>  }>
         <div class="card-content">
             <div style="margin-left: 24px">Start Number: @Model.StartNumber</div>
             <table>
@@ -23,7 +25,7 @@
             </table>
         </div>
     </paper-card>
-    
+
     <paper-card class="card-table" heading="Section Times">
         <div class="card-content">
             <crew-results-list crew-id="@Model.CrewId"></crew-results-list>
