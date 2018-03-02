@@ -93,6 +93,22 @@ namespace HeadRaceTimingSite.Models
             return returnString + (equalTime ? "=" : String.Empty);
         }
 
+        /// <summary>
+        /// CRI, calculated as the sum of the PRI of the athletes
+        /// </summary>
+        public int Cri
+        {
+            get { return Athletes.Select(x => x.Athlete.Pri).Sum(); }
+        }
+
+        /// <summary>
+        /// CRI Max, calculated as the sum of the PRI Max of the athletes
+        /// </summary>
+        public int CriMax
+        {
+            get { return Athletes.Select(x => x.Athlete.PriMax).Sum(); }
+        }
+
         public List<Result> Results { get; set; }
 
         public int CompetitionId { get; set; }

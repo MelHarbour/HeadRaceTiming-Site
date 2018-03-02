@@ -11,6 +11,14 @@ namespace HeadRaceTimingSite.Models
         public int AthleteId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        /// <summary>
+        /// PRI as extracted from British Rowing
+        /// </summary>
+        public int Pri { get; set; }
+        /// <summary>
+        /// PRI Max as extracted from British Rowing
+        /// </summary>
+        public int PriMax { get; set; }
 
         public List<CrewAthlete> Crews { get; set; }
     }
