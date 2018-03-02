@@ -43,7 +43,6 @@
 
             .startNumber {
                 width: 50px;
-                text-align: right;
                 margin-right: 8px;
             }
 
@@ -61,7 +60,6 @@
 
             .rank {
                 width: 50px;
-                text-align: right;
             }
         </style>
 
@@ -74,7 +72,7 @@
             <div class="name">Crew Name</div>
             <div hidden$="[[_logicalNand(showFirstIntermediate,wide)]]" class="intermediate">[[firstIntermediateName]]</div>
             <div hidden$="[[_logicalNand(showSecondIntermediate, wide)]]" class="intermediate">[[secondIntermediateName]]</div>
-            <div class="time">Time</div>
+            <div class="time">Finish</div>
         </div>
         <iron-list scroll-target="document" items="[[data]]" as="item" id="crewsList">
             <template>
