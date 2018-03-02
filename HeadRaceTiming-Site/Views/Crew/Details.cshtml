@@ -6,12 +6,13 @@
 
 @section imports {
     <link rel="import" href="~/components/crew-results-list.html" />
+    <link rel="import" href="~/lib/iron-media-query/iron-media-query.html" />
 }
 
 <iron-media-query query="max-width: 600px" query-matches="{{narrow}}"></iron-media-query>
 
 <div class="bodyDetails">
-    <paper-card class="card-table" heading="Crew Details" @if (!String.IsNullOrEmpty(Model.ClubCode)) { <text> image="http://www.britishrowing.org/sites/all/themes/britishrowing/images/blades/</text>@Model.ClubCode.ToLower()<text>.gif" </text>  }>
+    <paper-card class="card-table" heading="Crew Details" @if (!String.IsNullOrEmpty(Model.ClubCode)) { <text> image="http://www.britishrowing.org/sites/all/themes/britishrowing/images/blades/</text>@Model.ClubCode.ToLower()<text>.gif" </text> }>
         <div class="card-content">
             <div style="margin-left: 24px">Start Number: @Model.StartNumber</div>
             <div style="margin-left: 24px">CRI: @Model.Cri</div>
