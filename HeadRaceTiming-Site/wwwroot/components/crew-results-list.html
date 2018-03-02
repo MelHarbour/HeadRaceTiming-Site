@@ -1,5 +1,6 @@
 ﻿<link rel="import" href="/lib/polymer/polymer.html">
 <link rel="import" href="/lib/iron-ajax/iron-ajax.html" />
+<link rel="import" href="/lib/iron-media-query/iron-media-query.html" />
 
 <dom-module id="crew-results-list">
     <template>
@@ -9,39 +10,56 @@
                 border-collapse: collapse;
                 width: 100%;
             }
+
             td {
                 @apply(--paper-font-body2);
             }
+
             th {
                 @apply(--paper-font-body1);
             }
+
             tr, td {
                 border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
             }
+
             tr {
                 height: 48px;
             }
+
             td, th {
-                text-align:right;
+                text-align: right;
                 padding-left: 56px;
+                white-space: nowrap;
             }
+
             td:first-child, th:first-child {
                 padding-left: 24px;
-                text-align:left;
+                text-align: left;
             }
+
             td:last-child, th:last-child {
                 padding-right: 24px;
             }
         </style>
 
         <iron-ajax id="ajax" url$="/api/CrewApi/ById/[[crewId]]" last-response="{{data}}" on-response="updateData" auto></iron-ajax>
+        <iron-media-query query="max-width: 600px" query-matches="{{narrow}}"></iron-media-query>
+        <iron-media-query query="max-width: 480px" query-matches="{{veryNarrow}}"></iron-media-query>
 
         <table>
-            <tr><th>Point</th><th>Time of Day</th><th>Section Time</th><th>Total Time</th></tr>
+            <tr><th>Point</th><th hidden$="[[narrow]]">Time of Day</th><th hidden$="[[veryNarrow]]">Section Time</th><th>Total Time</th></tr>
             <template is="dom-repeat" items="{{data}}">
-                <tr><td>[[item.timingPoint]]</td><td>[[item.timeOfDay]]</td><td>[[item.sectionTime]]</td><td><template is="dom-if" if="{{item.runTime}}">
-    [[item.runTime]] ([[item.rank]])
-</template></td></tr>
+                <tr>
+                    <td>[[item.timingPoint]]</td>
+                    <td hidden$="[[narrow]]">[[item.timeOfDay]]</td>
+                    <td hidden$="[[veryNarrow]]">[[item.sectionTime]]</td>
+                    <td>
+                        <template is="dom-if" if="{{item.runTime}}">
+                            [[item.runTime]] ([[item.rank]])
+                        </template>
+                    </td>
+                </tr>
             </template>
         </table>
     </template>

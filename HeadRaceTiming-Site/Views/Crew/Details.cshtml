@@ -8,6 +8,8 @@
     <link rel="import" href="~/components/crew-results-list.html" />
 }
 
+<iron-media-query query="max-width: 600px" query-matches="{{narrow}}"></iron-media-query>
+
 <div class="bodyDetails">
     <paper-card class="card-table" heading="Crew Details" @if (!String.IsNullOrEmpty(Model.ClubCode)) { <text> image="http://www.britishrowing.org/sites/all/themes/britishrowing/images/blades/</text>@Model.ClubCode.ToLower()<text>.gif" </text>  }>
         <div class="card-content">
@@ -20,12 +22,12 @@
         <div class="card-content">
             <table>
                 <thead>
-                    <tr><th>Seat</th><th>Name</th><th>PRI</th><th>PRIMax</th></tr>
+                    <tr><th>Seat</th><th>Name</th><th hidden$="[[narrow]]">PRI</th><th hidden$="[[narrow]]">PRIMax</th></tr>
                 </thead>
                 <tbody>
                     @foreach (var athlete in Model.Athletes.OrderBy(x => x.Position))
                     {
-                        <tr><td>@athlete.PositionDescription</td><td>@athlete.Athlete.FirstName @athlete.Athlete.LastName</td><td>1234</td><td>1234</td></tr>
+                        <tr><td>@athlete.PositionDescription</td><td>@athlete.Athlete.FirstName @athlete.Athlete.LastName</td><td hidden$="[[narrow]]">1234</td><td hidden$="[[narrow]]">1234</td></tr>
                     }
                 </tbody>
             </table>
