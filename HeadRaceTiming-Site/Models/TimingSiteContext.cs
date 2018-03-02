@@ -40,5 +40,6 @@ namespace HeadRaceTimingSite.Models
         public DbSet<Crew> Crews { get; set; }
         public DbSet<Result> Results { get; set; }
         public DbSet<TimingPoint> TimingPoints { get; set; }
+        public DbSet<Award> Awards { get; set; }
     }
 }

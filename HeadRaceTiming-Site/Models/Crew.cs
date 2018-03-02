@@ -99,5 +99,6 @@ namespace HeadRaceTimingSite.Models
         public Competition Competition { get; set; }
 
         public List<CrewAthlete> Athletes { get; set; }
+        public List<CrewAward> Awards { get; set; }
     }
 }

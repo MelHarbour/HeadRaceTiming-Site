@@ -49,6 +49,7 @@ namespace HeadRaceTimingSite.Models
 
         public List<TimingPoint> TimingPoints { get; set; }
         public List<Crew> Crews { get; set; }
+        public List<Award> Awards { get; set; }
 
         public string FirstIntermediateName
         {
