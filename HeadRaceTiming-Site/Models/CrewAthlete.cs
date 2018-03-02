@@ -25,5 +25,13 @@ namespace HeadRaceTimingSite.Models
                     return Position.ToString();
             }
         }
+        /// <summary>
+        /// PRI as extracted from British Rowing
+        /// </summary>
+        public int Pri { get; set; }
+        /// <summary>
+        /// PRI Max as extracted from British Rowing
+        /// </summary>
+        public int PriMax { get; set; }
     }
 }

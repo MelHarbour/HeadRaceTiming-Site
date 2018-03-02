@@ -98,7 +98,7 @@ namespace HeadRaceTimingSite.Models
         /// </summary>
         public int Cri
         {
-            get { return Athletes.Select(x => x.Athlete.Pri).Sum(); }
+            get { return Athletes.Select(x => x.Pri).Sum(); }
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace HeadRaceTimingSite.Models
         /// </summary>
         public int CriMax
         {
-            get { return Athletes.Select(x => x.Athlete.PriMax).Sum(); }
+            get { return Athletes.Select(x => x.PriMax).Sum(); }
         }
 
         public List<Result> Results { get; set; }
