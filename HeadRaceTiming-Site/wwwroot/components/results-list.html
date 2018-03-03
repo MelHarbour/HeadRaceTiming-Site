@@ -41,9 +41,9 @@
                 cursor: pointer;
             }
 
-            .startNumber {
-                width: 50px;
-                margin-right: 8px;
+            .startNumber, .rank {
+                width: 33px;
+                margin-right: 56px;
             }
 
             .name {
@@ -54,17 +54,14 @@
             }
 
             .intermediate, .time {
-                width: 100px;
-                text-align: right;
-            }
-
-            .rank {
-                width: 50px;
+                width: 91px;
+                text-align: center;
+                margin-left: 56px;
             }
         </style>
 
         <iron-ajax id="ajax" url$="/api/CrewApi/ByCompetition/[[competitionId]]/[[searchValue]]" last-response="{{data}}" on-response="updateData"></iron-ajax>
-        <iron-media-query query="min-width: 600px" query-matches="{{wide}}"></iron-media-query>
+        <iron-media-query query="min-width: 840px" query-matches="{{wide}}"></iron-media-query>
 
         <div class="header-row">
             <div class="rank">Rank</div>
