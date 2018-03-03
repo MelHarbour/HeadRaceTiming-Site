@@ -8,39 +8,26 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../../polymer/polymer.html">
-<link rel="import" href="../../neon-animated-pages.html">
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../paper-dialog-behavior.html">
+<link rel="import" href="../paper-dialog-shared-styles.html">
 
-<dom-module id="reprojected-pages">
+<dom-module id="test-dialog">
   <template>
-    <style>
-      neon-animated-pages {
-        height: 100%;
-      }
-    </style>
-    <neon-animated-pages selected="{{selected}}">
-      <content></content>
-      <slot></slot>
-    </neon-animated-pages>
-
+    <style include="paper-dialog-shared-styles"></style>
+    <slot></slot>
   </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'test-dialog',
+        behaviors: [
+          Polymer.PaperDialogBehavior
+        ]
+      });
+    })();
+  </script>
 </dom-module>
-
-<script>
-
-  Polymer({
-
-    is: 'reprojected-pages',
-
-    properties: {
-
-      selected: {
-        type: String,
-        notify: true
-      }
-
-    }
-
-  });
-
-</script>

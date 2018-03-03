@@ -6,10 +6,13 @@
 
 @section imports {
     <link rel="import" href="~/components/results-list.html" />
+    <link rel="import" href="~/lib/paper-dialog/paper-dialog.html" />
 }
 
-
-<results-list competition-id="@Model.CompetitionId" first-intermediate-name="Barnes" second-intermediate-name="Hammersmith" search-value="{{searchValue}}" show-first-intermediate show-second-intermediate></results-list>
+@section titleBar{
+    <div main-title>@ViewData["Title"]</div>
+    <paper-icon-button onclick="dialog.open()" icon="info"></paper-icon-button>
+}
 
 @section titleStyle{
     <style>
@@ -20,6 +23,9 @@
     </style>
 }
 
-@section titleBar{
-    <div main-title>@ViewData["Title"]</div>
-}
+<results-list competition-id="@Model.CompetitionId" first-intermediate-name="Barnes" second-intermediate-name="Hammersmith" search-value="{{searchValue}}" show-first-intermediate show-second-intermediate></results-list>
+
+<paper-dialog id="dialog">
+    <h2>Information</h2>
+    <p>All the times on this page are provisional, and are subject to penalties.</p>
+</paper-dialog>
