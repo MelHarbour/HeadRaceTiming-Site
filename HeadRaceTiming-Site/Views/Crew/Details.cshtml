@@ -12,12 +12,21 @@
 <iron-media-query query="max-width: 600px" query-matches="{{narrow}}"></iron-media-query>
 
 <div class="bodyDetails">
-    <paper-card class="card-table" heading="Crew Details" @if (!String.IsNullOrEmpty(Model.ClubCode)) { <text> image="http://www.britishrowing.org/sites/all/themes/britishrowing/images/blades/</text>@Model.ClubCode.ToLower()<text>.gif" </text> }>
+    <paper-card heading="Crew Details">
         <div class="card-content">
-            <div style="margin-left: 24px">Start Number: @Model.StartNumber</div>
-            <div style="margin-left: 24px">CRI: @Model.Cri</div>
-            <div style="margin-left: 24px">CRI Max: @Model.CriMax</div>
+            <div>@Model.Name</div>
+            <div>Start Number: @Model.StartNumber</div>
+            <div>CRI Max: @Model.CriMax</div>
+            <div><h2>Pennants Entered:</h2>
+                <ul>
+                    @foreach (var award in Model.Awards)
+                    {
+                        <li>@award.Award.Title</li>
+                    }
+                </ul>
+            </div>
         </div>
+        <div class="card-image" @if (!String.IsNullOrEmpty(Model.ClubCode)) { <text> style="background-image:url('http://www.britishrowing.org/sites/all/themes/britishrowing/images/blades/</text>@Model.ClubCode.ToLower()<text>.gif')" </text> }></div>
     </paper-card>
 
     <paper-card class="card-table" heading="Athletes">

@@ -7,6 +7,15 @@
 paper-card {
     padding: 0px 16px 24px 16px;
     margin: 0px 16px 16px 0px;
+    width: 100%;
+}
+.card-image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 150px;
+      background-repeat: no-repeat;
 }
 .competitionCard {
     margin: 16px 16px 0px 16px;
@@ -26,13 +35,9 @@ paper-item, paper-icon-item {
 .card-table {
     padding-left: 0px;
     padding-right: 0px;
-    width: 100%;
     --paper-card-header: {
                     margin-left: 16px;
                     margin-right: 16px;
-                };
-    --paper-card-header-image: {
-                    --iron-image-width: auto;
                 };
 }
 .card-table .card-content {

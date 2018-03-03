@@ -19,12 +19,10 @@ namespace HeadRaceTiming_Site.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            Crew crew = await _context.Crews.Include(c => c.Competition.TimingPoints)
-                .Include(c => c.Results)
-                .Include(c => c.Competition.Crews)
-                .Include("Competition.Crews.Results")
+            Crew crew = await _context.Crews.Include(c => c.Competition)
                 .Include(c => c.Athletes)
                 .Include("Athletes.Athlete")
+                .Include("Awards.Award")
                 .SingleOrDefaultAsync(c => c.CrewId == id);
             return View(crew);
         }
