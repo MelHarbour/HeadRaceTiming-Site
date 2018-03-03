@@ -19,6 +19,10 @@ namespace HeadRaceTimingSite.Models
         /// This is the Crew ID as used by BROE
         /// </summary>
         public int? BroeCrewId { get; set; }
+        /// <summary>
+        /// The status of the crew's result. Defaults to Ok
+        /// </summary>
+        public ResultStatus Status { get; set; }
 
         public TimeSpan? OverallTime
         {
@@ -116,5 +120,25 @@ namespace HeadRaceTimingSite.Models
 
         public List<CrewAthlete> Athletes { get; set; }
         public List<CrewAward> Awards { get; set; }
+
+        public enum ResultStatus
+        {
+            /// <summary>
+            /// Result is normal
+            /// </summary>
+            Ok,
+            /// <summary>
+            /// Did not start
+            /// </summary>
+            Dns,
+            /// <summary>
+            /// Did not finish
+            /// </summary>
+            Dnf,
+            /// <summary>
+            /// Disqualified
+            /// </summary>
+            Dsq
+        }
     }
 }

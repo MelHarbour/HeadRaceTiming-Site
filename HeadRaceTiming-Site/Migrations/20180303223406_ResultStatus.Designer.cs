@@ -11,9 +11,10 @@ using System;
 namespace HeadRaceTimingSite.Migrations
 {
     [DbContext(typeof(TimingSiteContext))]
-    partial class TimingSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20180303223406_ResultStatus")]
+    partial class ResultStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
