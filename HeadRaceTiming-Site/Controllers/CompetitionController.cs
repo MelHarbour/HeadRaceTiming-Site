@@ -22,10 +22,20 @@ namespace HeadRaceTimingSite.Controllers
             return View(await _context.Competitions.ToListAsync());
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
-            Competition competition = await _context.Competitions.Include(x => x.TimingPoints)
-                .SingleOrDefaultAsync(c => c.CompetitionId == id);
+            int competitionId;
+            Competition competition;
+            if (Int32.TryParse(id, out competitionId))
+            {
+                competition = await _context.Competitions.Include(x => x.TimingPoints)
+                    .SingleOrDefaultAsync(c => c.CompetitionId == competitionId);
+            }
+            else
+            {
+                competition = await _context.Competitions.Include(x => x.TimingPoints)
+                    .SingleOrDefaultAsync(c => c.FriendlyName == id);
+            }
             return View(competition);
         }
 

@@ -25,6 +25,10 @@ namespace HeadRaceTimingSite.Models
             set { TextColor = Color.FromArgb(value); }
         }
         public string ImageUriText { get; set; }
+        /// <summary>
+        /// Used for things like URLs
+        /// </summary>
+        public string FriendlyName { get; set; }
 
         [NotMapped]
         public Color BackgroundColor { get; set; }
