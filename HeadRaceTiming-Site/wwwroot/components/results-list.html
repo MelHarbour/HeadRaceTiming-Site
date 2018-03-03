@@ -41,7 +41,7 @@
                 cursor: pointer;
             }
 
-            .startNumber, .rank {
+            .startNumber {
                 width: 33px;
                 margin-right: 56px;
             }
@@ -64,7 +64,6 @@
         <iron-media-query query="min-width: 840px" query-matches="{{wide}}"></iron-media-query>
 
         <div class="header-row">
-            <div class="rank">Rank</div>
             <div class="startNumber">Start</div>
             <div class="name">Crew Name</div>
             <div hidden$="[[_logicalNand(showFirstIntermediate,wide)]]" class="intermediate">[[firstIntermediateName]]</div>
@@ -75,11 +74,6 @@
             <template>
                 <div>
                     <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/' + this.dataCrewId">
-                        <div class="rank">
-                            <template is="dom-if" if="{{item.overallTime}}">
-                                [[item.rank]]
-                            </template>
-                        </div>
                         <div class="startNumber">
                             [[item.startNumber]]
                         </div>
@@ -100,6 +94,9 @@
                         </div>
                         <div class="time">
                             [[item.overallTime]]
+                            <template is="dom-if" if="{{item.overallTime}}">
+                                ([[item.rank]])
+                            </template>
                         </div>
                     </div>
                 </div>
