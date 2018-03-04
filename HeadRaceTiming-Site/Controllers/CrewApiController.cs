@@ -50,7 +50,8 @@ namespace HeadRaceTimingSite.Controllers
                 FirstIntermediateRank = x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId) != null ? x.Rank(firstIntermediateCrewList, startPoint, firstIntermediatePoint) : String.Empty,
                 SecondIntermediateRank = x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId) != null ? x.Rank(secondIntermediateCrewList, startPoint, secondIntermediatePoint) : String.Empty,
                 FirstIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId)),
-                SecondIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId))
+                SecondIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId)),
+                Status = x.Status
             }).ToList();
 
             return results;

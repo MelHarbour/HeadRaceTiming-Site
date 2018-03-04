@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeadRaceTimingSite.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,5 +17,6 @@ namespace HeadRaceTimingSite.ViewModels
         public string Rank { get; set; }
         public string FirstIntermediateRank { get; set; }
         public string SecondIntermediateRank { get; set; }
+        public Crew.ResultStatus Status { get; set; }
     }
 }
