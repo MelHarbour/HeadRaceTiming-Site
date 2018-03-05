@@ -35,11 +35,12 @@
     "iron-autogrow-textarea": "v2.2.0",
     "iron-input": "v2.1.1",
     "iron-a11y-announcer": "v2.1.0",
-    "font-roboto": "PolymerElements/font-roboto#*",
+    "font-roboto": "PolymerElements/font-roboto#v1.1.0",
     "paper-card": "PolymerElements/paper-card#*",
     "iron-media-query": "v2.1.0",
     "iron-icon": "v2.1.0",
-    "paper-dialog": "v2.1.0"
+    "paper-dialog": "v2.1.0",
+    "paper-ripple": "PolymerElements/paper-ripple#v2.1.0"
   },
   "resolutions": {
     "webcomponentsjs": "v1.1.0",
