@@ -1,11 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeadRaceTiming-Site", "HeadRaceTiming-Site\HeadRaceTiming-Site.csproj", "{33CA0930-6B54-4B6D-9291-71C9992EB5C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeadRaceTiming-Site.Tests", "HeadRaceTiming-Site.Tests\HeadRaceTiming-Site.Tests.csproj", "{5F41C6CF-9201-4B25-BEBD-A6E9788D9AC5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{16AE232A-88D6-4684-9570-8DD3138A4FF2}"
+	ProjectSection(SolutionItems) = preProject
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
