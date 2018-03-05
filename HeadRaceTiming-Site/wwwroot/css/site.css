@@ -1,12 +1,12 @@
 ﻿body {
-    margin: 0px;
+    margin: 0;
 }
 .bodyDetails {
-    margin: 24px 24px 0px 24px;
+    margin: 24px 24px 0 24px;
 }
 paper-card {
-    padding: 0px 16px 24px 16px;
-    margin: 0px 16px 16px 0px;
+    padding: 0 16px 24px 16px;
+    margin: 0 16px 16px 0;
     width: 100%;
 }
 .card-image {
@@ -18,7 +18,7 @@ paper-card {
       background-repeat: no-repeat;
 }
 .competitionCard {
-    margin: 16px 16px 0px 16px;
+    margin: 16px 16px 0 16px;
     width: 250px;
     cursor: pointer;
 }
@@ -33,19 +33,19 @@ paper-item, paper-icon-item {
     cursor: pointer;
 }
 .card-table {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 0;
+    padding-right: 0;
     --paper-card-header: {
                     margin-left: 16px;
                     margin-right: 16px;
                 };
 }
 .card-table .card-content {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 0;
+    padding-right: 0;
 }
 .card-table table {
-    border-spacing: 0px;
+    border-spacing: 0;
     border-collapse: collapse;
     width: 100%;
 }
