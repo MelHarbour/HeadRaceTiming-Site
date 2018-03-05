@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using HeadRaceTimingSite.ViewModels;
 using CsvHelper;
 using System.IO;
+using System.Globalization;
 
 namespace HeadRaceTimingSite.Controllers
 {
@@ -48,7 +49,7 @@ namespace HeadRaceTimingSite.Controllers
 
             var records = csv.GetRecords<CsvCrewAthlete>();
 
-            importAthletesViewModel.Message = records.Count().ToString();
+            importAthletesViewModel.Message = records.Count().ToString(CultureInfo.CurrentCulture);
 
             var crews = await _context.Crews.Where(x => x.CompetitionId == importAthletesViewModel.CompetitionId).ToListAsync();
 
