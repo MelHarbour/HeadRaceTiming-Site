@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,7 +40,7 @@ namespace HeadRaceTimingSite.Models
         {
             get
             {
-                return BackgroundColor.ToArgb().ToString("X6");
+                return string.Format(CultureInfo.InvariantCulture, "{0:X6}", BackgroundColor.ToArgb());
             }
         }
 
@@ -47,7 +48,7 @@ namespace HeadRaceTimingSite.Models
         {
             get
             {
-                return TextColor.ToArgb().ToString("X6");
+                return string.Format(CultureInfo.InvariantCulture, "{0:X6}", TextColor.ToArgb());
             }
         }
 

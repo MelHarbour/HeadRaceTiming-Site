@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace HeadRaceTimingSite.Models
                 if (Position == 9)
                     return "Cox";
                 else
-                    return Position.ToString();
+                    return string.Format(CultureInfo.CurrentCulture, "{0}", Position);
             }
         }
         /// <summary>

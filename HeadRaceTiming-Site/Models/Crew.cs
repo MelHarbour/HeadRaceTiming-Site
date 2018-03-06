@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -83,7 +84,7 @@ namespace HeadRaceTimingSite.Models
                     i++;
                 if (result == this)
                 {
-                    returnString = i.ToString();
+                    returnString = string.Format(CultureInfo.CurrentCulture, "{0}", i);
                 }
                 else
                 {
@@ -121,6 +122,7 @@ namespace HeadRaceTimingSite.Models
         public List<CrewAthlete> Athletes { get; set; }
         public List<CrewAward> Awards { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1717:Only FlagsAttribute enums should have plural names", Justification = "Not a plural")]
         public enum ResultStatus
         {
             /// <summary>

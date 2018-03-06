@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using HeadRaceTimingSite.Models;
 using Microsoft.EntityFrameworkCore;
 using HeadRaceTimingSite.ViewModels;
+using System.Globalization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,12 +46,12 @@ namespace HeadRaceTimingSite.Controllers
                 CrewId = x.CrewId,
                 Name = x.Name,
                 StartNumber = x.StartNumber,
-                OverallTime = String.Format("{0:mm\\:ss\\.ff}", x.OverallTime),
+                OverallTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", x.OverallTime),
                 Rank = x.OverallTime != null ? x.Rank(finishCrewList, startPoint, finishPoint) : String.Empty,
                 FirstIntermediateRank = x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId) != null ? x.Rank(firstIntermediateCrewList, startPoint, firstIntermediatePoint) : String.Empty,
                 SecondIntermediateRank = x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId) != null ? x.Rank(secondIntermediateCrewList, startPoint, secondIntermediatePoint) : String.Empty,
-                FirstIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId)),
-                SecondIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId)),
+                FirstIntermediateTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId)),
+                SecondIntermediateTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId)),
                 Status = x.Status
             }).ToList();
 
@@ -77,9 +78,9 @@ namespace HeadRaceTimingSite.Controllers
                 viewResults.Add(new CrewResult()
                 {
                     TimingPoint = result.TimingPoint.Name,
-                    TimeOfDay = String.Format("{0:hh\\:mm\\:ss\\.ff}", result.TimeOfDay),
-                    SectionTime = isFirst ? String.Empty : String.Format("{0:mm\\:ss\\.ff}", crew.RunTime(previousResult.TimingPoint, result.TimingPoint)),
-                    RunTime = isFirst ? String.Empty : String.Format("{0:mm\\:ss\\.ff}", crew.RunTime(startPoint, result.TimingPoint)),
+                    TimeOfDay = String.Format(CultureInfo.CurrentCulture, "{0:hh\\:mm\\:ss\\.ff}", result.TimeOfDay),
+                    SectionTime = isFirst ? String.Empty : String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", crew.RunTime(previousResult.TimingPoint, result.TimingPoint)),
+                    RunTime = isFirst ? String.Empty : String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", crew.RunTime(startPoint, result.TimingPoint)),
                     Rank = isFirst ? String.Empty : crew.Rank(allCrews.Where(x => x.RunTime(startPoint, result.TimingPoint).HasValue)
                         .OrderBy(x => x.RunTime(startPoint, result.TimingPoint)),
                             startPoint, result.TimingPoint)
@@ -105,7 +106,7 @@ namespace HeadRaceTimingSite.Controllers
             IEnumerable<Crew> crews = await GetCrewList(id);
             List<ViewModels.Result> results = BuildResultsList(crews);
 
-            return results.Where(x => x.Name.ToUpper().Contains(searchValue.ToUpper()));
+            return results.Where(x => x.Name.ToUpper(CultureInfo.CurrentCulture).Contains(searchValue.ToUpper(CultureInfo.CurrentCulture)));
         }
 
         [HttpGet("ByCompetitionAndPoint/{competitionId}/{timingPointId}")]
@@ -123,7 +124,7 @@ namespace HeadRaceTimingSite.Controllers
                 Name = x.Name,
                 StartNumber = x.StartNumber,
                 RunTime = x.RunTime(startPoint.TimingPointId, timingPointId),
-                Rank = x.Rank(crews.ToList(), startPoint, point).ToString()
+                Rank = x.Rank(crews.ToList(), startPoint, point)
             }).OrderBy(x => x.RunTime).ToList();
         }
     }

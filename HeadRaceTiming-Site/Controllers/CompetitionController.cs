@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HeadRaceTimingSite.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace HeadRaceTimingSite.Controllers
 {
@@ -68,12 +69,14 @@ namespace HeadRaceTimingSite.Controllers
                 CrewId = x.CrewId,
                 Name = x.Name,
                 StartNumber = x.StartNumber,
-                OverallTime = String.Format("{0:mm\\:ss\\.ff}", x.OverallTime),
+                OverallTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", x.OverallTime),
                 Rank = x.Rank(finishCrewList, startPoint, finishPoint),
                 FirstIntermediateRank = x.Rank(firstIntermediateCrewList, startPoint, firstIntermediatePoint),
                 SecondIntermediateRank = x.Rank(secondIntermediateCrewList, startPoint, secondIntermediatePoint),
-                FirstIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId)),
-                SecondIntermediateTime = String.Format("{0:mm\\:ss\\.ff}", x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId))
+                FirstIntermediateTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", 
+                    x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[1].TimingPointId)),
+                SecondIntermediateTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", 
+                    x.RunTime(x.Competition.TimingPoints[0].TimingPointId, x.Competition.TimingPoints[2].TimingPointId))
             }).ToList();
 
             return Ok(results);
