@@ -4,20 +4,23 @@
     ViewData["Title"] = "Home Page";
 }
 
-@foreach (var item in Model)
-{
-    @if (String.IsNullOrEmpty(item.ImageUriText)) {
-        <paper-card data-competition-id="@item.FriendlyName" class="competitionCard" heading="@item.Name" style="--paper-card-background-color: #@item.BackgroundHtmlColor; --paper-card-header-color: #@item.TextHtmlColor">
-
-        </paper-card>
-    }
-    else
+<div class="bodyDetails">
+    @foreach (var item in Model)
     {
-        <paper-card data-competition-id="@item.FriendlyName" class="competitionCard" image="@item.ImageUriText" style="--paper-card-background-color: #@item.BackgroundHtmlColor">
-            <div class="card-content" style="color:#@item.TextHtmlColor">@item.Name</div>
-        </paper-card>
+        @if (String.IsNullOrEmpty(item.ImageUriText))
+        {
+            <paper-card data-competition-id="@item.FriendlyName" class="competitionCard" heading="@item.Name" style="--paper-card-background-color: #@item.BackgroundHtmlColor; --paper-card-header-color: #@item.TextHtmlColor">
+
+            </paper-card>
+        }
+        else
+        {
+            <paper-card data-competition-id="@item.FriendlyName" class="competitionCard" image="@item.ImageUriText" style="--paper-card-background-color: #@item.BackgroundHtmlColor">
+                <div class="card-content" style="color:#@item.TextHtmlColor">@item.Name</div>
+            </paper-card>
+        }
     }
-}
+</div>
 
 @section scripts{
     <script>
