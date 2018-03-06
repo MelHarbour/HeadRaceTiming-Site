@@ -20,7 +20,7 @@ namespace HeadRaceTimingSite.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Competitions.ToListAsync());
+            return View(await _context.Competitions.Where(x => x.IsVisible).ToListAsync());
         }
 
         public async Task<IActionResult> Details(string id)

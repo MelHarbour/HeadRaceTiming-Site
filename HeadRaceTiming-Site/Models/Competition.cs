@@ -30,6 +30,7 @@ namespace HeadRaceTimingSite.Models
         /// Used for things like URLs
         /// </summary>
         public string FriendlyName { get; set; }
+        public bool IsVisible { get; set; }
 
         [NotMapped]
         public Color BackgroundColor { get; set; }
