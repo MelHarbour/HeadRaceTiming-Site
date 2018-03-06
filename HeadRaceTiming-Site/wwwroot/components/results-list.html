@@ -102,9 +102,8 @@
             }
 
             updateData() {
-                var ajaxElement = this.$.ajax;
                 setTimeout(function () {
-                    ajaxElement.generateRequest();
+                    this.$.ajax.generateRequest();
                 }, 2000);
             }
 
