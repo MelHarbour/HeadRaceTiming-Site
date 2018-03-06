@@ -12,6 +12,7 @@ using HeadRaceTimingSite.Models;
 using HeadRaceTimingSite.Formatters;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace HeadRaceTimingSite
 {
@@ -64,6 +65,9 @@ namespace HeadRaceTimingSite
             {
                 options.AddPolicy("AdminsOnly", policy => policy.RequireClaim("IsAdmin"));
             });
+
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.AddResponseCompression();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +88,7 @@ namespace HeadRaceTimingSite
 
             app.UseAuthentication();
 
+            app.UseResponseCompression();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
