@@ -39,7 +39,9 @@ namespace HeadRaceTimingSite.Controllers
 
             IEnumerable<Crew> firstIntermediateCrewList = crews.Where(x => x.RunTime(startPoint, firstIntermediatePoint).HasValue).OrderBy(x => x.RunTime(startPoint, firstIntermediatePoint));
             IEnumerable<Crew> secondIntermediateCrewList = crews.Where(x => x.RunTime(startPoint, secondIntermediatePoint).HasValue).OrderBy(x => x.RunTime(startPoint, secondIntermediatePoint));
-            IEnumerable<Crew> finishCrewList = crews.OrderByDescending(x => x.RunTime(startPoint, finishPoint).HasValue).ThenBy(x => x.RunTime(startPoint, finishPoint));
+            IEnumerable<Crew> finishCrewList = crews.OrderByDescending(x => x.RunTime(startPoint, finishPoint).HasValue).ThenBy(x => x.RunTime(startPoint, finishPoint))
+                .ThenByDescending(x => x.RunTime(startPoint, secondIntermediatePoint).HasValue).ThenBy(x => x.RunTime(startPoint, secondIntermediatePoint))
+                .ThenByDescending(x => x.RunTime(startPoint, firstIntermediatePoint).HasValue).ThenBy(x => x.RunTime(startPoint, firstIntermediatePoint));
 
             List<ViewModels.Result> results = finishCrewList.Select(x => new ViewModels.Result()
             {
