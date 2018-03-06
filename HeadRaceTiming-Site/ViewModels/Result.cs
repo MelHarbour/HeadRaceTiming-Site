@@ -18,5 +18,6 @@ namespace HeadRaceTimingSite.ViewModels
         public string FirstIntermediateRank { get; set; }
         public string SecondIntermediateRank { get; set; }
         public Crew.ResultStatus Status { get; set; }
+        public bool IsStarted { get; set; }
     }
 }

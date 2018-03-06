@@ -130,9 +130,9 @@ namespace HeadRaceTimingSite.Models
             /// </summary>
             Ok,
             /// <summary>
-            /// Did not start
+            /// Result is missing
             /// </summary>
-            Dns,
+            Missing,
             /// <summary>
             /// Did not finish
             /// </summary>
@@ -140,7 +140,11 @@ namespace HeadRaceTimingSite.Models
             /// <summary>
             /// Disqualified
             /// </summary>
-            Dsq
+            Dsq,
+            /// <summary>
+            /// Did not start
+            /// </summary>
+            Dns
         }
     }
 }

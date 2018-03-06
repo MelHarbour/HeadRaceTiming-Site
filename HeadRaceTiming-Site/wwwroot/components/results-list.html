@@ -2,6 +2,7 @@
 <link rel="import" href="/lib/iron-ajax/iron-ajax.html" />
 <link rel="import" href="/components/iron-list.html" />
 <link rel="import" href="/lib/iron-media-query/iron-media-query.html" />
+<link rel="import" href="/lib/iron-icon/iron-icon.html"/>
 
 <dom-module id="results-list">
     <template>
@@ -59,6 +60,9 @@
                         </div>
                         <div class="name" title="[[item.name]]">
                             [[item.name]]
+                            <template is="dom-if" if="{{item.isStarted}}">
+                                <iron-icon icon="rowing"></iron-icon>
+                            </template>
                         </div>
                         <div hidden$="[[_logicalNand(showFirstIntermediate,wide)]]" class="intermediate">
                             [[item.firstIntermediateTime]]
