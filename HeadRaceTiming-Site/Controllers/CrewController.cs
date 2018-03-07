@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using HeadRaceTimingSite.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HeadRaceTiming_Site.Controllers
+namespace HeadRaceTimingSite.Controllers
 {
     public class CrewController : Controller
     {

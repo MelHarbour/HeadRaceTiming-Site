@@ -1,0 +1,58 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using HeadRaceTimingSite.Helpers;
+using HeadRaceTimingSite.Models;
+
+namespace HeadRaceTimingSite.Tests
+{
+    [TestClass]
+    public class ResultsHelperTests
+    {
+        private Competition Competition;
+        private TimingPoint StartPoint = new TimingPoint(1);
+        private TimingPoint BarnesPoint = new TimingPoint(2);
+        private TimingPoint HammersmithPoint = new TimingPoint(3);
+        private TimingPoint FinishPoint = new TimingPoint(4);
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            Competition = new Competition();
+            StartPoint = new TimingPoint(1);
+            BarnesPoint = new TimingPoint(2);
+            HammersmithPoint = new TimingPoint(3);
+            FinishPoint = new TimingPoint(4);
+            Competition.TimingPoints = new List<TimingPoint>();
+            Competition.TimingPoints.Add(StartPoint);
+            Competition.TimingPoints.Add(BarnesPoint);
+            Competition.TimingPoints.Add(HammersmithPoint);
+            Competition.TimingPoints.Add(FinishPoint);
+        }
+
+        [TestMethod]
+        public void BuildResultsList_WithSingleCrewWithTime_ShouldRankItFirst()
+        {
+            List<Crew> crews = new List<Crew>();
+            Crew crew1 = new Crew();
+            crew1.CrewId = 1;
+            crew1.Competition = Competition;
+            crew1.Results = new List<Result>();
+            crews.Add(crew1);
+
+            Crew crew2 = new Crew();
+            crew2.CrewId = 2;
+            crew2.Competition = Competition;
+            crew2.Results = new List<Result>();
+            crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 0, 0)));
+            crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
+            crews.Add(crew2);
+
+            List<ViewModels.Result> results = ResultsHelper.BuildResultsList(crews);
+
+            Assert.AreEqual(2, results[0].CrewId);
+            Assert.AreEqual(1, results[1].CrewId);
+        }
+    }
+}

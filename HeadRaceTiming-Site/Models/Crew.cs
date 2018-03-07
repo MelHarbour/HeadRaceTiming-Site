@@ -81,6 +81,9 @@ namespace HeadRaceTimingSite.Models
 
             foreach (Crew result in results)
             {
+                if (result.IsTimeOnly)
+                    continue;
+
                 if (previous != null && previous.RunTime(startTimingPoint, finishTimingPoint) != result.RunTime(startTimingPoint, finishTimingPoint))
                     i++;
                 if (result == this)
