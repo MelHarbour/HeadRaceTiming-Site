@@ -7,18 +7,32 @@
 @section imports {
     <link rel="import" href="~/components/crew-results-list.html" />
     <link rel="import" href="~/lib/iron-media-query/iron-media-query.html" />
+    <link rel="import" href="~/lib/paper-dialog/paper-dialog.html" />
+}
+
+@section titleBar{
+    <div main-title>@ViewData["Title"]</div>
+    <paper-icon-button onclick="dialog.open()" icon="info"></paper-icon-button>
 }
 
 <iron-media-query query="max-width: 600px" query-matches="{{narrow}}"></iron-media-query>
+
+<paper-dialog id="dialog">
+    <h2>Information</h2>
+    <p>
+        Crew lists may not show recent substitutions as these do not update automatically. The data will be updated at close of substitutions on race day.
+    </p>
+</paper-dialog>
 
 <div class="bodyDetails">
     <paper-card heading="Crew Details">
         <div class="card-content">
             <div>@Model.Name</div>
-            <div>Competition: @Html.ActionLink(Model.Competition.Name,"Details","Competition", new { id = Model.Competition.FriendlyName })</div>
+            <div>Competition: @Html.ActionLink(Model.Competition.Name, "Details", "Competition", new { id = Model.Competition.FriendlyName })</div>
             <div>Start Number: @Model.StartNumber</div>
             <div>CRI Max: @Model.CriMax</div>
-            <div><h2>Pennants Entered:</h2>
+            <div>
+                <h2>Pennants Entered:</h2>
                 <ul>
                     @foreach (var award in Model.Awards)
                     {
