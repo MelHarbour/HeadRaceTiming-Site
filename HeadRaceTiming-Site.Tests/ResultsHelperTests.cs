@@ -54,5 +54,58 @@ namespace HeadRaceTimingSite.Tests
             Assert.AreEqual(2, results[0].CrewId);
             Assert.AreEqual(1, results[1].CrewId);
         }
+
+        [TestMethod]
+        public void BuildResultsList_WithTwoCrewsWithTimes_ShouldOrderByTimes()
+        {
+            List<Crew> crews = new List<Crew>();
+            Crew crew1 = new Crew();
+            crew1.CrewId = 1;
+            crew1.Competition = Competition;
+            crew1.Results = new List<Result>();
+            crew1.Results.Add(new Result(StartPoint, crew1, new TimeSpan(2, 0, 0)));
+            crew1.Results.Add(new Result(FinishPoint, crew1, new TimeSpan(2, 20, 0)));
+            crews.Add(crew1);
+
+            Crew crew2 = new Crew();
+            crew2.CrewId = 2;
+            crew2.Competition = Competition;
+            crew2.Results = new List<Result>();
+            crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 1, 0)));
+            crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
+            crews.Add(crew2);
+
+            List<ViewModels.Result> results = ResultsHelper.BuildResultsList(crews);
+
+            Assert.AreEqual(2, results[0].CrewId);
+            Assert.AreEqual(1, results[1].CrewId);
+        }
+
+        [TestMethod]
+        public void BuildResultsList_WithFirstCrewTimeOnly_ShouldReturnFirstCrewSecond()
+        {
+            List<Crew> crews = new List<Crew>();
+            Crew crew1 = new Crew();
+            crew1.CrewId = 1;
+            crew1.Competition = Competition;
+            crew1.Results = new List<Result>();
+            crew1.Results.Add(new Result(StartPoint, crew1, new TimeSpan(2, 0, 0)));
+            crew1.Results.Add(new Result(FinishPoint, crew1, new TimeSpan(2, 20, 0)));
+            crews.Add(crew1);
+
+            Crew crew2 = new Crew();
+            crew2.CrewId = 2;
+            crew2.Competition = Competition;
+            crew2.IsTimeOnly = true;
+            crew2.Results = new List<Result>();
+            crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 1, 0)));
+            crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
+            crews.Add(crew2);
+
+            List<ViewModels.Result> results = ResultsHelper.BuildResultsList(crews);
+
+            Assert.AreEqual(1, results[0].CrewId);
+            Assert.AreEqual(2, results[1].CrewId);
+        }
     }
 }
