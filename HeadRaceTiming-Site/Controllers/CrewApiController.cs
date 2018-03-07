@@ -53,7 +53,8 @@ namespace HeadRaceTimingSite.Controllers
                 FirstIntermediateTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId)),
                 SecondIntermediateTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId)),
                 Status = x.Status,
-                IsStarted = x.Results.Count > 0
+                IsStarted = x.Results.Count > 0,
+                CriMax = x.CriMax
             }).ToList();
 
             return results;

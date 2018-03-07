@@ -10,6 +10,7 @@ namespace HeadRaceTimingSite.ViewModels
     {
         public int CrewId { get; set; }
         public int StartNumber { get; set; }
+        public int CriMax { get; set; }
         public string Name { get; set; }
         public string OverallTime { get; set; }
         public string FirstIntermediateTime { get; set; }

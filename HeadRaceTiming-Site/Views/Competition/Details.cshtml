@@ -11,6 +11,7 @@
 
 @section titleBar{
     <div main-title>@ViewData["Title"]</div>
+    <paper-icon-button icon="cloud-download" id="downloadButton"></paper-icon-button>
     <paper-icon-button onclick="dialog.open()" icon="info"></paper-icon-button>
 }
 
@@ -27,6 +28,16 @@
 
 <paper-dialog id="dialog">
     <h2>Information</h2>
-    <p>All the times on this page are provisional subject to any penalties being applied.
-    Full results will be available from the <a href="http://www.wehorr.org">Women's Head of the River Race website</a> after racing has finished.</p>
+    <p>
+        All the times on this page are provisional subject to any penalties being applied.
+        Full results will be available from the <a href="http://www.wehorr.org">Women's Head of the River Race website</a> after racing has finished.
+    </p>
 </paper-dialog>
+
+@section scripts {
+    <script>
+    document.querySelector("#downloadButton").addEventListener("click", function (e) {
+        location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
+    });
+    </script>
+}

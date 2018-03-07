@@ -29,8 +29,9 @@ namespace HeadRaceTimingSite.Formatters
 
             csv.WriteField("Name");
             csv.WriteField("Start Number");
-            csv.WriteField("Intermediate 1");
-            csv.WriteField("Intermediate 2");
+            csv.WriteField("Max CRI");
+            csv.WriteField("Barnes");
+            csv.WriteField("Hammersmith");
             csv.WriteField("Overall");
             csv.NextRecord();
 
@@ -38,6 +39,7 @@ namespace HeadRaceTimingSite.Formatters
             {
                 csv.WriteField(result.Name);
                 csv.WriteField(result.StartNumber);
+                csv.WriteField(result.CriMax);
                 csv.WriteField(result.FirstIntermediateTime);
                 csv.WriteField(result.SecondIntermediateTime);
                 csv.WriteField(result.OverallTime);
