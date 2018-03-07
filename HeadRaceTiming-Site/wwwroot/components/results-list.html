@@ -81,6 +81,9 @@
                             <template is="dom-if" if="{{item.overallTime}}">
                                 ([[item.rank]])
                             </template>
+                            <template is="dom-if" if="{{item.status}}">
+                                [[_statusCode(item.status)]]
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -121,6 +124,15 @@
 
             _logicalNand(a, b) {
                 return !(a && b);
+            }
+
+            _statusCode(s) {
+                switch (s) {
+                    case 1: return "Missing";
+                    case 2: return "DNF";
+                    case 3: return "DSQ";
+                    case 4: return "DNS";
+                }
             }
         }
 
