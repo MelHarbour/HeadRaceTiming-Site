@@ -24,6 +24,7 @@ namespace HeadRaceTimingSite.Models
         /// The status of the crew's result. Defaults to Ok
         /// </summary>
         public ResultStatus Status { get; set; }
+        public bool IsTimeOnly { get; set; }
 
         public TimeSpan? OverallTime
         {
