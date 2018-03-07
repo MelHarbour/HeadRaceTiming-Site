@@ -199,5 +199,50 @@ namespace HeadRaceTimingSite.Tests
             Assert.AreEqual("1", crewOne.Rank(crewList, startTimingPoint, finishTimingPoint));
             Assert.AreEqual("2", crewTwo.Rank(crewList, startTimingPoint, finishTimingPoint));
         }
+
+        [TestMethod]
+        public void Rank_WithTimeOnlyCrew_ShouldReturnEmptyString()
+        {
+            TimingPoint startTimingPoint = new TimingPoint(1);
+            Result startResult = new Result(startTimingPoint, TimeSpan.Zero);
+
+            TimingPoint finishTimingPoint = new TimingPoint(2);
+            Crew crewOne = new Crew();
+            crewOne.IsTimeOnly = true;
+            crewOne.Results = new List<Result>();
+            Result resultOne = new Result(finishTimingPoint, new TimeSpan(0, 0, 0, 0, 410));
+            crewOne.Results.Add(startResult);
+            crewOne.Results.Add(resultOne);
+
+            List<Crew> crewList = new List<Crew>();
+            crewList.Add(crewOne);
+
+            Assert.AreEqual(String.Empty, crewOne.Rank(crewList, startTimingPoint, finishTimingPoint));
+        }
+
+        [TestMethod]
+        public void Rank_WithCrewAfterTimeOnlyCrew_ShouldIgnoreTimeOnly()
+        {
+            TimingPoint startTimingPoint = new TimingPoint(1);
+            Result startResult = new Result(startTimingPoint, TimeSpan.Zero);
+            TimingPoint finishTimingPoint = new TimingPoint(2);
+            Crew crewOne = new Crew();
+            crewOne.IsTimeOnly = true;
+            crewOne.Results = new List<Result>();
+            Result resultOne = new Result(finishTimingPoint, new TimeSpan(0, 0, 0, 0, 410));
+            crewOne.Results.Add(startResult);
+            crewOne.Results.Add(resultOne);
+            Crew crewTwo = new Crew();
+            crewTwo.Results = new List<Result>();
+            Result resultTwo = new Result(finishTimingPoint, new TimeSpan(0, 0, 0, 0, 490));
+            crewTwo.Results.Add(startResult);
+            crewTwo.Results.Add(resultTwo);
+
+            List<Crew> crewList = new List<Crew>();
+            crewList.Add(crewOne);
+            crewList.Add(crewTwo);
+
+            Assert.AreEqual("1", crewTwo.Rank(crewList, startTimingPoint, finishTimingPoint));
+        }
     }
 }
