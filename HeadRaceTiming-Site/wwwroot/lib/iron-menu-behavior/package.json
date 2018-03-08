@@ -1,10 +1,10 @@
 {
-  "name": "@polymer/paper-button",
+  "name": "@polymer/iron-menu-behavior",
   "private": true,
-  "description": "Material design button",
+  "description": "Provides accessible menu behavior",
   "repository": {
     "type": "git",
-    "url": "git://github.com/PolymerElements/paper-button.git"
+    "url": "git://github.com/PolymerElements/iron-menu-behavior"
   },
   "license": "BSD-3-Clause",
   "devDependencies": {
