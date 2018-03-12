@@ -42,7 +42,8 @@
     "paper-dialog": "v2.1.0",
     "paper-ripple": "PolymerElements/paper-ripple#v2.1.0",
     "neon-animation": "v2.2.1",
-    "iron-menu-behavior": "v2.1.0"
+    "iron-menu-behavior": "v2.1.0",
+    "app-route": "PolymerElements/app-route#*"
   },
   "resolutions": {
     "webcomponentsjs": "v1.1.0",

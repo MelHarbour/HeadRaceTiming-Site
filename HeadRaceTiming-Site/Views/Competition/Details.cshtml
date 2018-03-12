@@ -7,6 +7,8 @@
 @section imports {
     <link rel="import" href="~/components/results-list.html" />
     <link rel="import" href="~/lib/paper-dialog/paper-dialog.html" />
+    <link rel="import" href="~/lib/app-route/app-location.html" />
+    <link rel="import" href="~/lib/app-route/app-route.html" />
 }
 
 @section titleBar{
@@ -15,7 +17,7 @@
     <paper-icon-button icon="cloud-download" id="downloadButton"></paper-icon-button>
     <paper-icon-button onclick="dialog.open()" icon="info" id="infoButton"></paper-icon-button>
     <paper-icon-button class="searchTools" icon="arrow-back" id="backButton"></paper-icon-button>
-    <paper-input class="searchTools" id="searchBox" value="{{searchValue}}" no-label-float="true"></paper-input>
+    <paper-input class="searchTools" id="searchBox" value="{{data.searchValue}}" no-label-float="true"></paper-input>
 }
 
 @section titleStyle{
@@ -27,7 +29,10 @@
     </style>
 }
 
-<results-list competition-id="@Model.CompetitionId" first-intermediate-name="Barnes" second-intermediate-name="Hammersmith" search-value="{{searchValue}}" show-first-intermediate show-second-intermediate></results-list>
+<!--<app-location route="{{route}}"></app-location>
+<app-route route="{{route}}" pattern="/Competition/Details/:page/:searchValue" data="{{data}}"></app-route>-->
+
+<results-list competition-id="@Model.CompetitionId" first-intermediate-name="Barnes" second-intermediate-name="Hammersmith" search-value="{{data.searchValue}}" show-first-intermediate show-second-intermediate></results-list>
 
 <paper-dialog id="dialog">
     <h2>Information</h2>
