@@ -21,5 +21,6 @@ namespace HeadRaceTimingSite.ViewModels
         public Crew.ResultStatus Status { get; set; }
         public bool IsStarted { get; set; }
         public bool IsTimeOnly { get; set; }
+        public bool IsFinished { get; set; }
     }
 }

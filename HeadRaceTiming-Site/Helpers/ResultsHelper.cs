@@ -28,6 +28,7 @@ namespace HeadRaceTimingSite.Helpers
                 Status = x.Status,
                 IsStarted = x.Results.Count > 0,
                 IsTimeOnly = x.IsTimeOnly,
+                IsFinished = x.OverallTime.HasValue,
                 CriMax = x.CriMax
             }).ToList();
 
