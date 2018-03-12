@@ -1,14 +1,14 @@
 {
-  "name": "@polymer/paper-dialog",
+  "name": "@polymer/paper-input",
   "private": true,
-  "description": "A Material Design dialog",
+  "description": "Material design text fields",
   "repository": {
     "type": "git",
-    "url": "git://github.com/PolymerElements/paper-dialog"
+    "url": "git://github.com/PolymerElements/paper-input.git"
   },
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "@polymer/gen-typescript-declarations": "^1.2.1",
+    "@polymer/gen-typescript-declarations": "^1.1.1",
     "bower": "^1.8.0"
   },
   "scripts": {
