@@ -17,28 +17,91 @@ namespace HeadRaceTimingSite.Helpers
             TimingPoint secondIntermediatePoint = competition.TimingPoints[2];
             TimingPoint finishPoint = competition.TimingPoints.Last();
 
-            IEnumerable<Crew> firstIntermediateCrewList = crews.Where(x => x.RunTime(startPoint, firstIntermediatePoint).HasValue).OrderBy(x => x.RunTime(startPoint, firstIntermediatePoint));
-            IEnumerable<Crew> secondIntermediateCrewList = crews.Where(x => x.RunTime(startPoint, secondIntermediatePoint).HasValue).OrderBy(x => x.RunTime(startPoint, secondIntermediatePoint));
-            IEnumerable<Crew> finishCrewList = crews.OrderByDescending(x => (x.Results.Count > 0) ? (x.IsTimeOnly ? 1 : 2) : 0)
-                .ThenByDescending(x => x.RunTime(startPoint, finishPoint).HasValue).ThenBy(x => x.RunTime(startPoint, finishPoint))
-                .ThenByDescending(x => x.RunTime(startPoint, secondIntermediatePoint).HasValue).ThenBy(x => x.RunTime(startPoint, secondIntermediatePoint))
-                .ThenByDescending(x => x.RunTime(startPoint, firstIntermediatePoint).HasValue).ThenBy(x => x.RunTime(startPoint, firstIntermediatePoint));
-
-            List<ViewModels.Result> results = finishCrewList.Select(x => new ViewModels.Result()
+            List<ViewModels.Result> results = crews.Select(x => new ViewModels.Result()
             {
                 CrewId = x.CrewId,
                 Name = x.Name,
                 StartNumber = x.StartNumber,
-                OverallTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", x.OverallTime),
-                Rank = x.OverallTime != null ? x.Rank(finishCrewList, startPoint, finishPoint) : String.Empty,
-                FirstIntermediateRank = x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId) != null ? x.Rank(firstIntermediateCrewList, startPoint, firstIntermediatePoint) : String.Empty,
-                SecondIntermediateRank = x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId) != null ? x.Rank(secondIntermediateCrewList, startPoint, secondIntermediatePoint) : String.Empty,
-                FirstIntermediateTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId)),
-                SecondIntermediateTime = String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId)),
+                OverallTime = x.OverallTime,
+                FirstIntermediateTime = x.RunTime(startPoint.TimingPointId, firstIntermediatePoint.TimingPointId),
+                SecondIntermediateTime = x.RunTime(startPoint.TimingPointId, secondIntermediatePoint.TimingPointId),
                 Status = x.Status,
                 IsStarted = x.Results.Count > 0,
+                IsTimeOnly = x.IsTimeOnly,
                 CriMax = x.CriMax
             }).ToList();
+
+            results = results.OrderByDescending(x => x.FirstIntermediateTime.HasValue).ThenBy(x => x.FirstIntermediateTime).ToList();
+
+            int rank = 1;
+            for (int i = 0; i < results.Count; i++)
+            {
+                if (results[i].FirstIntermediateTime == null)
+                    break;
+
+                if (i == 0)
+                {
+                    results[i].FirstIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].FirstIntermediateTime == results[i].FirstIntermediateTime ? "=" : String.Empty);
+                }
+                else if (results[i].FirstIntermediateTime == results[i - 1].FirstIntermediateTime)
+                {
+                    results[i].FirstIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + "=";
+                }
+                else
+                {
+                    rank = i + 1;
+                    results[i].FirstIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].FirstIntermediateTime == results[i].FirstIntermediateTime ? "=" : String.Empty);
+                }
+            }
+
+            results = results.OrderByDescending(x => x.SecondIntermediateTime.HasValue).ThenBy(x => x.SecondIntermediateTime).ToList();
+
+            rank = 1;
+            for (int i = 0; i < results.Count; i++)
+            {
+                if (results[i].SecondIntermediateTime == null)
+                    break;
+
+                if (i == 0)
+                {
+                    results[i].SecondIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].SecondIntermediateTime == results[i].SecondIntermediateTime ? "=" : String.Empty);
+                }
+                else if (results[i].SecondIntermediateTime == results[i - 1].SecondIntermediateTime)
+                {
+                    results[i].SecondIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + "=";
+                }
+                else
+                {
+                    rank = i + 1;
+                    results[i].SecondIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].SecondIntermediateTime == results[i].SecondIntermediateTime ? "=" : String.Empty);
+                }
+            }
+
+            results = results.OrderByDescending(x => (x.IsStarted) ? (x.IsTimeOnly ? 1 : 2) : 0)
+                .ThenByDescending(x => x.OverallTime.HasValue).ThenBy(x => x.OverallTime)
+                .ThenByDescending(x => x.SecondIntermediateTime.HasValue).ThenBy(x => x.SecondIntermediateTime)
+                .ThenByDescending(x => x.FirstIntermediateTime.HasValue).ThenBy(x => x.FirstIntermediateTime).ToList();
+
+            rank = 1;
+            for (int i = 0; i < results.Count; i++)
+            {
+                if (results[i].OverallTime == null)
+                    break;
+
+                if (i == 0)
+                {
+                    results[i].Rank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].OverallTime == results[i].OverallTime ? "=" : String.Empty);
+                }
+                else if (results[i].OverallTime == results[i - 1].OverallTime)
+                {
+                    results[i].Rank = rank.ToString(CultureInfo.CurrentCulture) + "=";
+                }
+                else
+                {
+                    rank = i + 1;
+                    results[i].Rank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].OverallTime == results[i].OverallTime ? "=" : String.Empty);
+                }
+            }
 
             return results;
         }

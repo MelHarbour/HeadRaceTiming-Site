@@ -13,6 +13,7 @@ using HeadRaceTimingSite.Formatters;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
+using Newtonsoft.Json;
 
 namespace HeadRaceTimingSite
 {
@@ -38,7 +39,8 @@ namespace HeadRaceTimingSite
             // Add framework services.
             services.AddMvc().AddJsonOptions(options =>
             {
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.Converters.Add(new TimeSpanConverter());
             });
 
             services.AddMvc(options =>

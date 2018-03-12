@@ -12,13 +12,14 @@ namespace HeadRaceTimingSite.ViewModels
         public int StartNumber { get; set; }
         public int CriMax { get; set; }
         public string Name { get; set; }
-        public string OverallTime { get; set; }
-        public string FirstIntermediateTime { get; set; }
-        public string SecondIntermediateTime { get; set; }
+        public TimeSpan? OverallTime { get; set; }
+        public TimeSpan? FirstIntermediateTime { get; set; }
+        public TimeSpan? SecondIntermediateTime { get; set; }
         public string Rank { get; set; }
         public string FirstIntermediateRank { get; set; }
         public string SecondIntermediateRank { get; set; }
         public Crew.ResultStatus Status { get; set; }
         public bool IsStarted { get; set; }
+        public bool IsTimeOnly { get; set; }
     }
 }

@@ -112,12 +112,14 @@
                 var ajaxElement = this.$.ajax;
                 setTimeout(function () {
                     ajaxElement.generateRequest();
-                }, 2000);
+                }, this.interval);
+                this.interval = 15000;
             }
 
             ready() {
                 super.ready();
                 Polymer.RenderStatus.afterNextRender(this, function () {
+                    this.interval = 0;
                     this.updateData();
                 });
             }
