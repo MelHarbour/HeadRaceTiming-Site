@@ -65,24 +65,30 @@
                             </template>
                         </div>
                         <div hidden$="[[_logicalNand(showFirstIntermediate,wide)]]" class="intermediate">
-                            [[item.firstIntermediateTime]]
-                            <template is="dom-if" if="{{item.firstIntermediateTime}}">
-                                ([[item.firstIntermediateRank]])
+                            <template is="dom-if" if="[[!item.status]]">
+                                [[item.firstIntermediateTime]]
+                                <template is="dom-if" if="{{item.firstIntermediateTime}}">
+                                    ([[item.firstIntermediateRank]])
+                                </template>
                             </template>
                         </div>
                         <div hidden$="[[_logicalNand(showSecondIntermediate, wide)]]" class="intermediate">
-                            [[item.secondIntermediateTime]]
-                            <template is="dom-if" if="{{item.secondIntermediateTime}}">
-                                ([[item.secondIntermediateRank]])
+                            <template is="dom-if" if="[[!item.status]]">
+                                [[item.secondIntermediateTime]]
+                                <template is="dom-if" if="{{item.secondIntermediateTime}}">
+                                    ([[item.secondIntermediateRank]])
+                                </template>
                             </template>
                         </div>
                         <div class="time">
-                            [[item.overallTime]]
-                            <template is="dom-if" if="{{item.overallTime}}">
-                                ([[item.rank]])
-                            </template>
                             <template is="dom-if" if="{{item.status}}">
                                 [[_statusCode(item.status)]]
+                            </template>
+                            <template is="dom-if" if="[[!item.status]]">
+                                [[item.overallTime]]
+                                <template is="dom-if" if="{{item.overallTime}}">
+                                    ([[item.rank]])
+                                </template>
                             </template>
                         </div>
                     </div>
