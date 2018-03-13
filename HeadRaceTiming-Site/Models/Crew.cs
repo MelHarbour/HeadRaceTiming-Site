@@ -125,6 +125,7 @@ namespace HeadRaceTimingSite.Models
 
         public List<CrewAthlete> Athletes { get; set; }
         public List<CrewAward> Awards { get; set; }
+        public List<Penalty> Penalties { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1717:Only FlagsAttribute enums should have plural names", Justification = "Not a plural")]
         public enum ResultStatus
