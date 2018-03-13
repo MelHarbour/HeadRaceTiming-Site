@@ -25,6 +25,7 @@ namespace HeadRaceTimingSite.Models
         /// </summary>
         public ResultStatus Status { get; set; }
         public bool IsTimeOnly { get; set; }
+        public BoatClass BoatClass { get; set; }
 
         public TimeSpan? OverallTime
         {
