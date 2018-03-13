@@ -52,7 +52,7 @@ namespace HeadRaceTimingSite.Controllers
                     SectionTime = isFirst ? String.Empty : String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", crew.RunTime(previousResult.TimingPoint, result.TimingPoint)),
                     RunTime = isFirst ? String.Empty : String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.ff}", crew.RunTime(startPoint, result.TimingPoint)),
                     Rank = isFirst ? String.Empty : crew.Rank(allCrews.Where(x => x.RunTime(startPoint, result.TimingPoint).HasValue)
-                        .OrderBy(x => x.RunTime(startPoint, result.TimingPoint)),
+                        .OrderBy(x => x.RunTime(startPoint, result.TimingPoint)).ToList(),
                             startPoint, result.TimingPoint)
                 });
                 previousResult = result;

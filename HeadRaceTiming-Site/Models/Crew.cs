@@ -71,35 +71,46 @@ namespace HeadRaceTimingSite.Models
         /// <param name="startTimingPoint">The start timing point.</param>
         /// <param name="finishTimingPoint">The finish timing point.</param>
         /// <returns></returns>
-        public string Rank(IEnumerable<Crew> results, TimingPoint startTimingPoint, TimingPoint finishTimingPoint)
+        public string Rank(IList<Crew> results, TimingPoint startTimingPoint, TimingPoint finishTimingPoint)
         {
-            int i = 1;
-
-            Crew previous = null;
             string returnString = String.Empty;
-            bool equalTime = false;
+            int rank = 1;
 
-            foreach (Crew result in results)
+            for (int i = 0; i < results.Count; i++)
             {
-                if (result.IsTimeOnly)
+                if (results[i].IsTimeOnly)
                     continue;
 
-                if (previous != null && previous.RunTime(startTimingPoint, finishTimingPoint) != result.RunTime(startTimingPoint, finishTimingPoint))
-                    i++;
-                if (result == this)
+                if (results[i] == this)
                 {
-                    returnString = string.Format(CultureInfo.CurrentCulture, "{0}", i);
+                    if (i == 0)
+                        if (results.Count > 1)
+                        {
+                            return rank.ToString(CultureInfo.CurrentCulture) +
+                                (results[i + 1].RunTime(startTimingPoint, finishTimingPoint) == results[i].RunTime(startTimingPoint, finishTimingPoint) ? "=" : String.Empty);
+                        }
+                        else
+                        {
+                            return rank.ToString(CultureInfo.CurrentCulture);
+                        }
+                    else if (results[i - 1].RunTime(startTimingPoint, finishTimingPoint) == results[i].RunTime(startTimingPoint, finishTimingPoint))
+                        return rank.ToString(CultureInfo.CurrentCulture) + "=";
+                    else
+                    {
+                        rank++;
+                        if (i < results.Count - 1)
+                            return rank.ToString(CultureInfo.CurrentCulture) +
+                                (results[i + 1].RunTime(startTimingPoint, finishTimingPoint) == results[i].RunTime(startTimingPoint, finishTimingPoint) ? "=" : String.Empty);
+                        else
+                            return rank.ToString(CultureInfo.CurrentCulture);
+                    }
                 }
+                if (i == 0 || (results[i - 1].RunTime(startTimingPoint, finishTimingPoint) == results[i].RunTime(startTimingPoint, finishTimingPoint)))
+                    continue;
                 else
-                {
-                    if (result.RunTime(startTimingPoint, finishTimingPoint) == this.RunTime(startTimingPoint, finishTimingPoint))
-                        equalTime = true;
-                    else if (result.RunTime(startTimingPoint, finishTimingPoint) > this.RunTime(startTimingPoint, finishTimingPoint))
-                        break;
-                }
-                previous = result;
+                    rank++;
             }
-            return returnString + (equalTime ? "=" : String.Empty);
+            return String.Empty;
         }
 
         /// <summary>

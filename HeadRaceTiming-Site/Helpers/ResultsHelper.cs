@@ -42,7 +42,14 @@ namespace HeadRaceTimingSite.Helpers
 
                 if (i == 0)
                 {
-                    results[i].FirstIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].FirstIntermediateTime == results[i].FirstIntermediateTime ? "=" : String.Empty);
+                    if (results.Count > 1)
+                    {
+                        results[i].FirstIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].FirstIntermediateTime == results[i].FirstIntermediateTime ? "=" : String.Empty);
+                    }
+                    else
+                    {
+                        results[i].FirstIntermediateRank = rank.ToString(CultureInfo.CurrentCulture);
+                    }
                 }
                 else if (results[i].FirstIntermediateTime == results[i - 1].FirstIntermediateTime)
                 {
@@ -51,7 +58,10 @@ namespace HeadRaceTimingSite.Helpers
                 else
                 {
                     rank = i + 1;
-                    results[i].FirstIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].FirstIntermediateTime == results[i].FirstIntermediateTime ? "=" : String.Empty);
+                    if (i < results.Count - 1)
+                        results[i].FirstIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].FirstIntermediateTime == results[i].FirstIntermediateTime ? "=" : String.Empty);
+                    else
+                        results[i].FirstIntermediateRank = rank.ToString(CultureInfo.CurrentCulture);
                 }
             }
 
@@ -65,7 +75,14 @@ namespace HeadRaceTimingSite.Helpers
 
                 if (i == 0)
                 {
-                    results[i].SecondIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].SecondIntermediateTime == results[i].SecondIntermediateTime ? "=" : String.Empty);
+                    if (results.Count > 1)
+                    {
+                        results[i].SecondIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].SecondIntermediateTime == results[i].SecondIntermediateTime ? "=" : String.Empty);
+                    }
+                    else
+                    {
+                        results[i].SecondIntermediateRank = rank.ToString(CultureInfo.CurrentCulture);
+                    }
                 }
                 else if (results[i].SecondIntermediateTime == results[i - 1].SecondIntermediateTime)
                 {
@@ -74,7 +91,10 @@ namespace HeadRaceTimingSite.Helpers
                 else
                 {
                     rank = i + 1;
-                    results[i].SecondIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].SecondIntermediateTime == results[i].SecondIntermediateTime ? "=" : String.Empty);
+                    if (i < results.Count - 1)
+                        results[i].SecondIntermediateRank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].SecondIntermediateTime == results[i].SecondIntermediateTime ? "=" : String.Empty);
+                    else
+                        results[i].SecondIntermediateRank = rank.ToString(CultureInfo.CurrentCulture);
                 }
             }
 
@@ -91,7 +111,14 @@ namespace HeadRaceTimingSite.Helpers
 
                 if (i == 0)
                 {
-                    results[i].Rank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].OverallTime == results[i].OverallTime ? "=" : String.Empty);
+                    if (results.Count > 1)
+                    {
+                        results[i].Rank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].OverallTime == results[i].OverallTime ? "=" : String.Empty);
+                    }
+                    else
+                    {
+                        results[i].Rank = rank.ToString(CultureInfo.CurrentCulture);
+                    }
                 }
                 else if (results[i].OverallTime == results[i - 1].OverallTime)
                 {
@@ -100,7 +127,10 @@ namespace HeadRaceTimingSite.Helpers
                 else
                 {
                     rank = i + 1;
-                    results[i].Rank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].OverallTime == results[i].OverallTime ? "=" : String.Empty);
+                    if (i < results.Count - 1)
+                        results[i].Rank = rank.ToString(CultureInfo.CurrentCulture) + (results[i + 1].OverallTime == results[i].OverallTime ? "=" : String.Empty);
+                    else
+                        results[i].Rank = rank.ToString(CultureInfo.CurrentCulture);
                 }
             }
 
