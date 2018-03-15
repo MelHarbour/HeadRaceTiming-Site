@@ -69,5 +69,13 @@
                 location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
             });
         });
+        $(window).scroll(function () {
+            sessionStorage.scrollTop = $(this).scrollTop();
+        });
+        document.querySelector('results-list').addEventListener('update', function (e) {
+            if (sessionStorage.scrollTop != "undefined") {
+                $(window).scrollTop(sessionStorage.scrollTop);
+            }
+        });
     </script>
 }

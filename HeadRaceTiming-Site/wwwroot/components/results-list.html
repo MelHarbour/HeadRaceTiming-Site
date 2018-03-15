@@ -120,6 +120,9 @@
                     ajaxElement.generateRequest();
                 }, this.interval);
                 this.interval = 15000;
+                Polymer.RenderStatus.afterNextRender(this, function () {
+                    this.dispatchEvent(new CustomEvent('update'));
+                });
             }
 
             ready() {
