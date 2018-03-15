@@ -54,7 +54,8 @@ namespace HeadRaceTimingSite.Controllers
         {
             IEnumerable<Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id)
                 .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
-                .Include("Athletes.Athlete").ToListAsync();
+                .Include("Athletes.Athlete")
+                .Include(x => x.Penalties).ToListAsync();
 
             return Ok(ResultsHelper.BuildResultsList(crews));
         }

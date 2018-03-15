@@ -27,14 +27,31 @@ namespace HeadRaceTimingSite.Models
         public bool IsTimeOnly { get; set; }
         public BoatClass BoatClass { get; set; }
 
+        /// <summary>
+        /// Overall time from start to finish. Includes any penalties that have been applied to the crew.
+        /// </summary>
         public TimeSpan? OverallTime
         {
             get
             {
-                return RunTime(this.Competition.TimingPoints[0], this.Competition.TimingPoints.Last());
+                TimeSpan? runTime = RunTime(Competition.TimingPoints[0], Competition.TimingPoints.Last());
+                if (runTime.HasValue)
+                {
+                    foreach (Penalty penalty in Penalties)
+                    {
+                        runTime += penalty.Value;
+                    }
+                }
+                return runTime;
             }
         }
 
+        /// <summary>
+        /// Run time between two timing points. Does not include any penalties that have been applied.
+        /// </summary>
+        /// <param name="startPointId">A timing point id marking the start of the section.</param>
+        /// <param name="finishPointId">A timing point id marking the end of the section.</param>
+        /// <returns></returns>
         public TimeSpan? RunTime(int startPointId, int finishPointId)
         {
             if (Results == null)
@@ -49,6 +66,12 @@ namespace HeadRaceTimingSite.Models
                 return null;
         }
 
+        /// <summary>
+        /// Run time between two timing points. Does not include any penalties that have been applied.
+        /// </summary>
+        /// <param name="startPoint">Timing point marking the start of the section.</param>
+        /// <param name="finishPoint">Timing point marking the end of the section.</param>
+        /// <returns></returns>
         public TimeSpan? RunTime(TimingPoint startPoint, TimingPoint finishPoint)
         {
             if (Results == null)

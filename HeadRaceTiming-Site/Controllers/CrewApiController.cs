@@ -25,6 +25,7 @@ namespace HeadRaceTimingSite.Controllers
         {
             return await _context.Crews.Where(c => c.CompetitionId == competitionId)
                 .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
+                .Include(x => x.Penalties)
                 .ToListAsync();
         }
 
