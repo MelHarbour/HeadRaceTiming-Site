@@ -145,6 +145,10 @@
                     case 4: return "DNS";
                 }
             }
+
+            forceRender() {
+                document.querySelector('iron-list').fire('iron-resize');
+            }
         }
 
         customElements.define(ResultsList.is, ResultsList);
