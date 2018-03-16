@@ -79,24 +79,5 @@ namespace HeadRaceTimingSite.Controllers
 
             return results.Where(x => x.Name.ToUpper(CultureInfo.CurrentCulture).Contains(searchValue.ToUpper(CultureInfo.CurrentCulture)));
         }
-
-        [HttpGet("ByCompetitionAndPoint/{competitionId}/{timingPointId}")]
-        public async Task<IEnumerable<TimingPointResult>> GetByCompetitionAndPoint(int competitionId, int timingPointId)
-        {
-            IEnumerable<Crew> crews = await GetCrewList(competitionId);
-
-            TimingPoint startPoint = crews.First().StartPoint;
-            TimingPoint point = await _context.TimingPoints.FirstOrDefaultAsync(x => x.TimingPointId == timingPointId);
-
-            crews = crews.OrderBy(x => x.RunTime(startPoint.TimingPointId, timingPointId));
-
-            return crews.Select(x => new TimingPointResult()
-            {
-                Name = x.Name,
-                StartNumber = x.StartNumber,
-                RunTime = x.RunTime(startPoint.TimingPointId, timingPointId),
-                Rank = x.Rank(crews.ToList(), startPoint, point)
-            }).OrderBy(x => x.RunTime).ToList();
-        }
     }
 }
