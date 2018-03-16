@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
+using System.IO;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace HeadRaceTimingSite
 {
@@ -54,6 +56,8 @@ namespace HeadRaceTimingSite
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
                 c.DescribeAllEnumsAsStrings();
+                var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "HeadRaceTimingSite.xml");
+                c.IncludeXmlComments(filePath);
             });
 
             services.AddDbContext<TimingSiteContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TimingSiteDatabase")));

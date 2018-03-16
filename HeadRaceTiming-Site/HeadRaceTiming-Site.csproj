@@ -11,6 +11,10 @@
     <ApplicationInsightsResourceId>/subscriptions/9d891c91-f51f-42c9-87d6-dfe8c2e9e9dd/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/HeadRaceTiming-Site</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/9d891c91-f51f-42c9-87d6-dfe8c2e9e9dd/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/HeadRaceTiming-Site</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\HeadRaceTimingSite.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="7.1.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />

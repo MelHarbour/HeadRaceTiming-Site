@@ -29,6 +29,13 @@ namespace HeadRaceTimingSite.Controllers
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Retrieves a specific crew by unique ID
+        /// </summary>
+        /// <remarks>Testing the documentation!</remarks>
+        /// <param name="id">Unique ID for the crew</param>
+        /// <response code="200">Product returned.</response>
+        [Produces("application/json")]
         [HttpGet("ById/{id}")]
         public async Task<IEnumerable<CrewResult>> GetById(int id)
         {
