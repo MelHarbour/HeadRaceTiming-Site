@@ -75,7 +75,6 @@
         document.querySelector('results-list').addEventListener('update', function (e) {
             if (sessionStorage.scrollTop != "undefined") {
                 $(window).scrollTop(sessionStorage.scrollTop);
-                document.querySelector('results-list').forceRender();
             }
         });
     </script>
