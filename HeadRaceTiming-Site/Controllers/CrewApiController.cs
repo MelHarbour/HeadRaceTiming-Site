@@ -11,7 +11,6 @@ using HeadRaceTimingSite.Helpers;
 
 namespace HeadRaceTimingSite.Controllers
 {
-    [Route("api/[controller]")]
     public class CrewApiController : Controller
     {
         private readonly TimingSiteContext _context;
@@ -30,17 +29,16 @@ namespace HeadRaceTimingSite.Controllers
         }
 
         /// <summary>
-        /// Retrieves a specific crew by unique ID
+        /// Retrieves the results for a specific crew by BROE ID
         /// </summary>
-        /// <remarks>Testing the documentation!</remarks>
-        /// <param name="id">Unique ID for the crew</param>
-        /// <response code="200">Product returned.</response>
+        /// <param name="id">The BROE ID for the crew</param>
+        /// <response code="200">List of results returned</response>
         [Produces("application/json")]
-        [HttpGet("ById/{id}")]
+        [HttpGet("/api/crews/{id}/results")]
         public async Task<IEnumerable<CrewResult>> GetById(int id)
         {
             Crew crew = await _context.Crews.Include(c => c.Results)
-                .Include("Results.TimingPoint").Include(c => c.Competition.TimingPoints).FirstAsync(x => x.CrewId == id);
+                .Include("Results.TimingPoint").Include(c => c.Competition.TimingPoints).FirstAsync(x => x.BroeCrewId == id);
             List<CrewResult> viewResults = new List<CrewResult>();
 
             List<Crew> allCrews = await _context.Crews.Include(c => c.Results)
@@ -70,21 +68,22 @@ namespace HeadRaceTimingSite.Controllers
             return viewResults;
         }
 
-        [HttpGet("ByCompetition/{id}")]
-        public async Task<IEnumerable<ViewModels.Result>> GetByCompetition(int id)
-        {
-            IEnumerable<Crew> crews = await GetCrewList(id);
-
-            return ResultsHelper.BuildResultsList(crews);
-        }
-
-        [HttpGet("ByCompetition/{id}/{searchValue}")]
-        public async Task<IEnumerable<ViewModels.Result>> GetByCompetition(int id, string searchValue)
+        /// <summary>
+        /// Retrieves all the crews for a given competition
+        /// </summary>
+        /// <param name="id">The ID of the competition</param>
+        /// <param name="s">A string by which to filter the crews</param>
+        /// <response code="200">List of crews returned</response>
+        [Produces("application/json")]
+        [HttpGet("/api/competitions/{id}/crews")]
+        public async Task<IEnumerable<ViewModels.Result>> GetByCompetition(int id, string s)
         {
             IEnumerable<Crew> crews = await GetCrewList(id);
             List<ViewModels.Result> results = ResultsHelper.BuildResultsList(crews);
-
-            return results.Where(x => x.Name.ToUpper(CultureInfo.CurrentCulture).Contains(searchValue.ToUpper(CultureInfo.CurrentCulture)));
+            if (String.IsNullOrEmpty(s))
+                return ResultsHelper.BuildResultsList(crews);
+            else
+                return results.Where(x => x.Name.ToUpper(CultureInfo.CurrentCulture).Contains(s.ToUpper(CultureInfo.CurrentCulture)));
         }
     }
 }

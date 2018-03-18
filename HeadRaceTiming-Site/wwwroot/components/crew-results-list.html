@@ -43,7 +43,7 @@
             }
         </style>
 
-        <iron-ajax id="ajax" url$="/api/CrewApi/ById/[[crewId]]" last-response="{{data}}" on-response="updateData" auto></iron-ajax>
+        <iron-ajax id="ajax" url$="/api/crews/[[crewId]]/results" last-response="{{data}}" on-response="updateData" auto></iron-ajax>
         <iron-media-query query="max-width: 600px" query-matches="{{narrow}}"></iron-media-query>
         <iron-media-query query="max-width: 480px" query-matches="{{veryNarrow}}"></iron-media-query>
 
