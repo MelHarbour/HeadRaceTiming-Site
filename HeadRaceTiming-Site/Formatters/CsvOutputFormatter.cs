@@ -35,7 +35,7 @@ namespace HeadRaceTimingSite.Formatters
             csv.WriteField("Overall");
             csv.NextRecord();
 
-            foreach (Result result in (IList<Result>)context.Object)
+            foreach (ViewModels.Api.Result result in (IList<ViewModels.Api.Result>)context.Object)
             {
                 csv.WriteField(result.Name);
                 csv.WriteField(result.StartNumber);

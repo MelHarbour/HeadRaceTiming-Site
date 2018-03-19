@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HeadRaceTimingSite.ViewModels
+namespace HeadRaceTimingSite.ViewModels.Api
 {
     public class Result
     {
@@ -18,7 +18,7 @@ namespace HeadRaceTimingSite.ViewModels
         public string Rank { get; set; }
         public string FirstIntermediateRank { get; set; }
         public string SecondIntermediateRank { get; set; }
-        public Crew.ResultStatus Status { get; set; }
+        public HeadRaceTimingSite.Models.Crew.ResultStatus Status { get; set; }
         public bool IsStarted { get; set; }
         public bool IsTimeOnly { get; set; }
         public bool IsFinished { get; set; }

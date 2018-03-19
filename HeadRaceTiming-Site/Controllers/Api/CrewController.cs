@@ -3,29 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using HeadRaceTimingSite.Models;
 using Microsoft.EntityFrameworkCore;
-using HeadRaceTimingSite.ViewModels;
+using HeadRaceTimingSite.ViewModels.Api;
 using System.Globalization;
 using HeadRaceTimingSite.Helpers;
+using HeadRaceTimingSite.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace HeadRaceTimingSite.Controllers
+namespace HeadRaceTimingSite.Controllers.Api
 {
-    public class CrewApiController : Controller
+    public class CrewController : Controller
     {
         private readonly TimingSiteContext _context;
 
-        public CrewApiController(TimingSiteContext context)
+        public CrewController(TimingSiteContext context)
         {
             _context = context;
-        }
-
-        private async Task<IEnumerable<Crew>> GetCrewList(int competitionId)
-        {
-            return await _context.Crews.Where(c => c.CompetitionId == competitionId)
-                .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
-                .Include(x => x.Penalties)
-                .ToListAsync();
         }
 
         /// <summary>
@@ -37,17 +30,17 @@ namespace HeadRaceTimingSite.Controllers
         [HttpGet("/api/crews/{id}/results")]
         public async Task<IEnumerable<CrewResult>> GetById(int id)
         {
-            Crew crew = await _context.Crews.Include(c => c.Results)
+            Models.Crew crew = await _context.Crews.Include(c => c.Results)
                 .Include("Results.TimingPoint").Include(c => c.Competition.TimingPoints).FirstAsync(x => x.BroeCrewId == id);
             List<CrewResult> viewResults = new List<CrewResult>();
 
-            List<Crew> allCrews = await _context.Crews.Include(c => c.Results)
+            List<Models.Crew> allCrews = await _context.Crews.Include(c => c.Results)
                 .Include("Results.TimingPoint").ToListAsync();
 
             Models.Result previousResult = null;
             bool isFirst = true;
 
-            TimingPoint startPoint = crew.Competition.TimingPoints.First();
+            Models.TimingPoint startPoint = crew.Competition.TimingPoints.First();
 
             foreach (Models.Result result in crew.Results.OrderBy(x => x.TimingPoint.Order))
             {
@@ -69,6 +62,21 @@ namespace HeadRaceTimingSite.Controllers
         }
 
         /// <summary>
+        /// Creates a new crew instance
+        /// </summary>
+        /// <param name="crew">The details of the crew you wish to create</param>
+        [SwaggerResponse(201, Description = "Crew has been successfully created in the system")]
+        [HttpPost("/api/crews")]
+        public async Task<IActionResult> Create([FromBody] ViewModels.Api.Crew crew)
+        {
+            Models.Crew modelCrew = new Models.Crew();
+            _context.Crews.Add(modelCrew);
+            await _context.SaveChangesAsync();
+            return CreatedAtRoute("GetById", new { id = modelCrew.BroeCrewId });
+        }
+
+
+        /// <summary>
         /// Retrieves all the crews for a given competition
         /// </summary>
         /// <param name="id">The ID of the competition</param>
@@ -76,10 +84,14 @@ namespace HeadRaceTimingSite.Controllers
         /// <response code="200">List of crews returned</response>
         [Produces("application/json")]
         [HttpGet("/api/competitions/{id}/crews")]
-        public async Task<IEnumerable<ViewModels.Result>> GetByCompetition(int id, string s)
+        public async Task<IEnumerable<ViewModels.Api.Result>> ListByCompetition(int id, string s)
         {
-            IEnumerable<Crew> crews = await GetCrewList(id);
-            List<ViewModels.Result> results = ResultsHelper.BuildResultsList(crews);
+            IEnumerable<Models.Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id)
+                .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
+                .Include(x => x.Penalties)
+                .ToListAsync();
+
+            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
             if (String.IsNullOrEmpty(s))
                 return ResultsHelper.BuildResultsList(crews);
             else

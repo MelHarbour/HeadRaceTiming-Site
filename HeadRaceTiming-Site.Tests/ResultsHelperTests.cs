@@ -49,7 +49,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
             crews.Add(crew2);
 
-            List<ViewModels.Result> results = ResultsHelper.BuildResultsList(crews);
+            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
 
             Assert.AreEqual(2, results[0].CrewId);
             Assert.AreEqual(1, results[1].CrewId);
@@ -75,7 +75,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
             crews.Add(crew2);
 
-            List<ViewModels.Result> results = ResultsHelper.BuildResultsList(crews);
+            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
 
             Assert.AreEqual(2, results[0].CrewId);
             Assert.AreEqual(1, results[1].CrewId);
@@ -102,7 +102,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
             crews.Add(crew2);
 
-            List<ViewModels.Result> results = ResultsHelper.BuildResultsList(crews);
+            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
 
             Assert.AreEqual(1, results[0].CrewId);
             Assert.AreEqual(2, results[1].CrewId);
@@ -129,7 +129,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
             crews.Add(crew2);
 
-            List<ViewModels.Result> results = ResultsHelper.BuildResultsList(crews);
+            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
 
             Assert.AreEqual(1, results[0].CrewId);
             Assert.AreEqual(2, results[1].CrewId);
@@ -152,7 +152,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results = new List<Result>();
             crews.Add(crew2);
 
-            List<ViewModels.Result> results = ResultsHelper.BuildResultsList(crews);
+            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
 
             Assert.AreEqual(1, results[0].CrewId);
             Assert.AreEqual(2, results[1].CrewId);

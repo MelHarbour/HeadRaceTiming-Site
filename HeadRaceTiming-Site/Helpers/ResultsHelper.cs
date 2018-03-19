@@ -1,23 +1,24 @@
-﻿using HeadRaceTimingSite.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using HeadRaceTimingSite.ViewModels.Api;
+using HeadRaceTimingSite.Models;
 
 namespace HeadRaceTimingSite.Helpers
 {
     public static class ResultsHelper
     {
-        public static List<ViewModels.Result> BuildResultsList(IEnumerable<Crew> crews)
+        public static List<ViewModels.Api.Result> BuildResultsList(IEnumerable<Models.Crew> crews)
         {
-            Competition competition = crews.First().Competition;
+            Models.Competition competition = crews.First().Competition;
             TimingPoint startPoint = competition.TimingPoints.First();
             TimingPoint firstIntermediatePoint = competition.TimingPoints[1];
             TimingPoint secondIntermediatePoint = competition.TimingPoints[2];
             TimingPoint finishPoint = competition.TimingPoints.Last();
 
-            List<ViewModels.Result> results = crews.Select(x => new ViewModels.Result()
+            List<ViewModels.Api.Result> results = crews.Select(x => new ViewModels.Api.Result()
             {
                 CrewId = x.CrewId,
                 Name = x.Name,
