@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "polymer": "v2.5.0",
-    "app-layout": "v2.0.5",
+    "app-layout": "v2.1.0",
     "paper-icon-button": "v2.2.0",
     "iron-icons": "v2.1.1",
     "iron-list": "v2.0.13",
@@ -20,7 +20,6 @@
     "iron-resizable-behavior": "v2.1.0",
     "iron-collapse": "v2.2.0",
     "paper-behaviors": "v2.1.0",
-    "paper-tabs": "v2.0.0",
     "paper-input": "v2.2.0",
     "iron-meta": "v2.1.0",
     "iron-scroll-target-behavior": "v2.1.0",
@@ -33,7 +32,7 @@
     "iron-form-element-behavior": "v2.1.1",
     "iron-validatable-behavior": "v2.1.0",
     "iron-autogrow-textarea": "v2.2.0",
-    "iron-input": "v2.1.1",
+    "iron-input": "v2.1.0",
     "iron-a11y-announcer": "v2.1.0",
     "font-roboto": "PolymerElements/font-roboto#v1.1.0",
     "paper-card": "PolymerElements/paper-card#*",
@@ -73,6 +72,9 @@
     "iron-list": "v2.0.13",
     "iron-icons": "v2.1.1",
     "paper-dialog": "v2.1.1",
-    "paper-input": "v2.2.0"
+    "paper-input": "v2.2.0",
+    "app-layout": "v2.1.0",
+    "iron-input": "1 - 2",
+    "paper-tabs": "v2.1.0"
   }
 }
