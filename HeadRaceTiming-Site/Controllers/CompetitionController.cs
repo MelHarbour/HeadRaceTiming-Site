@@ -50,7 +50,7 @@ namespace HeadRaceTimingSite.Controllers
                 .Include("Athletes.Athlete")
                 .Include(x => x.Penalties).ToListAsync();
 
-            return Ok(ResultsHelper.BuildResultsList(crews));
+            return Ok(ResultsHelper.BuildCrewsList(crews));
         }
 
         public IActionResult Error()

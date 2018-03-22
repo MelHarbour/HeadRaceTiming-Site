@@ -39,6 +39,7 @@ namespace HeadRaceTimingSite.Tests
             crew1.CrewId = 1;
             crew1.Competition = Competition;
             crew1.Results = new List<Result>();
+            crew1.Penalties = new List<Penalty>();
             crews.Add(crew1);
 
             Crew crew2 = new Crew();
@@ -47,12 +48,13 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results = new List<Result>();
             crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 0, 0)));
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
+            crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
-            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
+            List<Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
 
-            Assert.AreEqual(2, results[0].CrewId);
-            Assert.AreEqual(1, results[1].CrewId);
+            Assert.AreEqual(2, results[0].Id);
+            Assert.AreEqual(1, results[1].Id);
         }
 
         [TestMethod]
@@ -65,6 +67,7 @@ namespace HeadRaceTimingSite.Tests
             crew1.Results = new List<Result>();
             crew1.Results.Add(new Result(StartPoint, crew1, new TimeSpan(2, 0, 0)));
             crew1.Results.Add(new Result(FinishPoint, crew1, new TimeSpan(2, 20, 0)));
+            crew1.Penalties = new List<Penalty>();
             crews.Add(crew1);
 
             Crew crew2 = new Crew();
@@ -73,12 +76,13 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results = new List<Result>();
             crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 1, 0)));
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
+            crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
-            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
+            List<Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
 
-            Assert.AreEqual(2, results[0].CrewId);
-            Assert.AreEqual(1, results[1].CrewId);
+            Assert.AreEqual(2, results[0].Id);
+            Assert.AreEqual(1, results[1].Id);
         }
 
         [TestMethod]
@@ -91,6 +95,7 @@ namespace HeadRaceTimingSite.Tests
             crew1.Results = new List<Result>();
             crew1.Results.Add(new Result(StartPoint, crew1, new TimeSpan(2, 0, 0)));
             crew1.Results.Add(new Result(FinishPoint, crew1, new TimeSpan(2, 20, 0)));
+            crew1.Penalties = new List<Penalty>();
             crews.Add(crew1);
 
             Crew crew2 = new Crew();
@@ -100,12 +105,13 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results = new List<Result>();
             crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 1, 0)));
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
+            crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
-            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
+            List<Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
 
-            Assert.AreEqual(1, results[0].CrewId);
-            Assert.AreEqual(2, results[1].CrewId);
+            Assert.AreEqual(1, results[0].Id);
+            Assert.AreEqual(2, results[1].Id);
         }
 
         [TestMethod]
@@ -118,6 +124,7 @@ namespace HeadRaceTimingSite.Tests
             crew1.Results = new List<Result>();
             crew1.Results.Add(new Result(StartPoint, crew1, new TimeSpan(2, 0, 0)));
             crew1.Results.Add(new Result(BarnesPoint, crew1, new TimeSpan(2, 4, 0)));
+            crew1.Penalties = new List<Penalty>();
             crews.Add(crew1);
 
             Crew crew2 = new Crew();
@@ -127,12 +134,13 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results = new List<Result>();
             crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 1, 0)));
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
+            crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
-            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
+            List<Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
 
-            Assert.AreEqual(1, results[0].CrewId);
-            Assert.AreEqual(2, results[1].CrewId);
+            Assert.AreEqual(1, results[0].Id);
+            Assert.AreEqual(2, results[1].Id);
         }
 
         [TestMethod]
@@ -152,10 +160,10 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results = new List<Result>();
             crews.Add(crew2);
 
-            List<ViewModels.Api.Result> results = ResultsHelper.BuildResultsList(crews);
+            List<Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
 
-            Assert.AreEqual(1, results[0].CrewId);
-            Assert.AreEqual(2, results[1].CrewId);
+            Assert.AreEqual(1, results[0].Id);
+            Assert.AreEqual(2, results[1].Id);
         }
     }
 }

@@ -18,8 +18,10 @@ namespace HeadRaceTimingSite.Formatters
         {
             if (value == null)
                 writer.WriteValue(String.Empty);
+            else if (value > new TimeSpan(1, 0, 0))
+                writer.WriteValue(String.Format(CultureInfo.CurrentCulture, "{0:hh\\:mm\\:ss\\.f}", value)); // Needed as TimeSpans are used for time of day as well
             else
-                writer.WriteValue(String.Format(CultureInfo.CurrentCulture, "{0:mm\\:ss\\.f}", value));
+                writer.WriteValue(String.Format(CultureInfo.CurrentCulture, "{0:m\\:ss\\.f}", value));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using HeadRaceTimingSite.Api.Resources;
 using HeadRaceTimingSite.ViewModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
@@ -35,13 +36,13 @@ namespace HeadRaceTimingSite.Formatters
             csv.WriteField("Overall");
             csv.NextRecord();
 
-            foreach (ViewModels.Api.Result result in (IList<ViewModels.Api.Result>)context.Object)
+            foreach (Crew result in (IList<Crew>)context.Object)
             {
                 csv.WriteField(result.Name);
                 csv.WriteField(result.StartNumber);
                 csv.WriteField(result.CriMax);
-                csv.WriteField(result.FirstIntermediateTime);
-                csv.WriteField(result.SecondIntermediateTime);
+                csv.WriteField(result.Results[1]?.RunTime);
+                csv.WriteField(result.Results[2]?.RunTime);
                 csv.WriteField(result.OverallTime);
                 csv.NextRecord();
             }

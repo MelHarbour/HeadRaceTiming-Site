@@ -32,7 +32,9 @@
 <!--<app-location route="{{route}}"></app-location>
 <app-route route="{{route}}" pattern="/Competition/Details/:page/:searchValue" data="{{data}}"></app-route>-->
 
-<results-list competition-id="@Model.CompetitionId" first-intermediate-name="Barnes" second-intermediate-name="Hammersmith" search-value="{{data.searchValue}}" show-first-intermediate show-second-intermediate></results-list>
+<results-list competition-id="@Model.CompetitionId" first-intermediate-name="@Model.FirstIntermediateName" 
+              second-intermediate-name="@Model.SecondIntermediateName" search-value="{{data.searchValue}}" 
+              first-intermediate-id="@Model.FirstIntermediateId" second-intermediate-id="@Model.SecondIntermediateId"></results-list>
 
 <paper-dialog id="dialog">
     <h2>Information</h2>

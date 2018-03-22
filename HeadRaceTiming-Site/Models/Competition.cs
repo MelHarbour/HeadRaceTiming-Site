@@ -61,7 +61,10 @@ namespace HeadRaceTimingSite.Models
         {
             get
             {
-                return this.TimingPoints[1].Name;
+                if (TimingPoints.Count > 2)
+                    return TimingPoints[1].Name;
+                else
+                    return String.Empty;
             }
         }
 
@@ -69,7 +72,32 @@ namespace HeadRaceTimingSite.Models
         {
             get
             {
-                return this.TimingPoints[2].Name;
+                if (TimingPoints.Count > 3)
+                    return TimingPoints[2].Name;
+                else
+                    return String.Empty;
+            }
+        }
+
+        public int? FirstIntermediateId
+        {
+            get
+            {
+                if (TimingPoints.Count > 2)
+                    return TimingPoints[1].TimingPointId;
+                else
+                    return null;
+            }
+        }
+
+        public int? SecondIntermediateId
+        {
+            get
+            {
+                if (TimingPoints.Count > 3)
+                    return TimingPoints[2].TimingPointId;
+                else
+                    return null;
             }
         }
     }

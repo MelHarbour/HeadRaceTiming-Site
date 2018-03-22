@@ -47,14 +47,14 @@
         <div class="header-row">
             <div class="startNumber">Start</div>
             <div class="name">Crew Name</div>
-            <div hidden$="[[_logicalNand(showFirstIntermediate,wide)]]" class="intermediate">[[firstIntermediateName]]</div>
-            <div hidden$="[[_logicalNand(showSecondIntermediate, wide)]]" class="intermediate">[[secondIntermediateName]]</div>
+            <div hidden$="[[_logicalNand(firstIntermediateId,wide)]]" class="intermediate">[[firstIntermediateName]]</div>
+            <div hidden$="[[_logicalNand(secondIntermediateId, wide)]]" class="intermediate">[[secondIntermediateName]]</div>
             <div class="time">Finish</div>
         </div>
         <iron-list scroll-target="document" items="[[data]]" as="item" id="crewsList">
             <template>
                 <div>
-                    <div class="row" data-crew-id="[[item.crewId]]" onclick="location.href='/Crew/Details/' + this.dataCrewId">
+                    <div class="row" data-crew-id="[[item.id]]" onclick="location.href='/Crew/Details/' + this.dataCrewId">
                         <div class="startNumber">
                             [[item.startNumber]]
                         </div>
@@ -64,19 +64,19 @@
                                 <iron-icon icon="rowing"></iron-icon>
                             </template>
                         </div>
-                        <div hidden$="[[_logicalNand(showFirstIntermediate,wide)]]" class="intermediate">
+                        <div hidden$="[[_logicalNand(firstIntermediateId,wide)]]" class="intermediate">
                             <template is="dom-if" if="[[!item.status]]">
-                                [[item.firstIntermediateTime]]
-                                <template is="dom-if" if="{{item.firstIntermediateTime}}">
-                                    ([[item.firstIntermediateRank]])
+                                [[_getTime(item,firstIntermediateId)]]
+                                <template is="dom-if" if="[[_getTime(item,firstIntermediateId)]]">
+                                    ([[_getRank(item,firstIntermediateId)]])
                                 </template>
                             </template>
                         </div>
-                        <div hidden$="[[_logicalNand(showSecondIntermediate, wide)]]" class="intermediate">
+                        <div hidden$="[[_logicalNand(secondIntermediateId, wide)]]" class="intermediate">
                             <template is="dom-if" if="[[!item.status]]">
-                                [[item.secondIntermediateTime]]
-                                <template is="dom-if" if="{{item.secondIntermediateTime}}">
-                                    ([[item.secondIntermediateRank]])
+                                [[_getTime(item,secondIntermediateId)]]
+                                <template is="dom-if" if="[[_getTime(item,secondIntermediateId)]]">
+                                    ([[_getRank(item,secondIntermediateId)]])
                                 </template>
                             </template>
                         </div>
@@ -107,8 +107,8 @@
                     competitionId: Number,
                     firstIntermediateName: String,
                     secondIntermediateName: String,
-                    showFirstIntermediate: Boolean,
-                    showSecondIntermediate: Boolean,
+                    firstIntermediateId: Number,
+                    secondIntermediateId: Number,
                     searchValue: String,
                     data: Array
                 };
@@ -143,6 +143,20 @@
                     case 2: return "DNF";
                     case 3: return "DSQ";
                     case 4: return "DNS";
+                }
+            }
+
+            _getRank(item, timingPoint) {
+                for (var i = 0; i < item.results.length; i++) {
+                    if (item.results[i].id == timingPoint)
+                        return item.results[i].rank;
+                }
+            }
+
+            _getTime(item, timingPoint) {
+                for (var i = 0; i < item.results.length; i++) {
+                    if (item.results[i].id == timingPoint)
+                        return item.results[i].runTime;
                 }
             }
         }
