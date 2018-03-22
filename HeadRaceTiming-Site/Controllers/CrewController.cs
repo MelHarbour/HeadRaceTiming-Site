@@ -8,14 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeadRaceTimingSite.Controllers
 {
-    public class CrewController : Controller
+    public class CrewController : BaseController
     {
-        private readonly TimingSiteContext _context;
-
-        public CrewController(TimingSiteContext context)
-        {
-            _context = context;
-        }
+        public CrewController(TimingSiteContext context) : base(context) { }
 
         public async Task<IActionResult> Details(int? id)
         {

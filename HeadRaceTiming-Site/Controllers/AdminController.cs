@@ -14,14 +14,9 @@ using System.Globalization;
 namespace HeadRaceTimingSite.Controllers
 {
     [Authorize(Policy = "AdminsOnly")]
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
-        private readonly TimingSiteContext _context;
-
-        public AdminController(TimingSiteContext context)
-        {
-            _context = context;
-        }
+        public AdminController(TimingSiteContext context) : base(context) { }
 
         public async Task<IActionResult> Index()
         {

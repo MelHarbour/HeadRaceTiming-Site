@@ -10,14 +10,9 @@ using HeadRaceTimingSite.Helpers;
 
 namespace HeadRaceTimingSite.Controllers
 {
-    public class CompetitionController : Controller
+    public class CompetitionController : BaseController
     {
-        private readonly TimingSiteContext _context;
-
-        public CompetitionController(TimingSiteContext context)
-        {
-            _context = context;
-        }
+        public CompetitionController(TimingSiteContext context) : base(context) { }
 
         public async Task<IActionResult> Index()
         {

@@ -22,5 +22,13 @@ namespace HeadRaceTimingSite.Api.Resources
         /// The last name of the athlete
         /// </summary>
         public string LastName { get; set; }
+        /// <summary>
+        /// The British Rowing membership number of the athlete
+        /// </summary>
+        public string MembershipNumber { get; set; }
+        /// <summary>
+        /// The position within a crew that the athlete occupies
+        /// </summary>
+        public int Position { get; set; }
     }
 }

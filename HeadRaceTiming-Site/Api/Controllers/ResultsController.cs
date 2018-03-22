@@ -8,14 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeadRaceTimingSite.Api.Controllers
 {
-    public class ResultsController : Controller
+    public class ResultsController : HeadRaceTimingSite.Controllers.BaseController
     {
-        private readonly Models.TimingSiteContext _context;
-
-        public ResultsController(Models.TimingSiteContext context)
-        {
-            _context = context;
-        }
+        public ResultsController(Models.TimingSiteContext context) : base(context) { }
 
         /// <summary>
         /// Retrieves all the results for a given crew

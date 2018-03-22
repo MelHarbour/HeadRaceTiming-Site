@@ -11,14 +11,9 @@ using HeadRaceTimingSite.Api.Resources;
 
 namespace HeadRaceTimingSite.Api.Controllers
 {
-    public class CrewController : Controller
+    public class CrewController : HeadRaceTimingSite.Controllers.BaseController
     {
-        private readonly Models.TimingSiteContext _context;
-
-        public CrewController(Models.TimingSiteContext context)
-        {
-            _context = context;
-        }
+        public CrewController(Models.TimingSiteContext context) : base(context) { } 
 
         /// <summary>
         /// Creates a new crew instance
