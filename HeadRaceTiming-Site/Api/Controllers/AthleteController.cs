@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HeadRaceTimingSite.Api.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace HeadRaceTimingSite.Api.Controllers
 {
@@ -43,7 +44,7 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <param name="id">The BROE ID of the crew</param>
         /// <param name="position">The position within the crew</param>
         /// <param name="athlete">Details of the athlete</param>
-        /// <response code="204">Athlete successfully created or updated</response>
+        [SwaggerResponse(204, Description = "Athlete has been successfully created or updated in the system")]
         [HttpPut("/api/crews/{id}/athletes/{position}")]
         public async Task<IActionResult> PutByCrewAndPosition(int id, int position, [FromBody]Athlete athlete)
         {

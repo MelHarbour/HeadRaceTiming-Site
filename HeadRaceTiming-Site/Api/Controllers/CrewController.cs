@@ -18,17 +18,42 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <summary>
         /// Creates a new crew instance
         /// </summary>
-        /// <param name="crew">The details of the crew you wish to create</param>
+        /// <param name="crew">The details of the crew to create</param>
         [SwaggerResponse(201, Description = "Crew has been successfully created in the system")]
-        [HttpPost("/api/crews")]
-        public async Task<IActionResult> Create([FromBody] Crew crew)
+        [HttpPut("/api/competitions/{compid}/crews/{id}")]
+        public async Task<IActionResult> Create(int compid, int id, [FromBody] Crew crew)
         {
-            Models.Crew modelCrew = new Models.Crew();
+            Models.Crew modelCrew = new Models.Crew
+            {
+                BroeCrewId = id
+            };
             _context.Crews.Add(modelCrew);
             await _context.SaveChangesAsync();
             return CreatedAtRoute("GetById", new { id = modelCrew.BroeCrewId });
         }
 
+        /// <summary>
+        /// Gets a crew by its BROE ID
+        /// </summary>
+        /// <param name="id">The BROE ID for the crew</param>
+        /// <response code="200">The crew is returned</response>
+        [HttpGet("/api/crews/{id}")]
+        public async Task<Crew> GetById(int id)
+        {
+            Models.Crew crew = await _context.Crews.FirstAsync(x => x.BroeCrewId == id);
+            return new Crew()
+            {
+                Id = crew.BroeCrewId.Value,
+                Name = crew.Name,
+                StartNumber = crew.StartNumber,
+                OverallTime = crew.OverallTime,
+                Status = crew.Status,
+                IsStarted = crew.Results.Count > 0,
+                IsTimeOnly = crew.IsTimeOnly,
+                IsFinished = crew.OverallTime.HasValue,
+                CriMax = crew.CriMax
+            };
+        }
 
         /// <summary>
         /// Retrieves all the crews for a given competition
