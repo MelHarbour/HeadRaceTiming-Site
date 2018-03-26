@@ -15,7 +15,7 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <summary>
         /// Retrieves a specific athlete
         /// </summary>
-        /// <param name="id">The unique identifier of the athlete</param>
+        /// <param name="id">The BROE ID of the crew</param>
         /// <param name="position">The position within the crew</param>
         [Produces("application/json")]
         [HttpGet("/api/crews/{id}/athletes/{position}")]
@@ -31,6 +31,67 @@ namespace HeadRaceTimingSite.Api.Controllers
                 MembershipNumber = crewAthlete.Athlete.MembershipNumber,
                 Position = crewAthlete.Position
             };
+        }
+
+        /// <summary>
+        /// Sets the details for a given athlete.
+        /// </summary>
+        /// <remarks>
+        /// If the athlete already exists in the system, will attach them to the crew in the specified position, updating first and last names.
+        /// If they are not in the system already, it will create them before attaching them to the crew.
+        /// </remarks>
+        /// <param name="id">The BROE ID of the crew</param>
+        /// <param name="position">The position within the crew</param>
+        /// <param name="athlete">Details of the athlete</param>
+        /// <response code="204">Athlete successfully created or updated</response>
+        [HttpPut("/api/crews/{id}/athletes/{position}")]
+        public async Task<IActionResult> PutByCrewAndPosition(int id, int position, [FromBody]Athlete athlete)
+        {
+            Models.Crew crew = await _context.Crews.Include("Athletes.Athlete").FirstAsync(x => x.BroeCrewId == id);
+            Models.CrewAthlete crewAthlete = crew.Athletes.FirstOrDefault(x => x.Position == position);
+            Models.Athlete dbAthlete = await _context.Athletes.FirstOrDefaultAsync(x => x.MembershipNumber == athlete.MembershipNumber);
+
+            if (crewAthlete == null)
+            {
+                crew.Athletes.Add(new Models.CrewAthlete
+                {
+                    Athlete = dbAthlete ?? new Models.Athlete
+                    {
+                        FirstName = athlete.FirstName,
+                        LastName = athlete.LastName,
+                        MembershipNumber = athlete.MembershipNumber
+                    },
+                    Position = position,
+                    Pri = athlete.Pri,
+                    PriMax = athlete.PriMax
+                });
+            }
+            else
+            { 
+                if (crewAthlete.Athlete.MembershipNumber == athlete.MembershipNumber)
+                {
+                    crewAthlete.Athlete.FirstName = athlete.FirstName;
+                    crewAthlete.Athlete.LastName = athlete.LastName;
+                }
+                else
+                {
+                    crew.Athletes.Remove(crewAthlete);
+                    crew.Athletes.Add(new Models.CrewAthlete
+                    {
+                        Athlete = dbAthlete ?? new Models.Athlete
+                        {
+                            FirstName = athlete.FirstName,
+                            LastName = athlete.LastName,
+                            MembershipNumber = athlete.MembershipNumber
+                        },
+                        Position = position,
+                        Pri = athlete.Pri,
+                        PriMax = athlete.PriMax
+                    });
+                }
+            }
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
         /// <summary>

@@ -11,10 +11,6 @@ namespace HeadRaceTimingSite.Api.Resources
     public class Athlete
     {
         /// <summary>
-        /// The unique id for the athlete
-        /// </summary>
-        public int Id { get; set; }
-        /// <summary>
         /// The first name of the athlete
         /// </summary>
         public string FirstName { get; set; }
@@ -30,5 +26,13 @@ namespace HeadRaceTimingSite.Api.Resources
         /// The position within a crew that the athlete occupies
         /// </summary>
         public int Position { get; set; }
+        /// <summary>
+        /// The PRI of the athlete in the crew
+        /// </summary>
+        public int Pri { get; set; }
+        /// <summary>
+        /// The PRI Max of the athlete in the crew
+        /// </summary>
+        public int PriMax { get; set; }
     }
 }
