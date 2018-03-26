@@ -17,6 +17,11 @@ using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace HeadRaceTimingSite
 {
@@ -62,21 +67,66 @@ namespace HeadRaceTimingSite
 
             services.AddDbContext<TimingSiteContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TimingSiteDatabase")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<TimingSiteContext>()
-                .AddDefaultTokenProviders();
-
-            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
-
-            services.AddAuthentication()
-                .AddGoogle(options => {
-                    options.ClientId = Configuration["auth:google:client_id"];
-                    options.ClientSecret = Configuration["auth:google:client_secret"];
-                });
-
-            services.AddAuthorization(options =>
+            services.AddAuthentication(options =>
             {
-                options.AddPolicy("AdminsOnly", policy => policy.RequireClaim("IsAdmin"));
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddOpenIdConnect("Auth0", options => {
+                // Set the authority to your Auth0 domain
+                options.Authority = $"https://{Configuration["Auth0:Domain"]}";
+
+                // Configure the Auth0 Client ID and Client Secret
+                options.ClientId = Configuration["Auth0:ClientId"];
+                options.ClientSecret = Configuration["Auth0:ClientSecret"];
+
+                // Set response type to code
+                options.ResponseType = "code";
+
+                options.SaveTokens = true;
+
+                // Configure the scope
+                options.Scope.Clear();
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+ 
+                options.CallbackPath = new PathString("/signin-auth0");
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = "name"
+                };
+
+                // Configure the Claims Issuer to be Auth0
+                options.ClaimsIssuer = "Auth0";
+                
+                options.Events = new OpenIdConnectEvents
+                {
+                    // handle the logout redirection 
+                    OnRedirectToIdentityProviderForSignOut = (context) =>
+                    {
+                        var logoutUri = $"https://{Configuration["Auth0:Domain"]}/v2/logout?client_id={Configuration["Auth0:ClientId"]}";
+
+                        var postLogoutUri = context.Properties.RedirectUri;
+                        if (!string.IsNullOrEmpty(postLogoutUri))
+                        {
+                            if (postLogoutUri.StartsWith("/"))
+                            {
+                                // transform to absolute
+                                var request = context.Request;
+                                postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
+                            }
+                            logoutUri += $"&returnTo={ Uri.EscapeDataString(postLogoutUri)}";
+                        }
+
+                        context.Response.Redirect(logoutUri);
+                        context.HandleResponse();
+
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
@@ -98,7 +148,7 @@ namespace HeadRaceTimingSite
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            
             app.UseAuthentication();
 
             app.UseResponseCompression();

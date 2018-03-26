@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace HeadRaceTimingSite.Models
 {
-    public class TimingSiteContext : IdentityDbContext<ApplicationUser>
+    public class TimingSiteContext : DbContext
     {
         public TimingSiteContext(DbContextOptions<TimingSiteContext> options) : base(options)
         { }
@@ -35,7 +35,6 @@ namespace HeadRaceTimingSite.Models
                 .OnDelete(DeleteBehavior.Restrict);
         }
 
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Competition> Competitions { get; set; }
         public DbSet<Crew> Crews { get; set; }
         public DbSet<Result> Results { get; set; }

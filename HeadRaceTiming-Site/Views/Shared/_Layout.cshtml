@@ -82,23 +82,28 @@
 <body>
     <dom-bind>
         <template>
-            <app-header-layout>
+            <app-drawer-layout fullbleed>
+                <app-header-layout>
 
-                <app-header slot="header" reveals>
-                    <app-toolbar>
-                        @if (IsSectionDefined("titleBar"))
-                        {
-                            @RenderSection("titleBar", required: false)
-                        }
-                        else
-                        {
-                            <div main-title>@ViewData["Title"]</div>
-                        }
-                    </app-toolbar>
-                </app-header>
+                    <app-header slot="header" reveals>
+                        <app-toolbar>
+                            @if (IsSectionDefined("titleBar"))
+                            {
+                                @RenderSection("titleBar", required: false)
+                            }
+                            else
+                            {
+                                <div main-title>@ViewData["Title"]</div>
+                            }
+                        </app-toolbar>
+                    </app-header>
 
-                @RenderBody()
-            </app-header-layout>
+                    @RenderBody()
+                </app-header-layout>
+                <app-drawer slot="drawer">
+                    @await  Html.PartialAsync("_LoginPartial")
+                </app-drawer>
+            </app-drawer-layout>
         </template>
     </dom-bind>
     @RenderSection("scripts", required: false)

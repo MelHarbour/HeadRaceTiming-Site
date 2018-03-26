@@ -13,20 +13,9 @@ using System.Globalization;
 
 namespace HeadRaceTimingSite.Controllers
 {
-    [Authorize(Policy = "AdminsOnly")]
     public class AdminController : BaseController
     {
         public AdminController(TimingSiteContext context) : base(context) { }
-
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.ApplicationUsers.ToListAsync());
-        }
-
-        public async Task<IActionResult> EditUser(string id)
-        {
-            return View(await _context.ApplicationUsers.FirstAsync(x => x.Id == id));
-        }
 
         [HttpGet]
         public IActionResult ImportAthletes()
