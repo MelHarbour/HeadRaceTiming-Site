@@ -2,7 +2,7 @@
   "name": "asp.net",
   "private": true,
   "dependencies": {
-    "polymer": "v2.5.0",
+    "polymer": "v2.6.0",
     "app-layout": "v2.1.0",
     "paper-icon-button": "v2.2.0",
     "iron-icons": "v2.1.1",
@@ -14,8 +14,8 @@
     "paper-item": "v2.1.0",
     "paper-button": "v2.1.0",
     "iron-form": "v2.2.1",
-    "shadycss": "v1.1.1",
-    "webcomponentsjs": "v1.1.0",
+    "shadycss": "v1.1.2",
+    "webcomponentsjs": "v1.1.1",
     "gulp": "v4.0.0",
     "iron-resizable-behavior": "v2.1.0",
     "iron-collapse": "v2.2.0",
@@ -45,9 +45,8 @@
     "app-route": "PolymerElements/app-route#*"
   },
   "resolutions": {
-    "webcomponentsjs": "v1.1.0",
-    "polymer": "v2.5.0",
-    "shadycss": "v1.1.1",
+    "webcomponentsjs": "v1.1.1",
+    "shadycss": "v1.1.2",
     "iron-flex-layout": "v2.0.3",
     "paper-styles": "v2.1.0",
     "iron-image": "1 - 2",
@@ -65,16 +64,7 @@
     "iron-iconset-svg": "1 - 2",
     "iron-selector": "v2.1.0",
     "iron-ajax": "v2.1.3",
-    "paper-icon-button": "v2.2.0",
     "iron-autogrow-textarea": "v2.2.0",
-    "paper-button": "v2.1.0",
-    "paper-listbox": "v2.1.0",
-    "iron-list": "v2.0.13",
-    "iron-icons": "v2.1.1",
-    "paper-dialog": "v2.1.1",
-    "paper-input": "v2.2.0",
-    "app-layout": "v2.1.0",
-    "iron-input": "1 - 2",
-    "paper-tabs": "v2.1.0"
+    "iron-input": "1 - 2"
   }
 }
