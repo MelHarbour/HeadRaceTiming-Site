@@ -33,6 +33,8 @@ namespace HeadRaceTimingSite.Models
                 .HasMany(s => s.Results)
                 .WithOne(r => r.TimingPoint)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<CompCompAdmin>()
+                .HasKey(t => new { t.CompetitionAdministratorId, t.CompetitionId });
         }
 
         public DbSet<Competition> Competitions { get; set; }
@@ -42,5 +44,6 @@ namespace HeadRaceTimingSite.Models
         public DbSet<Award> Awards { get; set; }
         public DbSet<Athlete> Athletes { get; set; }
         public DbSet<Penalty> Penalties { get; set; }
+        public DbSet<CompetitionAdministrator> CompetitionAdministrators { get; set; }
     }
 }

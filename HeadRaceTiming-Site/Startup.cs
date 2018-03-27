@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using HeadRaceTimingSite.Handlers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HeadRaceTimingSite
 {
@@ -45,16 +47,14 @@ namespace HeadRaceTimingSite
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc().AddJsonOptions(options =>
-            {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                options.SerializerSettings.Converters.Add(new TimeSpanConverter());
-            });
-
             services.AddMvc(options =>
             {
                 options.OutputFormatters.Add(new CsvOutputFormatter());
                 options.FormatterMappings.SetMediaTypeMappingForFormat("csv", MediaTypeHeaderValue.Parse("text/csv"));
+            }).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.Converters.Add(new TimeSpanConverter());
             });
 
             services.AddSwaggerGen(c =>
@@ -128,6 +128,14 @@ namespace HeadRaceTimingSite
                     }
                 };
             });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanAdminCompetition", policy => policy.Requirements.Add(new CompetitionAdminRequirement()));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, CompetitionAdminAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, AdminAuthorizationHandler>();
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
             services.AddResponseCompression();

@@ -53,6 +53,7 @@ namespace HeadRaceTimingSite.Models
             }
         }
 
+        public ICollection<CompCompAdmin> Administrators { get; set; }
         public List<TimingPoint> TimingPoints { get; set; }
         public List<Crew> Crews { get; set; }
         public List<Award> Awards { get; set; }

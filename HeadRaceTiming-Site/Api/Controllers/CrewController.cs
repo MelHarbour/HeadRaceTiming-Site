@@ -8,12 +8,18 @@ using System.Globalization;
 using HeadRaceTimingSite.Helpers;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using HeadRaceTimingSite.Api.Resources;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HeadRaceTimingSite.Api.Controllers
 {
     public class CrewController : HeadRaceTimingSite.Controllers.BaseController
     {
-        public CrewController(Models.TimingSiteContext context) : base(context) { } 
+        private readonly IAuthorizationService _authorizationService;
+        
+        public CrewController(IAuthorizationService authorizationService, Models.TimingSiteContext context) : base(context)
+        {
+            _authorizationService = authorizationService;
+        } 
 
         /// <summary>
         /// Creates a new crew instance
@@ -23,6 +29,18 @@ namespace HeadRaceTimingSite.Api.Controllers
         [HttpPut("/api/competitions/{compid}/crews/{id}")]
         public async Task<IActionResult> Create(int compid, int id, [FromBody] Crew crew)
         {
+            Models.Competition competition = await _context.Competitions.Include("Administrators.CompetitionAdministrator").FirstAsync(x => x.CompetitionId == compid);
+
+            var authorizationResult = await _authorizationService.AuthorizeAsync(User, competition, "CanAdminCompetition");
+
+            if (!authorizationResult.Succeeded)
+            {
+                if (User.Identity.IsAuthenticated)
+                    return new ForbidResult();
+                else
+                    return new ChallengeResult();
+            }
+
             Models.Crew modelCrew = new Models.Crew
             {
                 BroeCrewId = id

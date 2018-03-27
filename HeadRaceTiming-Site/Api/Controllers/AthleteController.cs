@@ -26,7 +26,6 @@ namespace HeadRaceTimingSite.Api.Controllers
             Models.CrewAthlete crewAthlete = crew.Athletes.First(x => x.Position == position);
             return new Athlete
             {
-                Id = crewAthlete.Athlete.AthleteId,
                 FirstName = crewAthlete.Athlete.FirstName,
                 LastName = crewAthlete.Athlete.LastName,
                 MembershipNumber = crewAthlete.Athlete.MembershipNumber,
@@ -107,7 +106,6 @@ namespace HeadRaceTimingSite.Api.Controllers
             Models.Crew crew = await _context.Crews.Include("Athletes.Athlete").FirstAsync(x => x.BroeCrewId == id);
             return crew.Athletes.Select(x => new Athlete
             {
-                Id = x.Athlete.AthleteId,
                 FirstName = x.Athlete.FirstName,
                 LastName = x.Athlete.LastName,
                 MembershipNumber = x.Athlete.MembershipNumber,
