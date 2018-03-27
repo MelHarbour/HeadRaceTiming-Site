@@ -17,12 +17,17 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// </summary>
         /// <param name="id">The BROE ID of the crew</param>
         /// <response code="200">List of results returned</response>
+        /// <response code="404">Crew not found</response>
         [Produces("application/json")]
         [HttpGet("/api/crews/{id}/results")]
-        public async Task<IEnumerable<Result>> GetByCrew(int id)
+        public async Task<IActionResult> GetByCrew(int id)
         {
             Models.Crew crew = await _context.Crews.Include(c => c.Results)
-                .Include("Results.TimingPoint").Include(c => c.Competition.TimingPoints).FirstAsync(x => x.BroeCrewId == id);
+                .Include("Results.TimingPoint").Include(c => c.Competition.TimingPoints).FirstOrDefaultAsync(x => x.BroeCrewId == id);
+
+            if (crew == null)
+                return NotFound();
+
             List<Result> viewResults = new List<Result>();
 
             List<Models.Crew> allCrews = await _context.Crews.Include(c => c.Results)
@@ -50,7 +55,7 @@ namespace HeadRaceTimingSite.Api.Controllers
                 isFirst = false;
             }
 
-            return viewResults;
+            return Ok(viewResults);
         }
 
 

@@ -18,19 +18,33 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// </summary>
         /// <param name="id">The BROE ID of the crew</param>
         /// <param name="position">The position within the crew</param>
+        /// <response code="200">Athlete returned</response>
+        /// <response code="400">Bad request (probably position higher than allowed)</response>
+        /// <response code="404">Not found</response>
         [Produces("application/json")]
         [HttpGet("/api/crews/{id}/athletes/{position}")]
-        public async Task<Athlete> GetByCrewAndPosition(int id, int position)
+        public async Task<IActionResult> GetByCrewAndPosition(int id, int position)
         {
-            Models.Crew crew = await _context.Crews.Include("Athletes.Athlete").FirstAsync(x => x.BroeCrewId == id);
-            Models.CrewAthlete crewAthlete = crew.Athletes.First(x => x.Position == position);
-            return new Athlete
+            if (position > 9)
+                return BadRequest();
+
+            Models.Crew crew = await _context.Crews.Include("Athletes.Athlete").FirstOrDefaultAsync(x => x.BroeCrewId == id);
+
+            if (crew == null)
+                return NotFound();
+
+            Models.CrewAthlete crewAthlete = crew.Athletes.FirstOrDefault(x => x.Position == position);
+
+            if (crewAthlete == null)
+                return NotFound();
+
+            return Ok(new Athlete
             {
                 FirstName = crewAthlete.Athlete.FirstName,
                 LastName = crewAthlete.Athlete.LastName,
                 MembershipNumber = crewAthlete.Athlete.MembershipNumber,
                 Position = crewAthlete.Position
-            };
+            });
         }
 
         /// <summary>
@@ -101,16 +115,20 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <response code="200">List of athletes returned</response>
         [Produces("application/json")]
         [HttpGet("/api/crews/{id}/athletes")]
-        public async Task<IEnumerable<Athlete>> ListByCrew(int id)
+        public async Task<IActionResult> ListByCrew(int id)
         {
-            Models.Crew crew = await _context.Crews.Include("Athletes.Athlete").FirstAsync(x => x.BroeCrewId == id);
-            return crew.Athletes.Select(x => new Athlete
+            Models.Crew crew = await _context.Crews.Include("Athletes.Athlete").FirstOrDefaultAsync(x => x.BroeCrewId == id);
+
+            if (crew == null)
+                return NotFound();
+
+            return Ok(crew.Athletes.Select(x => new Athlete
             {
                 FirstName = x.Athlete.FirstName,
                 LastName = x.Athlete.LastName,
                 MembershipNumber = x.Athlete.MembershipNumber,
                 Position = x.Position
-            });
+            }));
         }
     }
 }
