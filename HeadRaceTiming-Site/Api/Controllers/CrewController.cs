@@ -55,11 +55,16 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// </summary>
         /// <param name="id">The BROE ID for the crew</param>
         /// <response code="200">The crew is returned</response>
+        /// <response code="404">The crew was not found</response>
         [HttpGet("/api/crews/{id}")]
-        public async Task<Crew> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            Models.Crew crew = await _context.Crews.FirstAsync(x => x.BroeCrewId == id);
-            return new Crew()
+            Models.Crew crew = await _context.Crews.FirstOrDefaultAsync(x => x.BroeCrewId == id);
+
+            if (crew == null)
+                return NotFound();
+
+            return Ok(new Crew()
             {
                 Id = crew.BroeCrewId.Value,
                 Name = crew.Name,
@@ -70,7 +75,7 @@ namespace HeadRaceTimingSite.Api.Controllers
                 IsTimeOnly = crew.IsTimeOnly,
                 IsFinished = crew.OverallTime.HasValue,
                 CriMax = crew.CriMax
-            };
+            });
         }
 
         /// <summary>
@@ -79,20 +84,22 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <param name="id">The ID of the competition</param>
         /// <param name="s">A string by which to filter the crews</param>
         /// <response code="200">List of crews returned</response>
+        /// <response code="404">Competition not found</response>
         [Produces("application/json")]
         [HttpGet("/api/competitions/{id}/crews")]
-        public async Task<IEnumerable<Crew>> ListByCompetition(int id, string s)
+        public async Task<IActionResult> ListByCompetition(int id, string s)
         {
-            IEnumerable<Models.Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id)
-                .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
-                .Include(x => x.Penalties)
-                .ToListAsync();
+            Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).Include("Crews.Results")
+                .Include("Crews.Penalties").FirstOrDefaultAsync(c => c.CompetitionId == id);
 
-            List<Crew> results = ResultsHelper.BuildCrewsList(crews);
+            if (comp == null)
+                return NotFound();
+
+            List<Crew> results = ResultsHelper.BuildCrewsList(comp.Crews);
             if (String.IsNullOrEmpty(s))
-                return results;
+                return Ok(results);
             else
-                return results.Where(x => x.Name.ToUpper(CultureInfo.CurrentCulture).Contains(s.ToUpper(CultureInfo.CurrentCulture)));
+                return Ok(results.Where(x => x.Name.ToUpper(CultureInfo.CurrentCulture).Contains(s.ToUpper(CultureInfo.CurrentCulture))));
         }
     }
 }

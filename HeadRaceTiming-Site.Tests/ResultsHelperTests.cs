@@ -51,7 +51,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
-            List<Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
+            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
 
             Assert.AreEqual(2, results[0].Id);
             Assert.AreEqual(1, results[1].Id);
@@ -79,7 +79,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
-            List<Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
+            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
 
             Assert.AreEqual(2, results[0].Id);
             Assert.AreEqual(1, results[1].Id);
@@ -108,7 +108,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
-            List<Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
+            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
 
             Assert.AreEqual(1, results[0].Id);
             Assert.AreEqual(2, results[1].Id);
@@ -137,7 +137,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
-            List<Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
+            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
 
             Assert.AreEqual(1, results[0].Id);
             Assert.AreEqual(2, results[1].Id);
@@ -160,7 +160,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results = new List<Result>();
             crews.Add(crew2);
 
-            List<Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
+            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(crews);
 
             Assert.AreEqual(1, results[0].Id);
             Assert.AreEqual(2, results[1].Id);

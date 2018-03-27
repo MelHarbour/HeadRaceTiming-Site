@@ -12,11 +12,14 @@ namespace HeadRaceTimingSite.Helpers
     {
         public static List<Api.Resources.Crew> BuildCrewsList(IEnumerable<Models.Crew> crews)
         {
+            List<Api.Resources.Crew> apiCrews = new List<Api.Resources.Crew>();
+
+            if (crews.Count() == 0)
+                return apiCrews;
+
             Competition competition = crews.First().Competition;
             TimingPoint startPoint = competition.TimingPoints.First();
             TimingPoint finishPoint = competition.TimingPoints.Last();
-
-            List<Api.Resources.Crew> apiCrews = new List<Api.Resources.Crew>();
 
             foreach (Models.Crew modelCrew in crews)
             {
