@@ -9,21 +9,27 @@ using HeadRaceTimingSite.Helpers;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using HeadRaceTimingSite.Api.Resources;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
+using AutoMapper;
 
 namespace HeadRaceTimingSite.Api.Controllers
 {
     public class CrewController : HeadRaceTimingSite.Controllers.BaseController
     {
         private readonly IAuthorizationService _authorizationService;
+        private readonly IMapper _mapper;
         
-        public CrewController(IAuthorizationService authorizationService, Models.TimingSiteContext context) : base(context)
+        public CrewController(IAuthorizationService authorizationService, IMapper mapper, Models.TimingSiteContext context) : base(context)
         {
             _authorizationService = authorizationService;
+            _mapper = mapper;
         } 
 
         /// <summary>
         /// Creates a new crew instance
         /// </summary>
+        /// <param name="compid">The competition to which the crew belongs</param>
+        /// <param name="id">The BROE ID of the crew</param>
         /// <param name="crew">The details of the crew to create</param>
         [SwaggerResponse(201, Description = "Crew has been successfully created in the system")]
         [HttpPut("/api/competitions/{compid}/crews/{id}")]
@@ -73,6 +79,18 @@ namespace HeadRaceTimingSite.Api.Controllers
         }
 
         /// <summary>
+        /// Updates selected fields of a specific crew
+        /// </summary>
+        /// <param name="compid">The competition to which the crew belongs</param>
+        /// <param name="id">The BROE ID of the crew</param>
+        /// <param name="crewPatch">A JSON Patch for the details to update</param>
+        [HttpPatch("/api/competitions/{compid}/crews/{id}")]
+        public async Task<IActionResult> Patch(int compid, int id, [FromBody]JsonPatchDocument<Crew> crewPatch)
+        {
+            return Ok();
+        }
+
+        /// <summary>
         /// Gets a crew by its BROE ID
         /// </summary>
         /// <param name="id">The BROE ID for the crew</param>
@@ -81,23 +99,14 @@ namespace HeadRaceTimingSite.Api.Controllers
         [HttpGet("/api/crews/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            Models.Crew crew = await _context.Crews.FirstOrDefaultAsync(x => x.BroeCrewId == id);
+            Models.Crew crew = await _context.Crews.Include(x => x.Competition.TimingPoints)
+                .Include(x => x.Results).Include(x => x.Penalties)
+                .Include("Athletes.Athlete").FirstOrDefaultAsync(x => x.BroeCrewId == id);
 
             if (crew == null)
                 return NotFound();
 
-            return Ok(new Crew()
-            {
-                Id = crew.BroeCrewId.Value,
-                Name = crew.Name,
-                StartNumber = crew.StartNumber,
-                OverallTime = crew.OverallTime,
-                Status = crew.Status,
-                IsStarted = crew.Results.Count > 0,
-                IsTimeOnly = crew.IsTimeOnly,
-                IsFinished = crew.OverallTime.HasValue,
-                CriMax = crew.CriMax
-            });
+            return Ok(_mapper.Map<Crew>(crew));
         }
 
         /// <summary>

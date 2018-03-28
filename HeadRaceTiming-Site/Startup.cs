@@ -24,6 +24,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using HeadRaceTimingSite.Handlers;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 
 namespace HeadRaceTimingSite
 {
@@ -46,6 +47,7 @@ namespace HeadRaceTimingSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper();
             // Add framework services.
             services.AddMvc(options =>
             {
@@ -173,6 +175,20 @@ namespace HeadRaceTimingSite
                     name: "default",
                     template: "{controller=Competition}/{action=Index}/{id?}");
             });
+        }
+    }
+
+    public class ApiProfile : Profile
+    {
+        public ApiProfile()
+        {
+            CreateMap<Crew, Api.Resources.Crew>()
+                .ForSourceMember(s => s.CrewId, y => y.Ignore())
+                .ForSourceMember(s => s.Results, y => y.Ignore())
+                .ForMember(d => d.Results, y => y.Ignore())
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.BroeCrewId))
+                .ForMember(d => d.IsStarted, opt => opt.MapFrom(s => s.Results.Count > 0))
+                .ForMember(d => d.IsFinished, opt => opt.MapFrom(s => s.OverallTime.HasValue));
         }
     }
 }
