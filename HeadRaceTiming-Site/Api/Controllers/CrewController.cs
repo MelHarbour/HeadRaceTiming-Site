@@ -27,7 +27,7 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <param name="crew">The details of the crew to create</param>
         [SwaggerResponse(201, Description = "Crew has been successfully created in the system")]
         [HttpPut("/api/competitions/{compid}/crews/{id}")]
-        public async Task<IActionResult> Create(int compid, int id, [FromBody] Crew crew)
+        public async Task<IActionResult> Put(int compid, int id, [FromBody] Crew crew)
         {
             Models.Competition competition = await _context.Competitions.Include("Administrators.CompetitionAdministrator").FirstAsync(x => x.CompetitionId == compid);
 
@@ -41,13 +41,35 @@ namespace HeadRaceTimingSite.Api.Controllers
                     return new ChallengeResult();
             }
 
-            Models.Crew modelCrew = new Models.Crew
+            Models.Crew dbCrew = await _context.Crews.FirstOrDefaultAsync(x => x.BroeCrewId == id);
+
+            if (dbCrew == null)
             {
-                BroeCrewId = id
-            };
-            _context.Crews.Add(modelCrew);
-            await _context.SaveChangesAsync();
-            return CreatedAtRoute("GetById", new { id = modelCrew.BroeCrewId });
+                Models.Crew modelCrew = new Models.Crew
+                {
+                    BroeCrewId = id,
+                    BoatClass = crew.BoatClass,
+                    ClubCode = crew.ClubCode,
+                    IsTimeOnly = crew.IsTimeOnly,
+                    Name = crew.Name,
+                    StartNumber = crew.StartNumber,
+                    Status = crew.Status
+                };
+                _context.Crews.Add(modelCrew);
+                await _context.SaveChangesAsync();
+                return CreatedAtRoute("GetById", new { id = modelCrew.BroeCrewId });
+            }
+            else
+            {
+                dbCrew.BoatClass = crew.BoatClass;
+                dbCrew.ClubCode = crew.ClubCode;
+                dbCrew.IsTimeOnly = crew.IsTimeOnly;
+                dbCrew.Name = crew.Name;
+                dbCrew.StartNumber = crew.StartNumber;
+                dbCrew.Status = crew.Status;
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
         }
 
         /// <summary>
