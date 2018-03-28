@@ -106,7 +106,15 @@ namespace HeadRaceTimingSite.Api.Controllers
             if (crew == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<Crew>(crew));
+            Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).Include("Crews.Results")
+                .Include("Crews.Penalties").FirstOrDefaultAsync(c => c.CompetitionId == crew.CompetitionId);
+
+            return Ok(_mapper.Map<Crew>(crew, opt => 
+            {
+                opt.Items["crews"] = comp.Crews;
+                opt.Items["start"] = comp.TimingPoints.First();
+                opt.Items["finish"] = comp.TimingPoints.Last();
+            }));
         }
 
         /// <summary>
