@@ -189,8 +189,7 @@ namespace HeadRaceTimingSite
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.BroeCrewId))
                 .ForMember(d => d.IsStarted, opt => opt.MapFrom(s => s.Results.Count > 0))
                 .ForMember(d => d.IsFinished, opt => opt.MapFrom(s => s.OverallTime.HasValue))
-                .ForMember(d => d.Rank, opt => opt.ResolveUsing((s, d, destMember, res) => 
-                    s.Rank((IList<Crew>)res.Options.Items["crews"], (TimingPoint)res.Options.Items["start"], (TimingPoint)res.Options.Items["finish"])));
+                .ForMember(d => d.Rank, opt => opt.Ignore());
         }
     }
 }

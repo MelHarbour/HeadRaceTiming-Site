@@ -7,12 +7,18 @@ using HeadRaceTimingSite.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using HeadRaceTimingSite.Helpers;
+using AutoMapper;
 
 namespace HeadRaceTimingSite.Controllers
 {
     public class CompetitionController : BaseController
     {
-        public CompetitionController(TimingSiteContext context) : base(context) { }
+        private readonly IMapper _mapper;
+
+        public CompetitionController(IMapper mapper, TimingSiteContext context) : base(context)
+        {
+            _mapper = mapper;
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -45,7 +51,7 @@ namespace HeadRaceTimingSite.Controllers
                 .Include("Athletes.Athlete")
                 .Include(x => x.Penalties).ToListAsync();
 
-            return Ok(ResultsHelper.BuildCrewsList(crews));
+            return Ok(ResultsHelper.BuildCrewsList(_mapper, crews));
         }
 
         public IActionResult Error()

@@ -109,12 +109,9 @@ namespace HeadRaceTimingSite.Api.Controllers
             Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).Include("Crews.Results")
                 .Include("Crews.Penalties").FirstOrDefaultAsync(c => c.CompetitionId == crew.CompetitionId);
 
-            return Ok(_mapper.Map<Crew>(crew, opt => 
-            {
-                opt.Items["crews"] = comp.Crews;
-                opt.Items["start"] = comp.TimingPoints.First();
-                opt.Items["finish"] = comp.TimingPoints.Last();
-            }));
+            Crew output = _mapper.Map<Crew>(crew);
+            output.Rank = crew.Rank(comp.Crews, comp.TimingPoints.First(), comp.TimingPoints.Last());
+            return Ok(output);
         }
 
         /// <summary>
@@ -134,7 +131,7 @@ namespace HeadRaceTimingSite.Api.Controllers
             if (comp == null)
                 return NotFound();
 
-            List<Crew> results = ResultsHelper.BuildCrewsList(comp.Crews);
+            List<Crew> results = ResultsHelper.BuildCrewsList(_mapper, comp.Crews);
             if (String.IsNullOrEmpty(s))
                 return Ok(results);
             else

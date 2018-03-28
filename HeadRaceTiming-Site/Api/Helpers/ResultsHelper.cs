@@ -1,4 +1,5 @@
-﻿using HeadRaceTimingSite.Api.Resources;
+﻿using AutoMapper;
+using HeadRaceTimingSite.Api.Resources;
 using HeadRaceTimingSite.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace HeadRaceTimingSite.Helpers
 {
     public static class ResultsHelper
     {
-        public static List<Api.Resources.Crew> BuildCrewsList(IEnumerable<Models.Crew> crews)
+        public static List<Api.Resources.Crew> BuildCrewsList(IMapper mapper, IEnumerable<Models.Crew> crews)
         {
             List<Api.Resources.Crew> apiCrews = new List<Api.Resources.Crew>();
 
@@ -23,18 +24,7 @@ namespace HeadRaceTimingSite.Helpers
 
             foreach (Models.Crew modelCrew in crews)
             {
-                Api.Resources.Crew apiCrew = new Api.Resources.Crew()
-                {
-                    Id = modelCrew.CrewId,
-                    Name = modelCrew.Name,
-                    StartNumber = modelCrew.StartNumber,
-                    OverallTime = modelCrew.OverallTime,
-                    Status = modelCrew.Status,
-                    IsStarted = modelCrew.Results.Count > 0,
-                    IsTimeOnly = modelCrew.IsTimeOnly,
-                    IsFinished = modelCrew.OverallTime.HasValue,
-                    CriMax = modelCrew.CriMax
-                };
+                Api.Resources.Crew apiCrew = mapper.Map<Api.Resources.Crew>(modelCrew);
 
                 foreach (Models.Result modelResult in modelCrew.Results)
                 {

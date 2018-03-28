@@ -1,4 +1,5 @@
-﻿using HeadRaceTimingSite.Models;
+﻿using AutoMapper;
+using HeadRaceTimingSite.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,18 @@ namespace HeadRaceTimingSite.Tests.Api
     [TestClass]
     public class CrewControllerTests
     {
+        private IMapper mapper;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new ApiProfile());
+            });
+            mapper = config.CreateMapper();
+        }
+
         private TimingSiteContext GetTimingSiteContext()
         {
             var options = new DbContextOptionsBuilder<TimingSiteContext>()
@@ -30,7 +43,7 @@ namespace HeadRaceTimingSite.Tests.Api
             var authService = new Mock<IAuthorizationService>();
 
             using (var context = GetTimingSiteContext())
-            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, context))
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
             {
                 var result = await controller.GetById(1).ConfigureAwait(false);
                 var notFoundResult = result as NotFoundResult;
@@ -46,7 +59,7 @@ namespace HeadRaceTimingSite.Tests.Api
             var authService = new Mock<IAuthorizationService>();
 
             using (var context = GetTimingSiteContext())
-            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, context))
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
             {
                 var result = await controller.ListByCompetition(1, null).ConfigureAwait(false);
                 var notFoundResult = result as NotFoundResult;
@@ -62,7 +75,7 @@ namespace HeadRaceTimingSite.Tests.Api
             var authService = new Mock<IAuthorizationService>();
 
             using (var context = GetTimingSiteContext())
-            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, context))
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
             {
                 context.Competitions.Add(new Competition
                 {
