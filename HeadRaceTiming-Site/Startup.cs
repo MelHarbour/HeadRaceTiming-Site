@@ -189,7 +189,8 @@ namespace HeadRaceTimingSite
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.BroeCrewId))
                 .ForMember(d => d.IsStarted, opt => opt.MapFrom(s => s.Results.Count > 0))
                 .ForMember(d => d.IsFinished, opt => opt.MapFrom(s => s.OverallTime.HasValue))
-                .ForMember(d => d.Rank, opt => opt.Ignore());
+                .ForMember(d => d.Rank, opt => opt.Ignore())
+                .ForMember(d => d.LastUpdate, opt => opt.MapFrom(s => s.Results.Select(x => x.TimeOfDay).Last()));
         }
     }
 }

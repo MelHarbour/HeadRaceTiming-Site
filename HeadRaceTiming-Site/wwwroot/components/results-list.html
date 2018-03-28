@@ -24,6 +24,9 @@
                 background-color: #eeeeee;
                 cursor: pointer;
             }
+            .rowHighlight {
+                background-color: #f5f5f5;
+            }
             .startNumber {
                 width: 33px;
                 margin-right: 56px;
@@ -54,7 +57,7 @@
         <iron-list scroll-target="document" items="[[data]]" as="item" id="crewsList">
             <template>
                 <div>
-                    <div class="row" data-crew-id="[[item.id]]" onclick="location.href='/Crew/Details/' + this.dataCrewId">
+                    <div class$="[[_getClass(item.lastUpdate)]]" data-crew-id="[[item.id]]" onclick="location.href='/Crew/Details/' + this.dataCrewId">
                         <div class="startNumber">
                             [[item.startNumber]]
                         </div>
@@ -158,6 +161,10 @@
                     if (item.results[i].id == timingPoint)
                         return item.results[i].runTime;
                 }
+            }
+
+            _getRowClass(lastUpdate) {
+                return "row";
             }
         }
 

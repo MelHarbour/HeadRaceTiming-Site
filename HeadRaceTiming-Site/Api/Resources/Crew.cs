@@ -74,5 +74,9 @@ namespace HeadRaceTimingSite.Api.Resources
         /// List of the results for the crew
         /// </summary>
         public List<Result> Results { get; private set; }
+        /// <summary>
+        /// The time of the last update to the crew's times
+        /// </summary>
+        public DateTime? LastUpdate { get; set; }
     }
 }
