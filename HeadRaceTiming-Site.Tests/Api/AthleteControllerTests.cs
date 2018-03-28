@@ -24,22 +24,31 @@ namespace HeadRaceTimingSite.Tests.Api
             return context;
         }
 
-        [TestMethod]
-        public async Task GetByCrewAndPosition_WithPositionOver9_ShouldReturn400()
+        [DataTestMethod]
+        [DataRow(BoatClass.Eight, 10)]
+        [DataRow(BoatClass.CoxedFour, 6)]
+        [DataRow(BoatClass.CoxlessFour, 5)]
+        [DataRow(BoatClass.QuadScull, 5)]
+        [DataRow(BoatClass.CoxedPair, 4)]
+        [DataRow(BoatClass.CoxlessPair, 3)]
+        [DataRow(BoatClass.DoubleScull, 3)]
+        [DataRow(BoatClass.SingleScull, 2)]
+        public async Task GetByCrewAndPosition_WithPositionOverCrewSize_ShouldReturn400(BoatClass boatClass, int position)
         {
             using (var context = GetTimingSiteContext())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(context))
             {
                 context.Crews.Add(new Crew
                 {
-                    BroeCrewId = 1
+                    BroeCrewId = 1,
+                    BoatClass = boatClass
                 });
                 context.SaveChanges();
 
-                var result = await controller.GetByCrewAndPosition(1, 10).ConfigureAwait(false);
+                var result = await controller.GetByCrewAndPosition(1, position).ConfigureAwait(false);
                 var badRequestResult = result as BadRequestResult;
 
-                Assert.IsNotNull(badRequestResult);
+                Assert.IsNotNull(badRequestResult, "Boatclass: {0}; Position: {1}", boatClass, position);
                 Assert.AreEqual(400, badRequestResult.StatusCode);
             }
         }

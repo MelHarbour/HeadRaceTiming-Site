@@ -25,13 +25,18 @@ namespace HeadRaceTimingSite.Api.Controllers
         [HttpGet("/api/crews/{id}/athletes/{position}")]
         public async Task<IActionResult> GetByCrewAndPosition(int id, int position)
         {
-            if (position > 9)
-                return BadRequest();
-
             Models.Crew crew = await _context.Crews.Include("Athletes.Athlete").FirstOrDefaultAsync(x => x.BroeCrewId == id);
 
             if (crew == null)
                 return NotFound();
+
+            if ((crew.BoatClass == Models.BoatClass.Eight && position > 9)
+                || (crew.BoatClass == Models.BoatClass.CoxedFour && position > 5)
+                || ((crew.BoatClass == Models.BoatClass.CoxlessFour || crew.BoatClass == Models.BoatClass.QuadScull) && position > 4)
+                || (crew.BoatClass == Models.BoatClass.CoxedPair && position > 3)
+                || ((crew.BoatClass == Models.BoatClass.CoxlessPair || crew.BoatClass == Models.BoatClass.DoubleScull) && position > 2)
+                || (crew.BoatClass == Models.BoatClass.SingleScull && position > 1))
+                return BadRequest();
 
             Models.CrewAthlete crewAthlete = crew.Athletes.FirstOrDefault(x => x.Position == position);
 
