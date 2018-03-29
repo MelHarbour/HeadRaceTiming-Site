@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using HeadRaceTimingSite.Api.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,12 @@ namespace HeadRaceTimingSite.Api.Controllers
 {
     public class ResultsController : HeadRaceTimingSite.Controllers.BaseController
     {
-        public ResultsController(Models.TimingSiteContext context) : base(context) { }
+        private readonly IMapper _mapper;
+
+        public ResultsController(IMapper mapper, Models.TimingSiteContext context) : base(context)
+        {
+            _mapper = mapper;
+        }
 
         /// <summary>
         /// Retrieves all the results for a given crew
@@ -65,14 +71,16 @@ namespace HeadRaceTimingSite.Api.Controllers
             Models.Result modelResult = crew.Results.First(x => x.TimingPointId == timingPointId);
             if (modelResult != null)
             {
-                
+                _mapper.Map(result, modelResult);
+                await _context.SaveChangesAsync();
+                return Ok();
             }
             else
             {
-                crew.Results.Add(new Models.Result());
+                crew.Results.Add(_mapper.Map<Models.Result>(result));
+                await _context.SaveChangesAsync();
+                return CreatedAtRoute("GetByCrewAndTimingPoint", new { crewId = crew.BroeCrewId });
             }
-            await _context.SaveChangesAsync();
-            return CreatedAtRoute("GetByCrewAndTimingPoint", new { crewId = crew.BroeCrewId });
         }
     }
 }

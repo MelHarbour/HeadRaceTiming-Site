@@ -1,4 +1,5 @@
-﻿using HeadRaceTimingSite.Models;
+﻿using AutoMapper;
+using HeadRaceTimingSite.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,18 @@ namespace HeadRaceTimingSite.Tests.Api
     [TestClass]
     public class ResultsControllerTests
     {
+        private IMapper mapper;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new ApiProfile());
+            });
+            mapper = config.CreateMapper();
+        }
+
         private TimingSiteContext GetTimingSiteContext()
         {
             var options = new DbContextOptionsBuilder<TimingSiteContext>()
@@ -28,7 +41,7 @@ namespace HeadRaceTimingSite.Tests.Api
         public async Task GetByCrew_WithIncorrectId_ShouldReturn404()
         {
             using (var context = GetTimingSiteContext())
-            using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(context))
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
             {
                 var result = await controller.GetByCrew(1).ConfigureAwait(false);
                 var notFoundResult = result as NotFoundResult;

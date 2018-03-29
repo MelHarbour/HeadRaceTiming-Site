@@ -194,7 +194,8 @@ namespace HeadRaceTimingSite
                 .ReverseMap();
             CreateMap<Result, Api.Resources.Result>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.TimingPointId))
-                .ForMember(d => d.Name, opt => opt.MapFrom(s => s.TimingPoint.Name));
+                .ForMember(d => d.Name, opt => opt.MapFrom(s => s.TimingPoint.Name))
+                .ReverseMap();
             CreateMap<CrewAthlete, Api.Resources.Athlete>()
                 .ForMember(d => d.FirstName, opt => opt.MapFrom(s => s.Athlete.FirstName))
                 .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.Athlete.LastName))
