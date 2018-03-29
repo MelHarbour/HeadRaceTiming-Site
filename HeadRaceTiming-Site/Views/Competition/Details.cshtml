@@ -17,7 +17,7 @@
     <paper-icon-button icon="cloud-download" id="downloadButton"></paper-icon-button>
     <paper-icon-button onclick="dialog.open()" icon="info" id="infoButton"></paper-icon-button>
     <paper-icon-button class="searchTools" icon="arrow-back" id="backButton"></paper-icon-button>
-    <paper-input class="searchTools" id="searchBox" value="{{data.searchValue}}" no-label-float="true"></paper-input>
+    <paper-input class="searchTools" id="searchBox" value="{{subrouteData.searchValue}}" no-label-float="true"></paper-input>
 }
 
 @section titleStyle{
@@ -29,11 +29,12 @@
     </style>
 }
 
-<!--<app-location route="{{route}}"></app-location>
-<app-route route="{{route}}" pattern="/Competition/Details/:page/:searchValue" data="{{data}}"></app-route>-->
+<app-location route="{{route}}"></app-location>
+<app-route route="{{route}}" pattern="/Competition/Details/:page" data="{{data}}" tail="{{subroute}}"></app-route>
+<app-route route="{{subroute}}" pattern="/:searchValue" data="{{subrouteData}}"></app-route>
 
 <results-list competition-id="@Model.CompetitionId" first-intermediate-name="@Model.FirstIntermediateName" 
-              second-intermediate-name="@Model.SecondIntermediateName" search-value="{{data.searchValue}}" 
+              second-intermediate-name="@Model.SecondIntermediateName" search-value="{{subrouteData.searchValue}}" 
               first-intermediate-id="@Model.FirstIntermediateId" second-intermediate-id="@Model.SecondIntermediateId"></results-list>
 
 <paper-dialog id="dialog">
@@ -70,6 +71,12 @@
             document.querySelector("#downloadButton").addEventListener("click", function (e) {
                 location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
             });
+            document.getElementById("searchBox").addEventListener('value-changed', function () {
+                var appRoute = document.getElementsByTagName('app-route')[0].route;
+                if (appRoute.path.slice(-1) !== '/') {
+                    appRoute.path = appRoute.path + '/';
+                }
+            });
         });
         $(window).scroll(function () {
             sessionStorage.scrollTop = $(this).scrollTop();
@@ -79,5 +86,6 @@
                 $(window).scrollTop(sessionStorage.scrollTop);
             }
         });
+        
     </script>
 }

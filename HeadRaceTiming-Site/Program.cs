@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace HeadRaceTimingSite
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

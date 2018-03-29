@@ -191,6 +191,7 @@ namespace HeadRaceTimingSite
                 .ForMember(d => d.IsFinished, opt => opt.MapFrom(s => s.OverallTime.HasValue))
                 .ForMember(d => d.Rank, opt => opt.Ignore())
                 .ForMember(d => d.LastUpdate, opt => opt.MapFrom(s => s.Results.Select(x => x.TimeOfDay).Last()))
+                .ForMember(d => d.LastUpdate, opt => opt.Ignore())
                 .ReverseMap();
             CreateMap<Result, Api.Resources.Result>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.TimingPointId))

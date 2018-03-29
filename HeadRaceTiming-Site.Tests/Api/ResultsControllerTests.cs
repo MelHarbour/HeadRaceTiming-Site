@@ -27,7 +27,7 @@ namespace HeadRaceTimingSite.Tests.Api
             mapper = config.CreateMapper();
         }
 
-        private TimingSiteContext GetTimingSiteContext()
+        private static TimingSiteContext GetTimingSiteContext()
         {
             var options = new DbContextOptionsBuilder<TimingSiteContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
