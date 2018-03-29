@@ -51,28 +51,14 @@ namespace HeadRaceTimingSite.Api.Controllers
 
             if (dbCrew == null)
             {
-                Models.Crew modelCrew = new Models.Crew
-                {
-                    BroeCrewId = id,
-                    BoatClass = crew.BoatClass,
-                    ClubCode = crew.ClubCode,
-                    IsTimeOnly = crew.IsTimeOnly,
-                    Name = crew.Name,
-                    StartNumber = crew.StartNumber,
-                    Status = crew.Status
-                };
+                Models.Crew modelCrew = _mapper.Map<Models.Crew>(crew);
                 _context.Crews.Add(modelCrew);
                 await _context.SaveChangesAsync();
                 return CreatedAtRoute("GetById", new { id = modelCrew.BroeCrewId });
             }
             else
             {
-                dbCrew.BoatClass = crew.BoatClass;
-                dbCrew.ClubCode = crew.ClubCode;
-                dbCrew.IsTimeOnly = crew.IsTimeOnly;
-                dbCrew.Name = crew.Name;
-                dbCrew.StartNumber = crew.StartNumber;
-                dbCrew.Status = crew.Status;
+                _mapper.Map(crew, dbCrew);
                 await _context.SaveChangesAsync();
                 return Ok();
             }
