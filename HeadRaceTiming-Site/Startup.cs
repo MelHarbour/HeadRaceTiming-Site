@@ -191,6 +191,13 @@ namespace HeadRaceTimingSite
                 .ForMember(d => d.IsFinished, opt => opt.MapFrom(s => s.OverallTime.HasValue))
                 .ForMember(d => d.Rank, opt => opt.Ignore())
                 .ForMember(d => d.LastUpdate, opt => opt.MapFrom(s => s.Results.Select(x => x.TimeOfDay).Last()));
+            CreateMap<Result, Api.Resources.Result>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.TimingPointId))
+                .ForMember(d => d.Name, opt => opt.MapFrom(s => s.TimingPoint.Name));
+            CreateMap<CrewAthlete, Api.Resources.Athlete>()
+                .ForMember(d => d.FirstName, opt => opt.MapFrom(s => s.Athlete.FirstName))
+                .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.Athlete.LastName))
+                .ForMember(d => d.MembershipNumber, opt => opt.MapFrom(s => s.Athlete.MembershipNumber));
         }
     }
 }

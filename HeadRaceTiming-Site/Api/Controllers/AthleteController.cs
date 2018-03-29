@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using HeadRaceTimingSite.Api.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,12 @@ namespace HeadRaceTimingSite.Api.Controllers
 {
     public class AthleteController : HeadRaceTimingSite.Controllers.BaseController
     {
-        public AthleteController(Models.TimingSiteContext context) : base(context) { }
+        private readonly IMapper _mapper;
+
+        public AthleteController(IMapper mapper, Models.TimingSiteContext context) : base(context)
+        {
+            _mapper = mapper;
+        }
 
         /// <summary>
         /// Retrieves a specific athlete
@@ -43,13 +49,7 @@ namespace HeadRaceTimingSite.Api.Controllers
             if (crewAthlete == null)
                 return NotFound();
 
-            return Ok(new Athlete
-            {
-                FirstName = crewAthlete.Athlete.FirstName,
-                LastName = crewAthlete.Athlete.LastName,
-                MembershipNumber = crewAthlete.Athlete.MembershipNumber,
-                Position = crewAthlete.Position
-            });
+            return Ok(_mapper.Map<Athlete>(crewAthlete));
         }
 
         /// <summary>
@@ -127,13 +127,7 @@ namespace HeadRaceTimingSite.Api.Controllers
             if (crew == null)
                 return NotFound();
 
-            return Ok(crew.Athletes.Select(x => new Athlete
-            {
-                FirstName = x.Athlete.FirstName,
-                LastName = x.Athlete.LastName,
-                MembershipNumber = x.Athlete.MembershipNumber,
-                Position = x.Position
-            }));
+            return Ok(crew.Athletes.Select(x => _mapper.Map<Athlete>(x)));
         }
     }
 }
