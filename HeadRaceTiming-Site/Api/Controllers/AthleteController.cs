@@ -77,8 +77,7 @@ namespace HeadRaceTimingSite.Api.Controllers
             { 
                 if (crewAthlete.Athlete.MembershipNumber == athlete.MembershipNumber)
                 {
-                    crewAthlete.Athlete.FirstName = athlete.FirstName;
-                    crewAthlete.Athlete.LastName = athlete.LastName;
+                    _mapper.Map(athlete, crewAthlete);
                 }
                 else
                 {
