@@ -68,22 +68,10 @@ namespace HeadRaceTimingSite.Api.Controllers
         {
             Models.Crew crew = await _context.Crews.Include("Athletes.Athlete").FirstAsync(x => x.BroeCrewId == id);
             Models.CrewAthlete crewAthlete = crew.Athletes.FirstOrDefault(x => x.Position == position);
-            Models.Athlete dbAthlete = await _context.Athletes.FirstOrDefaultAsync(x => x.MembershipNumber == athlete.MembershipNumber);
 
             if (crewAthlete == null)
             {
-                crew.Athletes.Add(new Models.CrewAthlete
-                {
-                    Athlete = dbAthlete ?? new Models.Athlete
-                    {
-                        FirstName = athlete.FirstName,
-                        LastName = athlete.LastName,
-                        MembershipNumber = athlete.MembershipNumber
-                    },
-                    Position = position,
-                    Pri = athlete.Pri,
-                    PriMax = athlete.PriMax
-                });
+                crew.Athletes.Add(_mapper.Map<Models.CrewAthlete>(athlete));
             }
             else
             { 
@@ -94,6 +82,7 @@ namespace HeadRaceTimingSite.Api.Controllers
                 }
                 else
                 {
+                    Models.Athlete dbAthlete = await _context.Athletes.FirstOrDefaultAsync(x => x.MembershipNumber == athlete.MembershipNumber);
                     crew.Athletes.Remove(crewAthlete);
                     crew.Athletes.Add(new Models.CrewAthlete
                     {

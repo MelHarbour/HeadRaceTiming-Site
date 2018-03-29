@@ -197,7 +197,8 @@ namespace HeadRaceTimingSite
             CreateMap<CrewAthlete, Api.Resources.Athlete>()
                 .ForMember(d => d.FirstName, opt => opt.MapFrom(s => s.Athlete.FirstName))
                 .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.Athlete.LastName))
-                .ForMember(d => d.MembershipNumber, opt => opt.MapFrom(s => s.Athlete.MembershipNumber));
+                .ForMember(d => d.MembershipNumber, opt => opt.MapFrom(s => s.Athlete.MembershipNumber))
+                .ReverseMap();
         }
     }
 }

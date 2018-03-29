@@ -1,4 +1,5 @@
-﻿using HeadRaceTimingSite.Models;
+﻿using AutoMapper;
+using HeadRaceTimingSite.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,18 @@ namespace HeadRaceTimingSite.Tests.Api
     [TestClass]
     public class AthleteControllerTests
     {
+        private IMapper mapper;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new ApiProfile());
+            });
+            mapper = config.CreateMapper();
+        }
+
         private TimingSiteContext GetTimingSiteContext()
         {
             var options = new DbContextOptionsBuilder<TimingSiteContext>()
@@ -36,7 +49,7 @@ namespace HeadRaceTimingSite.Tests.Api
         public async Task GetByCrewAndPosition_WithPositionOverCrewSize_ShouldReturn400(BoatClass boatClass, int position)
         {
             using (var context = GetTimingSiteContext())
-            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(context))
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 context.Crews.Add(new Crew
                 {
@@ -57,7 +70,7 @@ namespace HeadRaceTimingSite.Tests.Api
         public async Task GetByCrewAndPosition_WithIncorrectId_ShouldReturn404()
         {
             using (var context = GetTimingSiteContext())
-            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(context))
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 var result = await controller.GetByCrewAndPosition(1, 1).ConfigureAwait(false);
                 var notFoundResult = result as NotFoundResult;
@@ -71,7 +84,7 @@ namespace HeadRaceTimingSite.Tests.Api
         public async Task GetByCrewAndPosition_WithMissingPosition_ShouldReturn404()
         {
             using (var context = GetTimingSiteContext())
-            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(context))
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 context.Crews.Add(new Crew
                 {
@@ -91,7 +104,7 @@ namespace HeadRaceTimingSite.Tests.Api
         public async Task ListByCrew_WithIncorrectId_ShouldReturn404()
         {
             using (var context = GetTimingSiteContext())
-            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(context))
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 var result = await controller.ListByCrew(1).ConfigureAwait(false);
                 var notFoundResult = result as NotFoundResult;
