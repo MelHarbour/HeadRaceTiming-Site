@@ -153,6 +153,50 @@ namespace HeadRaceTimingSite.Models
             get { return Athletes != null ? Athletes.Where(x => x.PositionDescription != "Cox").Select(x => x.PriMax).Sum() : 0; }
         }
 
+        public double AverageAge
+        {
+            get
+            {
+                return Athletes.Select(x => x.Age).Average();
+            }
+        }
+
+        public MastersCategory MastersCategory {
+            get
+            {
+                if (Athletes.Any(x => x.Age < 27))
+                    return MastersCategory.None;
+                else
+                {
+                    double averageAge = AverageAge;
+                    if (averageAge >= 85)
+                        return MastersCategory.K;
+                    if (averageAge >= 80)
+                        return MastersCategory.J;
+                    if (averageAge >= 75)
+                        return MastersCategory.I;
+                    if (averageAge >= 70)
+                        return MastersCategory.H;
+                    if (averageAge >= 65)
+                        return MastersCategory.G;
+                    if (averageAge >= 60)
+                        return MastersCategory.F;
+                    if (averageAge >= 55)
+                        return MastersCategory.E;
+                    if (averageAge >= 50)
+                        return MastersCategory.D;
+                    if (averageAge >= 43)
+                        return MastersCategory.C;
+                    if (averageAge >= 36)
+                        return MastersCategory.B;
+                    if (averageAge >= 27)
+                        return MastersCategory.A;
+                    else
+                        return MastersCategory.None; // Should never reach this
+                }
+            }
+        }
+
         public List<Result> Results { get; set; }
 
         public int CompetitionId { get; set; }
@@ -186,5 +230,20 @@ namespace HeadRaceTimingSite.Models
             /// </summary>
             Dns
         }
+    }
+    public enum MastersCategory
+    {
+        None,
+        A,
+        B,
+        C,
+        D,
+        E,
+        F,
+        G,
+        H,
+        I,
+        J,
+        K
     }
 }

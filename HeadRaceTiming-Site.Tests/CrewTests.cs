@@ -219,5 +219,43 @@ namespace HeadRaceTimingSite.Tests
 
             Assert.AreEqual(String.Empty, crewOne.Rank(crewList, startTimingPoint, finishTimingPoint));
         }
+
+        [TestMethod]
+        public void AverageAge_WithCrewWithAges_ShouldReturnAverage()
+        {
+            Crew crew = new Crew();
+            Athlete athleteOne = new Athlete();
+            Athlete athleteTwo = new Athlete();
+            Athlete athleteThree = new Athlete();
+            crew.Athletes = new List<CrewAthlete>();
+            crew.Athletes.Add(new CrewAthlete { Athlete = athleteOne, Age = 30 });
+            crew.Athletes.Add(new CrewAthlete { Athlete = athleteTwo, Age = 31 });
+            crew.Athletes.Add(new CrewAthlete { Athlete = athleteThree, Age = 32 });
+
+            Assert.AreEqual(31, crew.AverageAge);
+        }
+
+        [DataTestMethod]
+        [DataRow(MastersCategory.None, 26)]
+        [DataRow(MastersCategory.A, 27)]
+        [DataRow(MastersCategory.B, 36)]
+        [DataRow(MastersCategory.C, 43)]
+        [DataRow(MastersCategory.D, 50)]
+        [DataRow(MastersCategory.E, 55)]
+        [DataRow(MastersCategory.F, 60)]
+        [DataRow(MastersCategory.G, 65)]
+        [DataRow(MastersCategory.H, 70)]
+        [DataRow(MastersCategory.I, 75)]
+        [DataRow(MastersCategory.J, 80)]
+        [DataRow(MastersCategory.K, 85)]
+        public void MastersCategory_WithCrewWithAges_ShouldReturnCorrectCategory(MastersCategory mastersCategory, int athleteAge)
+        {
+            Crew crew = new Crew();
+            Athlete athlete = new Athlete();
+            crew.Athletes = new List<CrewAthlete>();
+            crew.Athletes.Add(new CrewAthlete { Athlete = athlete, Age = athleteAge });
+
+            Assert.AreEqual(mastersCategory, crew.MastersCategory, "Category: {0}; Age One: {1}", mastersCategory, athleteAge);
+        }
     }
 }

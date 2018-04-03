@@ -34,5 +34,9 @@ namespace HeadRaceTimingSite.Api.Resources
         /// The PRI Max of the athlete in the crew
         /// </summary>
         public int PriMax { get; set; }
+        /// <summary>
+        /// The age of the athlete
+        /// </summary>
+        public int Age { get; set; }
     }
 }

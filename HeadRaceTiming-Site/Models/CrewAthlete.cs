@@ -40,5 +40,9 @@ namespace HeadRaceTimingSite.Models
         /// PRI Max as extracted from British Rowing
         /// </summary>
         public int PriMax { get; set; }
+        /// <summary>
+        /// The age of the athlete at the time of the race
+        /// </summary>
+        public int Age { get; set; }
     }
 }
