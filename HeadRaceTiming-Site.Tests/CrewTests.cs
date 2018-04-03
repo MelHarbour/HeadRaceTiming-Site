@@ -257,5 +257,16 @@ namespace HeadRaceTimingSite.Tests
 
             Assert.AreEqual(mastersCategory, crew.MastersCategory, "Category: {0}; Age One: {1}", mastersCategory, athleteAge);
         }
+
+        [TestMethod]
+        public void MastersHandicap_WithNonMastersCrew_ShouldThrowInvalidOperationException()
+        {
+            Crew crew = new Crew();
+            Athlete athlete = new Athlete();
+            crew.Athletes = new List<CrewAthlete>();
+            crew.Athletes.Add(new CrewAthlete { Athlete = athlete, Age = 26 });
+
+            Assert.ThrowsException<InvalidOperationException>(() => crew.CalculateMastersHandicap());
+        }
     }
 }

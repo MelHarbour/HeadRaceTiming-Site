@@ -197,6 +197,13 @@ namespace HeadRaceTimingSite.Models
             }
         }
 
+        public int CalculateMastersHandicap()
+        {
+            if (MastersCategory == MastersCategory.None)
+                throw new InvalidOperationException();
+            return 0;
+        }
+
         public List<Result> Results { get; set; }
 
         public int CompetitionId { get; set; }
