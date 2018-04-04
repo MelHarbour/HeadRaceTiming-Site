@@ -88,7 +88,7 @@
                                 [[_statusCode(item.status)]]
                             </template>
                             <template is="dom-if" if="[[!item.status]]">
-                                [[item.overallTime]]
+                                [[item.overallTime]]<template is="dom-if" if="{{item.hasPenalty}}">P</template>
                                 <template is="dom-if" if="{{item.overallTime}}">
                                     ([[item.rank]])
                                 </template>

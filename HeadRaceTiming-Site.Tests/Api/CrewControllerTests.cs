@@ -90,5 +90,37 @@ namespace HeadRaceTimingSite.Tests.Api
                 Assert.AreEqual(200, okResult.StatusCode);
             }
         }
+
+        [TestMethod]
+        public async Task ListByCompetition_WithSearchString_ShouldReturnMatchingCrew()
+        {
+            var authService = new Mock<IAuthorizationService>();
+
+            using (var context = GetTimingSiteContext())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
+            {
+                Competition competition = new Competition
+                {
+                    CompetitionId = 1
+                };
+                competition.TimingPoints = new List<TimingPoint>();
+                competition.TimingPoints.Add(new TimingPoint(1));
+                competition.Crews = new List<Crew>();
+                competition.Crews.Add(new Crew { BroeCrewId = 1, Name = "Alpha" });
+                competition.Crews.Add(new Crew { BroeCrewId = 2, Name = "Beta" });
+                context.Competitions.Add(competition);
+                context.SaveChanges();
+
+                var result = await controller.ListByCompetition(1, "alp").ConfigureAwait(false);
+                var okResult = result as OkObjectResult;
+
+                Assert.IsNotNull(okResult);
+                Assert.AreEqual(200, okResult.StatusCode);
+                List<HeadRaceTimingSite.Api.Resources.Crew> crews = okResult.Value as List<HeadRaceTimingSite.Api.Resources.Crew>;
+                Assert.IsNotNull(crews, "Should return List<Crew>");
+                Assert.AreEqual(1, crews.Count);
+                Assert.AreEqual(1, crews[0].Id);
+            }
+        }
     }
 }

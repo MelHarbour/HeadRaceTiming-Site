@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -11,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using HeadRaceTimingSite.Models;
 using HeadRaceTimingSite.Formatters;
 using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
@@ -20,7 +18,6 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using HeadRaceTimingSite.Handlers;
 using Microsoft.AspNetCore.Authorization;
@@ -192,6 +189,7 @@ namespace HeadRaceTimingSite
                 .ForMember(d => d.Rank, opt => opt.Ignore())
                 .ForMember(d => d.LastUpdate, opt => opt.MapFrom(s => s.Results.Select(x => x.TimeOfDay).Last()))
                 .ForMember(d => d.LastUpdate, opt => opt.Ignore())
+                .ForMember(d => d.HasPenalty, opt => opt.MapFrom(s => s.Penalties.Count > 0))
                 .ReverseMap();
             CreateMap<Result, Api.Resources.Result>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.TimingPointId))

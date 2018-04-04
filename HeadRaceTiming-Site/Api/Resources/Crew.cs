@@ -78,5 +78,9 @@ namespace HeadRaceTimingSite.Api.Resources
         /// The time of the last update to the crew's times
         /// </summary>
         public DateTime? LastUpdate { get; set; }
+        /// <summary>
+        /// Whether the crew has incurred any penalties
+        /// </summary>
+        public bool HasPenalty { get; set; }
     }
 }

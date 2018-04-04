@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HeadRaceTimingSite.Models;
 using System.Collections.Generic;
 
-namespace HeadRaceTimingSite.Tests
+namespace HeadRaceTimingSite.Tests.Models
 {
     [TestClass]
     public class CrewTests

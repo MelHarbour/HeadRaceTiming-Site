@@ -70,6 +70,28 @@
             <crew-results-list crew-id="@Model.BroeCrewId"></crew-results-list>
         </div>
     </paper-card>
+
+    @if (Model.Penalties.Count > 0)
+    {
+    <paper-card class="card-table" heading="Penalties">
+        <div class="card-content">
+            <table>
+                <thead>
+                    <tr><th>Amount</th><th>Reason</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var penalty in Model.Penalties)
+                    {
+                    <tr>
+                        <td>@penalty.Value</td>
+                        <td>@penalty.Reason</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </paper-card>
+    }
 </div>
 
 @section titleStyle{
