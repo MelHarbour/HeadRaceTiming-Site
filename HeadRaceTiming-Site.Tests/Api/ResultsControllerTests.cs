@@ -50,5 +50,32 @@ namespace HeadRaceTimingSite.Tests.Api
                 Assert.AreEqual(404, notFoundResult.StatusCode);
             }
         }
+
+        [TestMethod]
+        public async Task GetByCrew_WithCorrectId_ShouldReturnCorrectResults()
+        {
+            using (var context = GetTimingSiteContext())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
+            {
+                TimingPoint timingPoint = new TimingPoint(1);
+                Crew dbCrew = new Crew { CrewId = 1, BroeCrewId = 123456 };
+                dbCrew.Results = new List<Result>();
+                dbCrew.Results.Add(new Result(timingPoint, new TimeSpan(10, 0, 0)));
+                dbCrew.Competition = new Competition { TimingPoints = new List<TimingPoint>() };
+                dbCrew.Competition.TimingPoints.Add(timingPoint);
+                context.Crews.Add(dbCrew);
+                context.SaveChanges();
+
+                var result = await controller.GetByCrew(123456).ConfigureAwait(false);
+                var okResult = result as OkObjectResult;
+
+                Assert.IsNotNull(okResult, "Should return Ok");
+                Assert.AreEqual(200, okResult.StatusCode);
+                List<HeadRaceTimingSite.Api.Resources.Result> results = okResult.Value as List<HeadRaceTimingSite.Api.Resources.Result>;
+                Assert.IsNotNull(results, "Should return List<Result>");
+                Assert.AreEqual(1, results.Count);
+                Assert.AreEqual(new TimeSpan(10, 0, 0), results[0].TimeOfDay);
+            }
+        }
     }
 }

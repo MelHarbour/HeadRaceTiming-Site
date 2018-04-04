@@ -40,6 +40,7 @@ Included items must then not match any entries in the exclude list to remain inc
                 <Function>^HeadRaceTimingSite\.ApiProfile\..*</Function>
                 <Function>^HeadRaceTimingSite\.Migrations\..*</Function>
                 <Function>^HeadRaceTimingSite\.ViewModels\..*</Function>
+                <Function>^HeadRaceTimingSite\.Api\.Resources\..*</Function>
               </Exclude>
             </Functions>
 

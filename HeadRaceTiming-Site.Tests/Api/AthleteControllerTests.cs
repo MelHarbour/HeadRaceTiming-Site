@@ -101,6 +101,33 @@ namespace HeadRaceTimingSite.Tests.Api
         }
 
         [TestMethod]
+        public async Task GetByCrewAndPosition_WithValidData_ShouldReturnAthlete()
+        {
+            using (var context = GetTimingSiteContext())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
+            {
+                Crew dbCrew = new Crew
+                {
+                    BroeCrewId = 1,
+                    BoatClass = BoatClass.SingleScull
+                };
+                dbCrew.Athletes = new List<CrewAthlete>();
+                dbCrew.Athletes.Add(new CrewAthlete { Athlete = new Athlete { MembershipNumber = "ABC123" }, Position = 1 });
+                context.Crews.Add(dbCrew);
+                context.SaveChanges();
+
+                var result = await controller.GetByCrewAndPosition(1, 1).ConfigureAwait(false);
+                var okResult = result as OkObjectResult;
+
+                Assert.IsNotNull(okResult, "Should be Ok");
+                Assert.AreEqual(200, okResult.StatusCode);
+                HeadRaceTimingSite.Api.Resources.Athlete athlete = okResult.Value as HeadRaceTimingSite.Api.Resources.Athlete;
+                Assert.IsNotNull(athlete, "Should be Athlete");
+                Assert.AreEqual("ABC123", athlete.MembershipNumber);
+            }
+        }
+
+        [TestMethod]
         public async Task ListByCrew_WithIncorrectId_ShouldReturn404()
         {
             using (var context = GetTimingSiteContext())
