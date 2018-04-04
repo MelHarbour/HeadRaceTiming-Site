@@ -49,6 +49,45 @@ namespace HeadRaceTimingSite.Tests.Models
         }
 
         [TestMethod]
+        public void RunTime_WithPenalty_ShouldNotIncludePenalty()
+        {
+            Crew crew = new Crew();
+            crew.CrewId = 1;
+            crew.Results = new List<Result>();
+            crew.Penalties = new List<Penalty>();
+            TimingPoint startPoint = new TimingPoint(1);
+            TimingPoint finishPoint = new TimingPoint(2);
+
+            crew.Results.Add(new Result(startPoint, crew, new TimeSpan(2, 0, 0)));
+            crew.Results.Add(new Result(finishPoint, crew, new TimeSpan(0, 2, 20, 0, 210)));
+            crew.Penalties.Add(new Penalty { Value = new TimeSpan(0, 0, 5) });
+
+            Assert.AreEqual(new TimeSpan(0, 0, 20, 0, 200), crew.RunTime(startPoint, finishPoint));
+        }
+
+        [TestMethod]
+        public void OverallTime_WithPenalty_ShouldIncludePenalty()
+        {
+            Crew crew = new Crew();
+            crew.CrewId = 1;
+            crew.Results = new List<Result>();
+            crew.Penalties = new List<Penalty>();
+            TimingPoint startPoint = new TimingPoint(1);
+            TimingPoint finishPoint = new TimingPoint(2);
+            Competition competition = new Competition();
+            competition.TimingPoints = new List<TimingPoint>();
+            competition.TimingPoints.Add(startPoint);
+            competition.TimingPoints.Add(finishPoint);
+            crew.Competition = competition;
+
+            crew.Results.Add(new Result(startPoint, crew, new TimeSpan(2, 0, 0)));
+            crew.Results.Add(new Result(finishPoint, crew, new TimeSpan(0, 2, 20, 0, 210)));
+            crew.Penalties.Add(new Penalty { Value = new TimeSpan(0, 0, 5) });
+
+            Assert.AreEqual(new TimeSpan(0, 0, 20, 5, 200), crew.OverallTime);
+        }
+
+        [TestMethod]
         public void Rank_WithSingleResult_ShouldReturnOne()
         {
             Crew crew = new Crew();
