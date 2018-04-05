@@ -202,7 +202,7 @@ namespace HeadRaceTimingSite.Tests.Api
         }
 
         [TestMethod]
-        public async Task PutByCrewAndPosition_WithExistingAthleteSameMembershipNumber_ShouldUpdateAthlete()
+        public async Task PutByCrewAndPosition_WithExistingAthleteSameMembershipNumberInPosition_ShouldUpdateAthlete()
         {
             using (var context = GetTimingSiteContext())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
@@ -240,6 +240,154 @@ namespace HeadRaceTimingSite.Tests.Api
                 Assert.AreEqual(204, noContentResult.StatusCode);
                 Crew dbCrew = context.Crews.First(x => x.BroeCrewId == 1);
                 Assert.AreEqual(1, context.Athletes.Count());
+                Assert.AreEqual(1, dbCrew.Athletes.Count);
+                Assert.AreEqual("Joe", dbCrew.Athletes[0].Athlete.FirstName);
+                Assert.AreEqual("Bloggs", dbCrew.Athletes[0].Athlete.LastName);
+                Assert.AreEqual("ABC123", dbCrew.Athletes[0].Athlete.MembershipNumber);
+                Assert.AreEqual(25, dbCrew.Athletes[0].Age);
+                Assert.AreEqual(1, dbCrew.Athletes[0].Position);
+                Assert.AreEqual(10, dbCrew.Athletes[0].Pri);
+                Assert.AreEqual(20, dbCrew.Athletes[0].PriMax);
+            }
+        }
+
+        [TestMethod]
+        public async Task PutByCrewAndPosition_WithExistingAthleteSameMembershipNumberNotInCrew_ShouldUpdateAthleteAndAttach()
+        {
+            using (var context = GetTimingSiteContext())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
+            {
+                context.Crews.Add(new Crew { BroeCrewId = 1, Athletes = new List<CrewAthlete>() });
+                context.Athletes.Add(new Athlete
+                {
+                    FirstName = "Mike",
+                    LastName = "Tester",
+                    MembershipNumber = "ABC123",
+                });
+                context.SaveChanges();
+
+                var result = await controller.PutByCrewAndPosition(1, 1, new HeadRaceTimingSite.Api.Resources.Athlete
+                {
+                    FirstName = "Joe",
+                    LastName = "Bloggs",
+                    MembershipNumber = "ABC123",
+                    Age = 25,
+                    Position = 1,
+                    Pri = 10,
+                    PriMax = 20
+                }).ConfigureAwait(false);
+
+                var noContentResult = result as NoContentResult;
+                Assert.IsNotNull(noContentResult, "Should be No Content");
+                Assert.AreEqual(204, noContentResult.StatusCode);
+                Crew dbCrew = context.Crews.First(x => x.BroeCrewId == 1);
+                Assert.AreEqual(1, context.Athletes.Count());
+                Assert.AreEqual(1, dbCrew.Athletes.Count);
+                Assert.AreEqual("Joe", dbCrew.Athletes[0].Athlete.FirstName);
+                Assert.AreEqual("Bloggs", dbCrew.Athletes[0].Athlete.LastName);
+                Assert.AreEqual("ABC123", dbCrew.Athletes[0].Athlete.MembershipNumber);
+                Assert.AreEqual(25, dbCrew.Athletes[0].Age);
+                Assert.AreEqual(1, dbCrew.Athletes[0].Position);
+                Assert.AreEqual(10, dbCrew.Athletes[0].Pri);
+                Assert.AreEqual(20, dbCrew.Athletes[0].PriMax);
+            }
+        }
+
+        [TestMethod]
+        public async Task PutByCrewAndPosition_WithWrongAthleteInPositionAndExistingAthleteElsewhere_ShouldUpdateAthleteAndAttach()
+        {
+            using (var context = GetTimingSiteContext())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
+            {
+                Crew crew = new Crew { BroeCrewId = 1, Athletes = new List<CrewAthlete>() };
+                context.Crews.Add(crew);
+                crew.Athletes.Add(new CrewAthlete
+                {
+                    Athlete = new Athlete
+                    {
+                        FirstName = "John",
+                        LastName = "Smith",
+                        MembershipNumber = "DEF456",
+                    },
+                    Age = 22,
+                    Position = 1,
+                    Pri = 20,
+                    PriMax = 30
+                });
+                context.Athletes.Add(new Athlete
+                {
+                    FirstName = "Mike",
+                    LastName = "Tester",
+                    MembershipNumber = "ABC123",
+                });
+                context.SaveChanges();
+
+                var result = await controller.PutByCrewAndPosition(1, 1, new HeadRaceTimingSite.Api.Resources.Athlete
+                {
+                    FirstName = "Joe",
+                    LastName = "Bloggs",
+                    MembershipNumber = "ABC123",
+                    Age = 25,
+                    Position = 1,
+                    Pri = 10,
+                    PriMax = 20
+                }).ConfigureAwait(false);
+
+                var noContentResult = result as NoContentResult;
+                Assert.IsNotNull(noContentResult, "Should be No Content");
+                Assert.AreEqual(204, noContentResult.StatusCode);
+                Crew dbCrew = context.Crews.First(x => x.BroeCrewId == 1);
+                Assert.AreEqual(2, context.Athletes.Count());
+                Assert.AreEqual(1, dbCrew.Athletes.Count);
+                Assert.AreEqual("Joe", dbCrew.Athletes[0].Athlete.FirstName);
+                Assert.AreEqual("Bloggs", dbCrew.Athletes[0].Athlete.LastName);
+                Assert.AreEqual("ABC123", dbCrew.Athletes[0].Athlete.MembershipNumber);
+                Assert.AreEqual(25, dbCrew.Athletes[0].Age);
+                Assert.AreEqual(1, dbCrew.Athletes[0].Position);
+                Assert.AreEqual(10, dbCrew.Athletes[0].Pri);
+                Assert.AreEqual(20, dbCrew.Athletes[0].PriMax);
+            }
+        }
+
+        [TestMethod]
+        public async Task PutByCrewAndPosition_WithWrongAthleteInPositionAndNoExistingAthlete_ShouldCreateAthleteAndAttach()
+        {
+            using (var context = GetTimingSiteContext())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
+            {
+                Crew crew = new Crew { BroeCrewId = 1, Athletes = new List<CrewAthlete>() };
+                context.Crews.Add(crew);
+                crew.Athletes.Add(new CrewAthlete
+                {
+                    Athlete = new Athlete
+                    {
+                        FirstName = "John",
+                        LastName = "Smith",
+                        MembershipNumber = "DEF456",
+                    },
+                    Age = 22,
+                    Position = 1,
+                    Pri = 20,
+                    PriMax = 30
+                });
+                context.SaveChanges();
+
+                var result = await controller.PutByCrewAndPosition(1, 1, new HeadRaceTimingSite.Api.Resources.Athlete
+                {
+                    FirstName = "Joe",
+                    LastName = "Bloggs",
+                    MembershipNumber = "ABC123",
+                    Age = 25,
+                    Position = 1,
+                    Pri = 10,
+                    PriMax = 20
+                }).ConfigureAwait(false);
+
+                var noContentResult = result as NoContentResult;
+                Assert.IsNotNull(noContentResult, "Should be No Content");
+                Assert.AreEqual(204, noContentResult.StatusCode);
+                Crew dbCrew = context.Crews.First(x => x.BroeCrewId == 1);
+                Assert.AreEqual(2, context.Athletes.Count());
                 Assert.AreEqual(1, dbCrew.Athletes.Count);
                 Assert.AreEqual("Joe", dbCrew.Athletes[0].Athlete.FirstName);
                 Assert.AreEqual("Bloggs", dbCrew.Athletes[0].Athlete.LastName);

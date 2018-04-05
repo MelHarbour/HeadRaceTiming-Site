@@ -71,7 +71,21 @@ namespace HeadRaceTimingSite.Api.Controllers
 
             if (crewAthlete == null)
             {
-                crew.Athletes.Add(_mapper.Map<Models.CrewAthlete>(athlete));
+                Models.Athlete dbAthlete = await _context.Athletes.FirstOrDefaultAsync(x => x.MembershipNumber == athlete.MembershipNumber);
+                if (dbAthlete == null)
+                {
+                    crew.Athletes.Add(_mapper.Map<Models.CrewAthlete>(athlete));
+                }
+                else
+                {
+                    crewAthlete = new Models.CrewAthlete
+                    {
+                        Athlete = dbAthlete
+                    };
+
+                    crew.Athletes.Add(crewAthlete);
+                    _mapper.Map(athlete, crewAthlete);
+                }
             }
             else
             { 
@@ -83,18 +97,16 @@ namespace HeadRaceTimingSite.Api.Controllers
                 {
                     Models.Athlete dbAthlete = await _context.Athletes.FirstOrDefaultAsync(x => x.MembershipNumber == athlete.MembershipNumber);
                     crew.Athletes.Remove(crewAthlete);
-                    crew.Athletes.Add(new Models.CrewAthlete
+                    if (dbAthlete == null)
                     {
-                        Athlete = dbAthlete ?? new Models.Athlete
-                        {
-                            FirstName = athlete.FirstName,
-                            LastName = athlete.LastName,
-                            MembershipNumber = athlete.MembershipNumber
-                        },
-                        Position = position,
-                        Pri = athlete.Pri,
-                        PriMax = athlete.PriMax
-                    });
+                        crew.Athletes.Add(_mapper.Map<Models.CrewAthlete>(athlete));
+                    }
+                    else
+                    {
+                        Models.CrewAthlete newCrewAthlete = new Models.CrewAthlete { Athlete = dbAthlete };
+                        crew.Athletes.Add(newCrewAthlete);
+                        _mapper.Map(athlete, newCrewAthlete);
+                    }
                 }
             }
             await _context.SaveChangesAsync();
