@@ -93,8 +93,7 @@ namespace HeadRaceTimingSite.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             Models.Crew crew = await _context.Crews.Include(x => x.Competition.TimingPoints)
-                .Include(x => x.Results).Include(x => x.Penalties)
-                .Include("Athletes.Athlete").FirstOrDefaultAsync(x => x.BroeCrewId == id);
+                .Include(x => x.Results).Include(x => x.Penalties).FirstOrDefaultAsync(x => x.BroeCrewId == id);
 
             if (crew == null)
                 return NotFound();
@@ -103,7 +102,10 @@ namespace HeadRaceTimingSite.Api.Controllers
                 .Include("Crews.Penalties").FirstOrDefaultAsync(c => c.CompetitionId == crew.CompetitionId);
 
             Crew output = _mapper.Map<Crew>(crew);
-            output.Rank = crew.Rank(comp.Crews, comp.TimingPoints.First(), comp.TimingPoints.Last());
+            if (comp.TimingPoints.Count > 0)
+            {
+                output.Rank = crew.Rank(comp.Crews, comp.TimingPoints.First(), comp.TimingPoints.Last());
+            }
             return Ok(output);
         }
 

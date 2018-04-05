@@ -34,6 +34,9 @@ namespace HeadRaceTimingSite.Models
         {
             get
             {
+                if (Competition.TimingPoints.Count == 0)
+                    return null;
+
                 TimeSpan? runTime = RunTime(Competition.TimingPoints[0], Competition.TimingPoints.Last());
                 if (runTime.HasValue)
                 {

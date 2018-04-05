@@ -54,6 +54,40 @@ namespace HeadRaceTimingSite.Tests.Api
         }
 
         [TestMethod]
+        public async Task GetById_WithCorrectId_ShouldReturnCrew()
+        {
+            var authService = new Mock<IAuthorizationService>();
+
+            using (var context = GetTimingSiteContext())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
+            {
+                Competition competition = new Competition
+                {
+                    TimingPoints = new List<TimingPoint>(),
+                    Crews = new List<Crew>()
+                };
+                Crew dbCrew = new Crew
+                {
+                    BroeCrewId = 1,
+                    Competition = competition,
+                    Results = new List<Result>(),
+                    Penalties = new List<Penalty>()
+                };
+                competition.Crews.Add(dbCrew);
+                context.Competitions.Add(competition);
+                context.SaveChanges();
+                var result = await controller.GetById(1).ConfigureAwait(false);
+                var okResult = result as OkObjectResult;
+
+                Assert.IsNotNull(okResult, "Should be Ok Object");
+                Assert.AreEqual(200, okResult.StatusCode);
+                HeadRaceTimingSite.Api.Resources.Crew crew = okResult.Value as HeadRaceTimingSite.Api.Resources.Crew;
+                Assert.IsNotNull(crew, "Should be Crew");
+                Assert.AreEqual(1, crew.Id);
+            }
+        }
+
+        [TestMethod]
         public async Task ListByCompetition_WithIncorrectCompetitionId_ShouldReturn404()
         {
             var authService = new Mock<IAuthorizationService>();
