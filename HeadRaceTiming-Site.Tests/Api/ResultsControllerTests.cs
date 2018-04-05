@@ -77,5 +77,43 @@ namespace HeadRaceTimingSite.Tests.Api
                 Assert.AreEqual(new TimeSpan(10, 0, 0), results[0].TimeOfDay);
             }
         }
+
+        [TestMethod]
+        public async Task GetByCrewAndTimingPoint_WithIncorrectCrewId_ShouldReturn404()
+        {
+            using (var context = GetTimingSiteContext())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
+            {
+                var result = await controller.GetByCrewAndTimingPoint(1, 1).ConfigureAwait(false);
+                var notFoundResult = result as NotFoundResult;
+
+                Assert.IsNotNull(notFoundResult);
+                Assert.AreEqual(404, notFoundResult.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task GetByCrewAndTimingPoint_WithMissingResult_ShouldReturn404()
+        {
+            using (var context = GetTimingSiteContext())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
+            {
+                Competition competition = new Competition { TimingPoints = new List<TimingPoint>() };
+                competition.TimingPoints.Add(new TimingPoint(1));
+                Crew crew = new Crew
+                {
+                    BroeCrewId = 1,
+                    Results = new List<Result>(),
+                    Competition = competition
+                };
+                context.Crews.Add(crew);
+                context.SaveChanges();
+                var result = await controller.GetByCrewAndTimingPoint(1, 1).ConfigureAwait(false);
+                var notFoundResult = result as NotFoundResult;
+
+                Assert.IsNotNull(notFoundResult);
+                Assert.AreEqual(404, notFoundResult.StatusCode);
+            }
+        }
     }
 }

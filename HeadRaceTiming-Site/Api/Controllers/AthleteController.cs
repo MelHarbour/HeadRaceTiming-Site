@@ -69,12 +69,15 @@ namespace HeadRaceTimingSite.Api.Controllers
             Models.Crew crew = await _context.Crews.Include("Athletes.Athlete").FirstAsync(x => x.BroeCrewId == id);
             Models.CrewAthlete crewAthlete = crew.Athletes.FirstOrDefault(x => x.Position == position);
 
+            bool created = false;
+
             if (crewAthlete == null)
             {
                 Models.Athlete dbAthlete = await _context.Athletes.FirstOrDefaultAsync(x => x.MembershipNumber == athlete.MembershipNumber);
                 if (dbAthlete == null)
                 {
                     crew.Athletes.Add(_mapper.Map<Models.CrewAthlete>(athlete));
+                    created = true;
                 }
                 else
                 {
@@ -100,6 +103,7 @@ namespace HeadRaceTimingSite.Api.Controllers
                     if (dbAthlete == null)
                     {
                         crew.Athletes.Add(_mapper.Map<Models.CrewAthlete>(athlete));
+                        created = true;
                     }
                     else
                     {
@@ -110,7 +114,10 @@ namespace HeadRaceTimingSite.Api.Controllers
                 }
             }
             await _context.SaveChangesAsync();
-            return NoContent();
+            if (created)
+                return CreatedAtRoute("GetByCrewAndPosition", new { id = crew.BroeCrewId, position = athlete.Position });
+            else 
+                return NoContent();
         }
 
         /// <summary>

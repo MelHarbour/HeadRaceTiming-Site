@@ -186,9 +186,9 @@ namespace HeadRaceTimingSite.Tests.Api
                         PriMax = 20
                     }).ConfigureAwait(false);
                 
-                var noContentResult = result as NoContentResult;
-                Assert.IsNotNull(noContentResult, "Should be No Content");
-                Assert.AreEqual(204, noContentResult.StatusCode);
+                var createdAtResult = result as CreatedAtRouteResult;
+                Assert.IsNotNull(createdAtResult, "Should be Created At");
+                Assert.AreEqual(201, createdAtResult.StatusCode);
                 Crew dbCrew = context.Crews.First(x => x.BroeCrewId == 1);
                 Assert.AreEqual(1, dbCrew.Athletes.Count);
                 Assert.AreEqual("Joe", dbCrew.Athletes[0].Athlete.FirstName);
@@ -383,9 +383,9 @@ namespace HeadRaceTimingSite.Tests.Api
                     PriMax = 20
                 }).ConfigureAwait(false);
 
-                var noContentResult = result as NoContentResult;
-                Assert.IsNotNull(noContentResult, "Should be No Content");
-                Assert.AreEqual(204, noContentResult.StatusCode);
+                var createdAtResult = result as CreatedAtRouteResult;
+                Assert.IsNotNull(createdAtResult, "Should be Created At");
+                Assert.AreEqual(201, createdAtResult.StatusCode);
                 Crew dbCrew = context.Crews.First(x => x.BroeCrewId == 1);
                 Assert.AreEqual(2, context.Athletes.Count());
                 Assert.AreEqual(1, dbCrew.Athletes.Count);
