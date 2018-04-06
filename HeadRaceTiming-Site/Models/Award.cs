@@ -8,11 +8,15 @@ namespace HeadRaceTimingSite.Models
 {
     public class Award
     {
+        private List<CrewAward> _crews;
         public int AwardId { get; set; }
         public string Title { get; set; }
         public bool IsMasters { get; set; }
 
         public Competition Competition { get; set; }
-        public List<CrewAward> Crews { get; set; }
+        public List<CrewAward> Crews
+        {
+            get { return _crews ?? (_crews = new List<CrewAward>()); }
+        }
     }
 }

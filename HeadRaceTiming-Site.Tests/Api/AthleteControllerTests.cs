@@ -112,7 +112,6 @@ namespace HeadRaceTimingSite.Tests.Api
                     BroeCrewId = 1,
                     BoatClass = BoatClass.SingleScull
                 };
-                dbCrew.Athletes = new List<CrewAthlete>();
                 dbCrew.Athletes.Add(new CrewAthlete { Athlete = new Athlete { MembershipNumber = "ABC123" }, Position = 1 });
                 context.Crews.Add(dbCrew);
                 context.SaveChanges();
@@ -149,7 +148,6 @@ namespace HeadRaceTimingSite.Tests.Api
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 Crew dbCrew = new Crew { BroeCrewId = 1 };
-                dbCrew.Athletes = new List<CrewAthlete>();
                 dbCrew.Athletes.Add(new CrewAthlete { Athlete = new Athlete { MembershipNumber = "ABC123" } });
                 context.Crews.Add(dbCrew);
                 context.SaveChanges();
@@ -172,7 +170,7 @@ namespace HeadRaceTimingSite.Tests.Api
             using (var context = GetTimingSiteContext())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
-                context.Crews.Add(new Crew { BroeCrewId = 1, Athletes = new List<CrewAthlete>() });
+                context.Crews.Add(new Crew { BroeCrewId = 1 });
                 context.SaveChanges();
 
                 var result = await controller.PutByCrewAndPosition(1, 1, new HeadRaceTimingSite.Api.Resources.Athlete
@@ -207,7 +205,7 @@ namespace HeadRaceTimingSite.Tests.Api
             using (var context = GetTimingSiteContext())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
-                Crew crew = new Crew { BroeCrewId = 1, Athletes = new List<CrewAthlete>() };
+                Crew crew = new Crew { BroeCrewId = 1 };
                 crew.Athletes.Add(new CrewAthlete
                 {
                     Athlete = new Athlete
@@ -257,7 +255,7 @@ namespace HeadRaceTimingSite.Tests.Api
             using (var context = GetTimingSiteContext())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
-                context.Crews.Add(new Crew { BroeCrewId = 1, Athletes = new List<CrewAthlete>() });
+                context.Crews.Add(new Crew { BroeCrewId = 1 });
                 context.Athletes.Add(new Athlete
                 {
                     FirstName = "Mike",
@@ -299,7 +297,7 @@ namespace HeadRaceTimingSite.Tests.Api
             using (var context = GetTimingSiteContext())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
-                Crew crew = new Crew { BroeCrewId = 1, Athletes = new List<CrewAthlete>() };
+                Crew crew = new Crew { BroeCrewId = 1 };
                 context.Crews.Add(crew);
                 crew.Athletes.Add(new CrewAthlete
                 {
@@ -355,7 +353,7 @@ namespace HeadRaceTimingSite.Tests.Api
             using (var context = GetTimingSiteContext())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
-                Crew crew = new Crew { BroeCrewId = 1, Athletes = new List<CrewAthlete>() };
+                Crew crew = new Crew { BroeCrewId = 1 };
                 context.Crews.Add(crew);
                 crew.Athletes.Add(new CrewAthlete
                 {

@@ -9,6 +9,11 @@ namespace HeadRaceTimingSite.Models
 {
     public class Crew
     {
+        private List<Result> _results;
+        private List<CrewAthlete> _athletes;
+        private List<CrewAward> _awards;
+        private List<Penalty> _penalties;
+
         public int CrewId { get; set; }
         public string Name { get; set; }
         public int StartNumber { get; set; }
@@ -207,14 +212,25 @@ namespace HeadRaceTimingSite.Models
             return 0;
         }
 
-        public List<Result> Results { get; set; }
-
         public int CompetitionId { get; set; }
         public Competition Competition { get; set; }
 
-        public List<CrewAthlete> Athletes { get; set; }
-        public List<CrewAward> Awards { get; set; }
-        public List<Penalty> Penalties { get; set; }
+        public List<Result> Results
+        {
+            get { return _results ?? (_results = new List<Result>()); }
+        }
+        public List<CrewAthlete> Athletes
+        {
+            get { return _athletes ?? (_athletes = new List<CrewAthlete>()); }
+        }
+        public List<CrewAward> Awards
+        {
+            get { return _awards ?? (_awards = new List<CrewAward>()); }
+        }
+        public List<Penalty> Penalties
+        {
+            get { return _penalties ?? (_penalties = new List<Penalty>()); }
+        }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1717:Only FlagsAttribute enums should have plural names", Justification = "Not a plural")]
         public enum ResultStatus

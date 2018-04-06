@@ -59,9 +59,8 @@ namespace HeadRaceTimingSite.Tests.Api
             {
                 TimingPoint timingPoint = new TimingPoint(1);
                 Crew dbCrew = new Crew { CrewId = 1, BroeCrewId = 123456 };
-                dbCrew.Results = new List<Result>();
                 dbCrew.Results.Add(new Result(timingPoint, new TimeSpan(10, 0, 0)));
-                dbCrew.Competition = new Competition { TimingPoints = new List<TimingPoint>() };
+                dbCrew.Competition = new Competition();
                 dbCrew.Competition.TimingPoints.Add(timingPoint);
                 context.Crews.Add(dbCrew);
                 context.SaveChanges();
@@ -98,12 +97,11 @@ namespace HeadRaceTimingSite.Tests.Api
             using (var context = GetTimingSiteContext())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
             {
-                Competition competition = new Competition { TimingPoints = new List<TimingPoint>() };
+                Competition competition = new Competition();
                 competition.TimingPoints.Add(new TimingPoint(1));
                 Crew crew = new Crew
                 {
                     BroeCrewId = 1,
-                    Results = new List<Result>(),
                     Competition = competition
                 };
                 context.Crews.Add(crew);

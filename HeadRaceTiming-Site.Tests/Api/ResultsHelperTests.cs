@@ -26,7 +26,6 @@ namespace HeadRaceTimingSite.Tests
             BarnesPoint = new TimingPoint(2);
             HammersmithPoint = new TimingPoint(3);
             FinishPoint = new TimingPoint(4);
-            Competition.TimingPoints = new List<TimingPoint>();
             Competition.TimingPoints.Add(StartPoint);
             Competition.TimingPoints.Add(BarnesPoint);
             Competition.TimingPoints.Add(HammersmithPoint);
@@ -43,20 +42,12 @@ namespace HeadRaceTimingSite.Tests
         public void BuildResultsList_WithSingleCrewWithTime_ShouldRankItFirst()
         {
             List<Crew> crews = new List<Crew>();
-            Crew crew1 = new Crew();
-            crew1.BroeCrewId = 1;
-            crew1.Competition = Competition;
-            crew1.Results = new List<Result>();
-            crew1.Penalties = new List<Penalty>();
+            Crew crew1 = new Crew { BroeCrewId = 1, Competition = Competition };
             crews.Add(crew1);
 
-            Crew crew2 = new Crew();
-            crew2.BroeCrewId = 2;
-            crew2.Competition = Competition;
-            crew2.Results = new List<Result>();
+            Crew crew2 = new Crew { BroeCrewId = 2, Competition = Competition };
             crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 0, 0)));
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
-            crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
             List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, crews);
@@ -69,22 +60,14 @@ namespace HeadRaceTimingSite.Tests
         public void BuildResultsList_WithTwoCrewsWithTimes_ShouldOrderByTimes()
         {
             List<Crew> crews = new List<Crew>();
-            Crew crew1 = new Crew();
-            crew1.BroeCrewId = 1;
-            crew1.Competition = Competition;
-            crew1.Results = new List<Result>();
+            Crew crew1 = new Crew { BroeCrewId = 1, Competition = Competition };
             crew1.Results.Add(new Result(StartPoint, crew1, new TimeSpan(2, 0, 0)));
             crew1.Results.Add(new Result(FinishPoint, crew1, new TimeSpan(2, 20, 0)));
-            crew1.Penalties = new List<Penalty>();
             crews.Add(crew1);
 
-            Crew crew2 = new Crew();
-            crew2.BroeCrewId = 2;
-            crew2.Competition = Competition;
-            crew2.Results = new List<Result>();
+            Crew crew2 = new Crew { BroeCrewId = 2, Competition = Competition };
             crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 1, 0)));
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
-            crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
             List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, crews);
@@ -97,23 +80,14 @@ namespace HeadRaceTimingSite.Tests
         public void BuildResultsList_WithFirstCrewTimeOnly_ShouldReturnFirstCrewSecond()
         {
             List<Crew> crews = new List<Crew>();
-            Crew crew1 = new Crew();
-            crew1.BroeCrewId = 1;
-            crew1.Competition = Competition;
-            crew1.Results = new List<Result>();
+            Crew crew1 = new Crew { BroeCrewId = 1, Competition = Competition };
             crew1.Results.Add(new Result(StartPoint, crew1, new TimeSpan(2, 0, 0)));
             crew1.Results.Add(new Result(FinishPoint, crew1, new TimeSpan(2, 20, 0)));
-            crew1.Penalties = new List<Penalty>();
             crews.Add(crew1);
 
-            Crew crew2 = new Crew();
-            crew2.BroeCrewId = 2;
-            crew2.Competition = Competition;
-            crew2.IsTimeOnly = true;
-            crew2.Results = new List<Result>();
+            Crew crew2 = new Crew { BroeCrewId = 2, Competition = Competition, IsTimeOnly = true };
             crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 1, 0)));
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
-            crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
             List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, crews);
@@ -126,23 +100,16 @@ namespace HeadRaceTimingSite.Tests
         public void BuildResultsList_WithFirstCrewTimeOnlyAndSecondCrewAtBarnes_ShouldReturnFirstCrewSecond()
         {
             List<Crew> crews = new List<Crew>();
-            Crew crew1 = new Crew();
+            Crew crew1 = new Crew { BroeCrewId = 1, Competition = Competition };
             crew1.BroeCrewId = 1;
             crew1.Competition = Competition;
-            crew1.Results = new List<Result>();
             crew1.Results.Add(new Result(StartPoint, crew1, new TimeSpan(2, 0, 0)));
             crew1.Results.Add(new Result(BarnesPoint, crew1, new TimeSpan(2, 4, 0)));
-            crew1.Penalties = new List<Penalty>();
             crews.Add(crew1);
 
-            Crew crew2 = new Crew();
-            crew2.BroeCrewId = 2;
-            crew2.Competition = Competition;
-            crew2.IsTimeOnly = true;
-            crew2.Results = new List<Result>();
+            Crew crew2 = new Crew { BroeCrewId = 2, Competition = Competition, IsTimeOnly = true };
             crew2.Results.Add(new Result(StartPoint, crew2, new TimeSpan(2, 1, 0)));
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
-            crew2.Penalties = new List<Penalty>();
             crews.Add(crew2);
 
             List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, crews);
@@ -155,17 +122,10 @@ namespace HeadRaceTimingSite.Tests
         public void BuildResultsList_WithNoCrewsWithTimesButTimeOnlyFirst_ShouldReturnStartOrder()
         {
             List<Crew> crews = new List<Crew>();
-            Crew crew1 = new Crew();
-            crew1.BroeCrewId = 1;
-            crew1.IsTimeOnly = true;
-            crew1.Competition = Competition;
-            crew1.Results = new List<Result>();
+            Crew crew1 = new Crew { BroeCrewId = 1, IsTimeOnly = true, Competition = Competition };
             crews.Add(crew1);
 
-            Crew crew2 = new Crew();
-            crew2.BroeCrewId = 2;
-            crew2.Competition = Competition;
-            crew2.Results = new List<Result>();
+            Crew crew2 = new Crew { BroeCrewId = 2, Competition = Competition };
             crews.Add(crew2);
 
             List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, crews);

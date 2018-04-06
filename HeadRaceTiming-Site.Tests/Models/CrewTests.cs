@@ -22,8 +22,6 @@ namespace HeadRaceTimingSite.Tests.Models
         public void RunTime_WithTwoResults_ShouldReturnDifference()
         {
             Crew crew = new Crew();
-            crew.CrewId = 1;
-            crew.Results = new List<Result>();
             TimingPoint startPoint = new TimingPoint(1);
             TimingPoint finishPoint = new TimingPoint(2);
 
@@ -37,8 +35,6 @@ namespace HeadRaceTimingSite.Tests.Models
         public void RunTime_ShouldRoundToNearestTenth()
         {
             Crew crew = new Crew();
-            crew.CrewId = 1;
-            crew.Results = new List<Result>();
             TimingPoint startPoint = new TimingPoint(1);
             TimingPoint finishPoint = new TimingPoint(2);
 
@@ -52,9 +48,6 @@ namespace HeadRaceTimingSite.Tests.Models
         public void RunTime_WithPenalty_ShouldNotIncludePenalty()
         {
             Crew crew = new Crew();
-            crew.CrewId = 1;
-            crew.Results = new List<Result>();
-            crew.Penalties = new List<Penalty>();
             TimingPoint startPoint = new TimingPoint(1);
             TimingPoint finishPoint = new TimingPoint(2);
 
@@ -69,13 +62,9 @@ namespace HeadRaceTimingSite.Tests.Models
         public void OverallTime_WithPenalty_ShouldIncludePenalty()
         {
             Crew crew = new Crew();
-            crew.CrewId = 1;
-            crew.Results = new List<Result>();
-            crew.Penalties = new List<Penalty>();
             TimingPoint startPoint = new TimingPoint(1);
             TimingPoint finishPoint = new TimingPoint(2);
             Competition competition = new Competition();
-            competition.TimingPoints = new List<TimingPoint>();
             competition.TimingPoints.Add(startPoint);
             competition.TimingPoints.Add(finishPoint);
             crew.Competition = competition;
@@ -91,7 +80,6 @@ namespace HeadRaceTimingSite.Tests.Models
         public void Rank_WithSingleResult_ShouldReturnOne()
         {
             Crew crew = new Crew();
-            crew.Results = new List<Result>();
             TimingPoint startTimingPoint = new TimingPoint(1);
             Result startResult = new Result(startTimingPoint, TimeSpan.Zero);
             crew.Results.Add(startResult);
@@ -112,12 +100,10 @@ namespace HeadRaceTimingSite.Tests.Models
             Result startResult = new Result(startTimingPoint, TimeSpan.Zero);
             TimingPoint finishTimingPoint = new TimingPoint(2);
             Crew crewOne = new Crew();
-            crewOne.Results = new List<Result>();
             Result resultOne = new Result(finishTimingPoint, TimeSpan.Zero);
             crewOne.Results.Add(startResult);
             crewOne.Results.Add(resultOne);
             Crew crewTwo = new Crew();
-            crewTwo.Results = new List<Result>();
             Result resultTwo = new Result(finishTimingPoint, TimeSpan.Zero.Add(new TimeSpan(0, 0, 2)));
             crewTwo.Results.Add(startResult);
             crewTwo.Results.Add(resultTwo);
@@ -137,13 +123,11 @@ namespace HeadRaceTimingSite.Tests.Models
             Result startResult = new Result(startTimingPoint, TimeSpan.Zero);
             TimingPoint finishTimingPoint = new TimingPoint(2);
             Crew crewOne = new Crew();
-            crewOne.Results = new List<Result>();
 
             Result resultOne = new Result(finishTimingPoint, TimeSpan.Zero);
             crewOne.Results.Add(startResult);
             crewOne.Results.Add(resultOne);
             Crew crewTwo = new Crew();
-            crewTwo.Results = new List<Result>();
             Result resultTwo = new Result(finishTimingPoint, TimeSpan.Zero);
             crewTwo.Results.Add(startResult);
             crewTwo.Results.Add(resultTwo);
@@ -164,17 +148,14 @@ namespace HeadRaceTimingSite.Tests.Models
             TimingPoint finishTimingPoint = new TimingPoint(2);
 
             Crew crewOne = new Crew();
-            crewOne.Results = new List<Result>();
             Result resultOne = new Result(finishTimingPoint, TimeSpan.Zero);
             crewOne.Results.Add(startResult);
             crewOne.Results.Add(resultOne);
             Crew crewTwo = new Crew();
-            crewTwo.Results = new List<Result>();
             Result resultTwo = new Result(finishTimingPoint, TimeSpan.Zero);
             crewTwo.Results.Add(startResult);
             crewTwo.Results.Add(resultTwo);
             Crew crewThree = new Crew();
-            crewThree.Results = new List<Result>();
             Result resultThree = new Result(finishTimingPoint, TimeSpan.Zero);
             crewThree.Results.Add(startResult);
             crewThree.Results.Add(resultThree);
@@ -196,12 +177,10 @@ namespace HeadRaceTimingSite.Tests.Models
             Result startResult = new Result(startTimingPoint, TimeSpan.Zero);
             TimingPoint finishTimingPoint = new TimingPoint(2);
             Crew crewOne = new Crew();
-            crewOne.Results = new List<Result>();
             Result resultOne = new Result(finishTimingPoint, TimeSpan.Zero);
             crewOne.Results.Add(startResult);
             crewOne.Results.Add(resultOne);
             Crew crewTwo = new Crew();
-            crewTwo.Results = new List<Result>();
             Result resultTwo = new Result(finishTimingPoint, TimeSpan.Zero.Add(new TimeSpan(0, 0, 0, 0, 5)));
             crewTwo.Results.Add(startResult);
             crewTwo.Results.Add(resultTwo);
@@ -221,12 +200,10 @@ namespace HeadRaceTimingSite.Tests.Models
             Result startResult = new Result(startTimingPoint, TimeSpan.Zero);
             TimingPoint finishTimingPoint = new TimingPoint(2);
             Crew crewOne = new Crew();
-            crewOne.Results = new List<Result>();
             Result resultOne = new Result(finishTimingPoint, new TimeSpan(0, 0, 0, 0, 410));
             crewOne.Results.Add(startResult);
             crewOne.Results.Add(resultOne);
             Crew crewTwo = new Crew();
-            crewTwo.Results = new List<Result>();
             Result resultTwo = new Result(finishTimingPoint, new TimeSpan(0, 0, 0, 0, 490));
             crewTwo.Results.Add(startResult);
             crewTwo.Results.Add(resultTwo);
@@ -248,7 +225,6 @@ namespace HeadRaceTimingSite.Tests.Models
             TimingPoint finishTimingPoint = new TimingPoint(2);
             Crew crewOne = new Crew();
             crewOne.IsTimeOnly = true;
-            crewOne.Results = new List<Result>();
             Result resultOne = new Result(finishTimingPoint, new TimeSpan(0, 0, 0, 0, 410));
             crewOne.Results.Add(startResult);
             crewOne.Results.Add(resultOne);
@@ -266,7 +242,6 @@ namespace HeadRaceTimingSite.Tests.Models
             Athlete athleteOne = new Athlete();
             Athlete athleteTwo = new Athlete();
             Athlete athleteThree = new Athlete();
-            crew.Athletes = new List<CrewAthlete>();
             crew.Athletes.Add(new CrewAthlete { Athlete = athleteOne, Age = 30 });
             crew.Athletes.Add(new CrewAthlete { Athlete = athleteTwo, Age = 31 });
             crew.Athletes.Add(new CrewAthlete { Athlete = athleteThree, Age = 32 });
@@ -290,9 +265,7 @@ namespace HeadRaceTimingSite.Tests.Models
         public void MastersCategory_WithCrewWithAges_ShouldReturnCorrectCategory(MastersCategory mastersCategory, int athleteAge)
         {
             Crew crew = new Crew();
-            Athlete athlete = new Athlete();
-            crew.Athletes = new List<CrewAthlete>();
-            crew.Athletes.Add(new CrewAthlete { Athlete = athlete, Age = athleteAge });
+            crew.Athletes.Add(new CrewAthlete { Athlete = new Athlete(), Age = athleteAge });
 
             Assert.AreEqual(mastersCategory, crew.MastersCategory, "Category: {0}; Age One: {1}", mastersCategory, athleteAge);
         }
@@ -301,9 +274,7 @@ namespace HeadRaceTimingSite.Tests.Models
         public void MastersHandicap_WithNonMastersCrew_ShouldThrowInvalidOperationException()
         {
             Crew crew = new Crew();
-            Athlete athlete = new Athlete();
-            crew.Athletes = new List<CrewAthlete>();
-            crew.Athletes.Add(new CrewAthlete { Athlete = athlete, Age = 26 });
+            crew.Athletes.Add(new CrewAthlete { Athlete = new Athlete(), Age = 26 });
 
             Assert.ThrowsException<InvalidOperationException>(() => crew.CalculateMastersHandicap());
         }

@@ -10,6 +10,11 @@ namespace HeadRaceTimingSite.Models
 {
     public class Competition
     {
+        private ICollection<CompCompAdmin> _administrators;
+        private List<TimingPoint> _timingPoints;
+        private List<Crew> _crews;
+        private List<Award> _awards;
+
         public int CompetitionId { get; set; }
         public string Name { get; set; }
         public bool ShowFirstIntermediate { get; set; }
@@ -53,10 +58,22 @@ namespace HeadRaceTimingSite.Models
             }
         }
 
-        public ICollection<CompCompAdmin> Administrators { get; set; }
-        public List<TimingPoint> TimingPoints { get; set; }
-        public List<Crew> Crews { get; set; }
-        public List<Award> Awards { get; set; }
+        public ICollection<CompCompAdmin> Administrators
+        {
+            get { return _administrators ?? (_administrators = new List<CompCompAdmin>()); }
+        }
+        public List<TimingPoint> TimingPoints
+        {
+            get { return _timingPoints ?? (_timingPoints = new List<TimingPoint>()); }
+        }
+        public List<Crew> Crews
+        {
+            get { return _crews ?? (_crews = new List<Crew>()); }
+        }
+        public List<Award> Awards
+        {
+            get { return _awards ?? (_awards = new List<Award>()); }
+        }
 
         public string FirstIntermediateName
         {
