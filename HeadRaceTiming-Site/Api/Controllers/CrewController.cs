@@ -16,12 +16,12 @@ namespace HeadRaceTimingSite.Api.Controllers
 {
     public class CrewController : HeadRaceTimingSite.Controllers.BaseController
     {
-        private readonly IAuthorizationService _authorizationService;
+        private readonly IAuthorizationHelper _authorizationHelper;
         private readonly IMapper _mapper;
         
-        public CrewController(IAuthorizationService authorizationService, IMapper mapper, Models.TimingSiteContext context) : base(context)
+        public CrewController(IAuthorizationHelper authorizationHelper, IMapper mapper, Models.TimingSiteContext context) : base(context)
         {
-            _authorizationService = authorizationService;
+            _authorizationHelper = authorizationHelper;
             _mapper = mapper;
         } 
 
@@ -32,12 +32,13 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <param name="id">The BROE ID of the crew</param>
         /// <param name="crew">The details of the crew to create</param>
         [SwaggerResponse(201, Description = "Crew has been successfully created in the system")]
+        [SwaggerResponse(204, Description = "Crew has been successfully updated in the system")]
         [HttpPut("/api/competitions/{compid}/crews/{id}")]
         public async Task<IActionResult> Put(int compid, int id, [FromBody] Crew crew)
         {
             Models.Competition competition = await _context.Competitions.Include("Administrators.CompetitionAdministrator").FirstAsync(x => x.CompetitionId == compid);
 
-            var authorizationResult = await _authorizationService.AuthorizeAsync(User, competition, "CanAdminCompetition");
+            var authorizationResult = await _authorizationHelper.AuthorizeAsync(User, competition, "CanAdminCompetition");
 
             if (!authorizationResult.Succeeded)
             {
@@ -51,8 +52,9 @@ namespace HeadRaceTimingSite.Api.Controllers
 
             if (dbCrew == null)
             {
-                Models.Crew modelCrew = _mapper.Map<Models.Crew>(crew);
-                _context.Crews.Add(modelCrew);
+                Models.Crew modelCrew = new Models.Crew { Competition = competition };
+                competition.Crews.Add(modelCrew);
+                _mapper.Map(crew, modelCrew);
                 await _context.SaveChangesAsync();
                 return CreatedAtRoute("GetById", new { id = modelCrew.BroeCrewId });
             }
@@ -60,7 +62,7 @@ namespace HeadRaceTimingSite.Api.Controllers
             {
                 _mapper.Map(crew, dbCrew);
                 await _context.SaveChangesAsync();
-                return Ok();
+                return NoContent();
             }
         }
 

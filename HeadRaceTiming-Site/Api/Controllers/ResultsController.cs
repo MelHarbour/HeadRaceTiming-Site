@@ -101,13 +101,13 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <param name="id">The BROE ID of the crew</param>
         /// <param name="timingPointId">The ID of the timing point</param>
         /// <param name="result">Details of the result</param>
-        [SwaggerResponse(201, Description = "Result has been successfully updated in the system")]
-        [SwaggerResponse(204, Description = "Result has been successfully created in the system")]
+        [SwaggerResponse(201, Description = "Result has been successfully created in the system")]
+        [SwaggerResponse(204, Description = "Result has been successfully updated in the system")]
         [HttpGet("/api/crews/{id}/results/{timingPointId}")]
         public async Task<IActionResult> Put(int id, int timingPointId, [FromBody] Result result)
         {
             Models.Crew crew = await _context.Crews.Include(x => x.Results).FirstAsync(x => x.BroeCrewId == id);
-            Models.Result modelResult = crew.Results.First(x => x.TimingPointId == timingPointId);
+            Models.Result modelResult = crew.Results.FirstOrDefault(x => x.TimingPointId == timingPointId);
             if (modelResult != null)
             {
                 _mapper.Map(result, modelResult);
@@ -116,7 +116,9 @@ namespace HeadRaceTimingSite.Api.Controllers
             }
             else
             {
-                crew.Results.Add(_mapper.Map<Models.Result>(result));
+                Models.Result dbResult = _mapper.Map<Models.Result>(result);
+                dbResult.TimingPointId = timingPointId;
+                crew.Results.Add(dbResult);
                 await _context.SaveChangesAsync();
                 return CreatedAtRoute("GetByCrewAndTimingPoint", new { crewId = crew.BroeCrewId });
             }

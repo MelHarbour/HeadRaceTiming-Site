@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
+using HeadRaceTimingSite.Helpers;
 using HeadRaceTimingSite.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HeadRaceTimingSite.Tests.Api
@@ -16,6 +18,7 @@ namespace HeadRaceTimingSite.Tests.Api
     public class CrewControllerTests
     {
         private IMapper mapper;
+        private ServiceProvider provider;
 
         [TestInitialize]
         public void Initialize()
@@ -25,24 +28,20 @@ namespace HeadRaceTimingSite.Tests.Api
                 cfg.AddProfile(new ApiProfile());
             });
             mapper = config.CreateMapper();
-        }
-
-        private static TimingSiteContext GetTimingSiteContext()
-        {
-            var options = new DbContextOptionsBuilder<TimingSiteContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
-            var context = new TimingSiteContext(options);
-
-            return context;
+            var services = new ServiceCollection();
+            services.AddDbContext<TimingSiteContext>(
+                options => options.UseInMemoryDatabase($"db-{Guid.NewGuid()}"),
+                ServiceLifetime.Transient
+            );
+            provider = services.BuildServiceProvider();
         }
 
         [TestMethod]
         public async Task GetById_WithIncorrectId_ShouldReturn404()
         {
-            var authService = new Mock<IAuthorizationService>();
+            var authService = new Mock<IAuthorizationHelper>();
 
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
             {
                 var result = await controller.GetById(1).ConfigureAwait(false);
@@ -56,9 +55,9 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task GetById_WithCorrectId_ShouldReturnCrew()
         {
-            var authService = new Mock<IAuthorizationService>();
+            var authService = new Mock<IAuthorizationHelper>();
 
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
             {
                 Competition competition = new Competition();
@@ -84,9 +83,9 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task ListByCompetition_WithIncorrectCompetitionId_ShouldReturn404()
         {
-            var authService = new Mock<IAuthorizationService>();
+            var authService = new Mock<IAuthorizationHelper>();
 
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
             {
                 var result = await controller.ListByCompetition(1, null).ConfigureAwait(false);
@@ -100,9 +99,9 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task ListByCompetition_WithCompetitionAndNoCrews_ShouldReturnBlankList()
         {
-            var authService = new Mock<IAuthorizationService>();
+            var authService = new Mock<IAuthorizationHelper>();
 
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
             {
                 context.Competitions.Add(new Competition
@@ -122,9 +121,9 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task ListByCompetition_WithSearchString_ShouldReturnMatchingCrew()
         {
-            var authService = new Mock<IAuthorizationService>();
+            var authService = new Mock<IAuthorizationHelper>();
 
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
             {
                 Competition competition = new Competition
@@ -146,6 +145,99 @@ namespace HeadRaceTimingSite.Tests.Api
                 Assert.IsNotNull(crews, "Should return List<Crew>");
                 Assert.AreEqual(1, crews.Count);
                 Assert.AreEqual(1, crews[0].Id);
+            }
+        }
+
+        [TestMethod]
+        public async Task Put_WithNoExistingCrew_ShouldAddCrew()
+        {
+            var authService = new Mock<IAuthorizationHelper>();
+            authService.Setup(x => x.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), It.IsAny<string>()))
+                .ReturnsAsync(AuthorizationResult.Success());
+
+            using (var context = provider.GetService<TimingSiteContext>())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
+            {
+                Competition competition = new Competition { CompetitionId = 1 };
+                context.Competitions.Add(competition);
+                context.SaveChanges();
+
+                HeadRaceTimingSite.Api.Resources.Crew crew = new HeadRaceTimingSite.Api.Resources.Crew
+                {
+                    Id = 123456,
+                    BoatClass = BoatClass.Eight,
+                    ClubCode = "LDR",
+                    IsTimeOnly = true,
+                    Name = "Leander A",
+                    StartNumber = 1,
+                    Status = Crew.ResultStatus.Dns
+                };
+
+                var result = await controller.Put(1, 123456, crew).ConfigureAwait(false);
+                var createdResult = result as CreatedAtRouteResult;
+
+                Assert.IsNotNull(createdResult);
+                Assert.AreEqual(201, createdResult.StatusCode);
+                Assert.AreEqual(1, competition.Crews.Count);
+                Assert.AreEqual(123456, competition.Crews[0].BroeCrewId);
+                Assert.AreEqual(BoatClass.Eight, competition.Crews[0].BoatClass);
+                Assert.AreEqual("LDR", competition.Crews[0].ClubCode);
+                Assert.AreEqual(true, competition.Crews[0].IsTimeOnly);
+                Assert.AreEqual("Leander A", competition.Crews[0].Name);
+                Assert.AreEqual(1, competition.Crews[0].StartNumber);
+                Assert.AreEqual(Crew.ResultStatus.Dns, competition.Crews[0].Status);
+            }
+        }
+
+        [TestMethod]
+        public async Task Put_WithExistingCrew_ShouldUpdateCrew()
+        {
+            var authService = new Mock<IAuthorizationHelper>();
+            authService.Setup(x => x.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), It.IsAny<string>()))
+                .ReturnsAsync(AuthorizationResult.Success());
+
+            using (var context = provider.GetService<TimingSiteContext>())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
+            {
+                Competition competition = new Competition { CompetitionId = 1 };
+                context.Competitions.Add(competition);
+                Crew dbCrew = new Crew
+                {
+                    BroeCrewId = 123456,
+                    BoatClass = BoatClass.SingleScull,
+                    ClubCode = "ABC",
+                    IsTimeOnly = false,
+                    Name = "Another BC",
+                    StartNumber = 5,
+                    Status = Crew.ResultStatus.Dsq
+                };
+                competition.Crews.Add(dbCrew);
+                context.SaveChanges();
+
+                HeadRaceTimingSite.Api.Resources.Crew crew = new HeadRaceTimingSite.Api.Resources.Crew
+                {
+                    Id = 123456,
+                    BoatClass = BoatClass.Eight,
+                    ClubCode = "LDR",
+                    IsTimeOnly = true,
+                    Name = "Leander A",
+                    StartNumber = 1,
+                    Status = Crew.ResultStatus.Dns
+                };
+
+                var result = await controller.Put(1, 123456, crew).ConfigureAwait(false);
+
+                var noContentResult = result as NoContentResult;
+                Assert.IsNotNull(noContentResult, "Should be No Content");
+                Assert.AreEqual(204, noContentResult.StatusCode);
+                Assert.AreEqual(1, competition.Crews.Count, "Should be one crew");
+                Assert.AreEqual(123456, competition.Crews[0].BroeCrewId);
+                Assert.AreEqual(BoatClass.Eight, competition.Crews[0].BoatClass);
+                Assert.AreEqual("LDR", competition.Crews[0].ClubCode);
+                Assert.AreEqual(true, competition.Crews[0].IsTimeOnly);
+                Assert.AreEqual("Leander A", competition.Crews[0].Name);
+                Assert.AreEqual(1, competition.Crews[0].StartNumber);
+                Assert.AreEqual(Crew.ResultStatus.Dns, competition.Crews[0].Status);
             }
         }
     }

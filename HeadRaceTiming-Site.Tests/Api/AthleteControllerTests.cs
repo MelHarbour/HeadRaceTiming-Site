@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using HeadRaceTimingSite.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HeadRaceTimingSite.Tests.Api
@@ -17,6 +15,7 @@ namespace HeadRaceTimingSite.Tests.Api
     public class AthleteControllerTests
     {
         private IMapper mapper;
+        private ServiceProvider provider;
 
         [TestInitialize]
         public void Initialize()
@@ -26,16 +25,12 @@ namespace HeadRaceTimingSite.Tests.Api
                 cfg.AddProfile(new ApiProfile());
             });
             mapper = config.CreateMapper();
-        }
-
-        private static TimingSiteContext GetTimingSiteContext()
-        {
-            var options = new DbContextOptionsBuilder<TimingSiteContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
-            var context = new TimingSiteContext(options);
-
-            return context;
+            var services = new ServiceCollection();
+            services.AddDbContext<TimingSiteContext>(
+                options => options.UseInMemoryDatabase($"db-{Guid.NewGuid()}"),
+                ServiceLifetime.Transient
+            );
+            provider = services.BuildServiceProvider();
         }
 
         [DataTestMethod]
@@ -49,7 +44,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [DataRow(BoatClass.SingleScull, 2)]
         public async Task GetByCrewAndPosition_WithPositionOverCrewSize_ShouldReturn400(BoatClass boatClass, int position)
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 context.Crews.Add(new Crew
@@ -70,7 +65,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task GetByCrewAndPosition_WithIncorrectId_ShouldReturn404()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 var result = await controller.GetByCrewAndPosition(1, 1).ConfigureAwait(false);
@@ -84,7 +79,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task GetByCrewAndPosition_WithMissingPosition_ShouldReturn404()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 context.Crews.Add(new Crew
@@ -104,7 +99,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task GetByCrewAndPosition_WithValidData_ShouldReturnAthlete()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 Crew dbCrew = new Crew
@@ -130,7 +125,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task ListByCrew_WithIncorrectId_ShouldReturn404()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 var result = await controller.ListByCrew(1).ConfigureAwait(false);
@@ -144,7 +139,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task ListByCrew_WithCorrectId_ShouldReturnAthletes()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 Crew dbCrew = new Crew { BroeCrewId = 1 };
@@ -167,7 +162,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task PutByCrewAndPosition_WithAthleteNotInSystem_ShouldAddAthleteToDatabase()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 context.Crews.Add(new Crew { BroeCrewId = 1 });
@@ -202,7 +197,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task PutByCrewAndPosition_WithExistingAthleteSameMembershipNumberInPosition_ShouldUpdateAthlete()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 Crew crew = new Crew { BroeCrewId = 1 };
@@ -252,7 +247,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task PutByCrewAndPosition_WithExistingAthleteSameMembershipNumberNotInCrew_ShouldUpdateAthleteAndAttach()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 context.Crews.Add(new Crew { BroeCrewId = 1 });
@@ -294,7 +289,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task PutByCrewAndPosition_WithWrongAthleteInPositionAndExistingAthleteElsewhere_ShouldUpdateAthleteAndAttach()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 Crew crew = new Crew { BroeCrewId = 1 };
@@ -350,7 +345,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task PutByCrewAndPosition_WithWrongAthleteInPositionAndNoExistingAthlete_ShouldCreateAthleteAndAttach()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
             {
                 Crew crew = new Crew { BroeCrewId = 1 };

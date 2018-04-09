@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using HeadRaceTimingSite.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HeadRaceTimingSite.Tests.Api
@@ -16,6 +14,7 @@ namespace HeadRaceTimingSite.Tests.Api
     public class ResultsControllerTests
     {
         private IMapper mapper;
+        private ServiceProvider provider;
 
         [TestInitialize]
         public void Initialize()
@@ -25,22 +24,18 @@ namespace HeadRaceTimingSite.Tests.Api
                 cfg.AddProfile(new ApiProfile());
             });
             mapper = config.CreateMapper();
-        }
-
-        private static TimingSiteContext GetTimingSiteContext()
-        {
-            var options = new DbContextOptionsBuilder<TimingSiteContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
-            var context = new TimingSiteContext(options);
-
-            return context;
+            var services = new ServiceCollection();
+            services.AddDbContext<TimingSiteContext>(
+                options => options.UseInMemoryDatabase($"db-{Guid.NewGuid()}"),
+                ServiceLifetime.Transient
+            );
+            provider = services.BuildServiceProvider();
         }
 
         [TestMethod]
         public async Task GetByCrew_WithIncorrectId_ShouldReturn404()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
             {
                 var result = await controller.GetByCrew(1).ConfigureAwait(false);
@@ -54,7 +49,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task GetByCrew_WithCorrectId_ShouldReturnCorrectResults()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
             {
                 TimingPoint timingPoint = new TimingPoint(1);
@@ -80,7 +75,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task GetByCrewAndTimingPoint_WithIncorrectCrewId_ShouldReturn404()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
             {
                 var result = await controller.GetByCrewAndTimingPoint(1, 1).ConfigureAwait(false);
@@ -94,7 +89,7 @@ namespace HeadRaceTimingSite.Tests.Api
         [TestMethod]
         public async Task GetByCrewAndTimingPoint_WithMissingResult_ShouldReturn404()
         {
-            using (var context = GetTimingSiteContext())
+            using (var context = provider.GetService<TimingSiteContext>())
             using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
             {
                 Competition competition = new Competition();
@@ -111,6 +106,59 @@ namespace HeadRaceTimingSite.Tests.Api
 
                 Assert.IsNotNull(notFoundResult);
                 Assert.AreEqual(404, notFoundResult.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        public async Task Put_WithNoExistingResult_ShouldAddResult()
+        {
+            using (var context = provider.GetService<TimingSiteContext>())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
+            {
+                Crew crew = new Crew { BroeCrewId = 1 };
+                context.Crews.Add(crew);
+                context.SaveChanges();
+
+                HeadRaceTimingSite.Api.Resources.Result result = new HeadRaceTimingSite.Api.Resources.Result
+                {
+                    TimeOfDay = new TimeSpan(10, 0, 0)
+                };
+
+                var response = await controller.Put(1, 1, result).ConfigureAwait(false);
+                var createdResult = response as CreatedAtRouteResult;
+
+                Assert.IsNotNull(createdResult);
+                Assert.AreEqual(201, createdResult.StatusCode);
+                Assert.AreEqual(1, crew.Results.Count);
+                Assert.AreEqual(new TimeSpan(10, 0, 0), crew.Results[0].TimeOfDay);
+                Assert.AreEqual(1, crew.Results[0].TimingPointId);
+            }
+        }
+
+        [TestMethod]
+        public async Task Put_WithExistingResult_ShouldAmendResult()
+        {
+            using (var context = provider.GetService<TimingSiteContext>())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultsController(mapper, context))
+            {
+                Crew crew = new Crew { BroeCrewId = 1 };
+                crew.Results.Add(new Result { TimingPointId = 1, TimeOfDay = new TimeSpan(9, 0, 0) });
+                context.Crews.Add(crew);
+                context.SaveChanges();
+
+                HeadRaceTimingSite.Api.Resources.Result result = new HeadRaceTimingSite.Api.Resources.Result
+                {
+                    TimeOfDay = new TimeSpan(10, 0, 0)
+                };
+
+                var response = await controller.Put(1, 1, result).ConfigureAwait(false);
+                var noContentResult = response as NoContentResult;
+
+                Assert.IsNotNull(noContentResult);
+                Assert.AreEqual(204, noContentResult.StatusCode);
+                Assert.AreEqual(1, crew.Results.Count, "Should be one result");
+                Assert.AreEqual(new TimeSpan(10, 0, 0), crew.Results[0].TimeOfDay);
+                Assert.AreEqual(1, crew.Results[0].TimingPointId, "Should be for timing point 1");
             }
         }
     }

@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using HeadRaceTimingSite.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
+using HeadRaceTimingSite.Helpers;
 
 namespace HeadRaceTimingSite
 {
@@ -135,6 +136,7 @@ namespace HeadRaceTimingSite
 
             services.AddSingleton<IAuthorizationHandler, CompetitionAdminAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, AdminAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHelper, AuthorizationHelper>();
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
             services.AddResponseCompression();
@@ -189,12 +191,16 @@ namespace HeadRaceTimingSite
                 .ForMember(d => d.Rank, opt => opt.Ignore())
                 .ForMember(d => d.LastUpdate, opt => opt.MapFrom(s => s.Results.Select(x => x.TimeOfDay).Last()))
                 .ForMember(d => d.LastUpdate, opt => opt.Ignore())
-                .ForMember(d => d.HasPenalty, opt => opt.MapFrom(s => s.Penalties.Count > 0))
-                .ReverseMap();
+                .ForMember(d => d.HasPenalty, opt => opt.MapFrom(s => s.Penalties.Count > 0));
+            CreateMap<Api.Resources.Crew, Crew>()
+                .ForPath(d => d.OverallTime, opt => opt.Ignore())
+                .ForMember(d => d.BroeCrewId, opt => opt.MapFrom(s => s.Id));
             CreateMap<Result, Api.Resources.Result>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.TimingPointId))
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.TimingPoint.Name))
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(d => d.TimingPoint, opt => opt.Ignore())
+                .ForMember(d => d.TimingPointId, opt => opt.Ignore());
             CreateMap<CrewAthlete, Api.Resources.Athlete>()
                 .ForMember(d => d.FirstName, opt => opt.MapFrom(s => s.Athlete.FirstName))
                 .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.Athlete.LastName))
