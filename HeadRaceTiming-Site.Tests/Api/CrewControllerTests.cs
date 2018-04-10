@@ -2,6 +2,7 @@
 using HeadRaceTimingSite.Helpers;
 using HeadRaceTimingSite.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -226,6 +227,55 @@ namespace HeadRaceTimingSite.Tests.Api
                 };
 
                 var result = await controller.Put(1, 123456, crew).ConfigureAwait(false);
+
+                var noContentResult = result as NoContentResult;
+                Assert.IsNotNull(noContentResult, "Should be No Content");
+                Assert.AreEqual(204, noContentResult.StatusCode);
+                Assert.AreEqual(1, competition.Crews.Count, "Should be one crew");
+                Assert.AreEqual(123456, competition.Crews[0].BroeCrewId);
+                Assert.AreEqual(BoatClass.Eight, competition.Crews[0].BoatClass);
+                Assert.AreEqual("LDR", competition.Crews[0].ClubCode);
+                Assert.AreEqual(true, competition.Crews[0].IsTimeOnly);
+                Assert.AreEqual("Leander A", competition.Crews[0].Name);
+                Assert.AreEqual(1, competition.Crews[0].StartNumber);
+                Assert.AreEqual(Crew.ResultStatus.Dns, competition.Crews[0].Status);
+            }
+        }
+
+        [TestMethod]
+        public async Task Patch_WithExistingCrew_ShouldUpdateCrew()
+        {
+            var authService = new Mock<IAuthorizationHelper>();
+            authService.Setup(x => x.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), It.IsAny<string>()))
+                .ReturnsAsync(AuthorizationResult.Success());
+
+            using (var context = provider.GetService<TimingSiteContext>())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
+            {
+                Competition competition = new Competition { CompetitionId = 1 };
+                context.Competitions.Add(competition);
+                Crew dbCrew = new Crew
+                {
+                    BroeCrewId = 123456,
+                    BoatClass = BoatClass.SingleScull,
+                    ClubCode = "ABC",
+                    IsTimeOnly = false,
+                    Name = "Another BC",
+                    StartNumber = 5,
+                    Status = Crew.ResultStatus.Dsq
+                };
+                competition.Crews.Add(dbCrew);
+                context.SaveChanges();
+
+                JsonPatchDocument<HeadRaceTimingSite.Api.Resources.Crew> jsonPatch = new JsonPatchDocument<HeadRaceTimingSite.Api.Resources.Crew>();
+                jsonPatch.Replace(x => x.Name, "Leander A");
+                jsonPatch.Replace(x => x.StartNumber, 1);
+                jsonPatch.Replace(x => x.BoatClass, BoatClass.Eight);
+                jsonPatch.Replace(x => x.ClubCode, "LDR");
+                jsonPatch.Replace(x => x.IsTimeOnly, true);
+                jsonPatch.Replace(x => x.Status, Crew.ResultStatus.Dns);
+
+                var result = await controller.Patch(1, 123456, jsonPatch).ConfigureAwait(false);
 
                 var noContentResult = result as NoContentResult;
                 Assert.IsNotNull(noContentResult, "Should be No Content");

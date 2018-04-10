@@ -72,6 +72,7 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <param name="compid">The competition to which the crew belongs</param>
         /// <param name="id">The BROE ID of the crew</param>
         /// <param name="crewPatch">A JSON Patch for the details to update</param>
+        [SwaggerResponse(204, Description = "Crew has been successfully updated in the system")]
         [HttpPatch("/api/competitions/{compid}/crews/{id}")]
         public async Task<IActionResult> Patch(int compid, int id, [FromBody]JsonPatchDocument<Crew> crewPatch)
         {
@@ -82,7 +83,7 @@ namespace HeadRaceTimingSite.Api.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
