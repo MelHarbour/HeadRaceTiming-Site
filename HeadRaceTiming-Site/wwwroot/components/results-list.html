@@ -3,6 +3,7 @@
 <link rel="import" href="/components/iron-list.html" />
 <link rel="import" href="/lib/iron-media-query/iron-media-query.html" />
 <link rel="import" href="/lib/iron-icon/iron-icon.html"/>
+<script src="~/lib/moment/min/moment.min.js"></script>
 
 <dom-module id="results-list">
     <template>
@@ -164,7 +165,15 @@
             }
 
             _getClass(lastUpdate) {
-                return "row";
+                var time = moment(lastUpdate, 'H:mm:ss.S');
+                var todayStart = moment().startOf("day");
+                var now = moment();
+                time.set({ 'y': todayStart.year(), 'M': todayStart.month(), 'd': todayStart.date() });
+                if (time.isAfter(now.subtract(3, "m"))) {
+                    return "rowHighlight";
+                } else {
+                    return "row";
+                }
             }
         }
 
