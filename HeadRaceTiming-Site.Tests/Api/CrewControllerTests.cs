@@ -150,6 +150,44 @@ namespace HeadRaceTimingSite.Tests.Api
         }
 
         [TestMethod]
+        public async Task ListByCompetition_WithAward_ShouldReturnMatchingCrews()
+        {
+            var authService = new Mock<IAuthorizationHelper>();
+
+            using (var context = provider.GetService<TimingSiteContext>())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
+            {
+                Competition competition = new Competition
+                {
+                    CompetitionId = 1
+                };
+                competition.TimingPoints.Add(new TimingPoint(1));
+                Award award = new Award { AwardId = 1 };
+                Crew alpha = new Crew { BroeCrewId = 1, Name = "Alpha" };
+                Crew beta = new Crew { BroeCrewId = 2, Name = "Beta" };
+                Crew gamma = new Crew { BroeCrewId = 3, Name = "Gamma" };
+                beta.Awards.Add(new CrewAward { Award = award });
+                gamma.Awards.Add(new CrewAward { Award = award });
+                competition.Crews.Add(alpha);
+                competition.Crews.Add(beta);
+                competition.Crews.Add(gamma);
+                context.Competitions.Add(competition);
+                context.SaveChanges();
+
+                var result = await controller.ListByCompetition(1, String.Empty, award: 1).ConfigureAwait(false);
+                var okResult = result as OkObjectResult;
+
+                Assert.IsNotNull(okResult);
+                Assert.AreEqual(200, okResult.StatusCode);
+                List<HeadRaceTimingSite.Api.Resources.Crew> crews = okResult.Value as List<HeadRaceTimingSite.Api.Resources.Crew>;
+                Assert.IsNotNull(crews, "Should return List<Crew>");
+                Assert.AreEqual(2, crews.Count, "Should be two crews");
+                Assert.AreEqual(2, crews[0].Id, "Should be crew ID 2");
+                Assert.AreEqual(3, crews[1].Id, "Should be crew ID 3");
+            }
+        }
+
+        [TestMethod]
         public async Task Put_WithNoExistingCrew_ShouldAddCrew()
         {
             var authService = new Mock<IAuthorizationHelper>();

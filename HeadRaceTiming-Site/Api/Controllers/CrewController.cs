@@ -117,19 +117,32 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// </summary>
         /// <param name="id">The ID of the competition</param>
         /// <param name="s">A string by which to filter the crews</param>
+        /// <param name="award">The ID of an award by which to filter the results</param>
         /// <response code="200">List of crews returned</response>
         /// <response code="404">Competition not found</response>
         [Produces("application/json")]
         [HttpGet("/api/competitions/{id}/crews")]
-        public async Task<IActionResult> ListByCompetition(int id, string s)
+        public async Task<IActionResult> ListByCompetition(int id, string s, int? award = null)
         {
-            Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).Include("Crews.Results")
+            List<Models.Crew> crews;
+
+            if (award == null)
+            {
+                Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).Include("Crews.Results")
                 .Include("Crews.Penalties").FirstOrDefaultAsync(c => c.CompetitionId == id);
 
-            if (comp == null)
-                return NotFound();
+                if (comp == null)
+                    return NotFound();
+                crews = comp.Crews;
+            }
+            else
+            {
+                Models.Award dbAward = await _context.Awards.Include("Crews.Crew.Results")
+                    .Include("Crews.Crew.Penalties").FirstOrDefaultAsync(a => a.AwardId == award);
+                crews = dbAward.Crews.Select(x => x.Crew).ToList();
+            }
 
-            List<Crew> results = ResultsHelper.BuildCrewsList(_mapper, comp.Crews);
+            List<Crew> results = ResultsHelper.BuildCrewsList(_mapper, crews);
             if (String.IsNullOrEmpty(s))
                 return Ok(results);
             else
