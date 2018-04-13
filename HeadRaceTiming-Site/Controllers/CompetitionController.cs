@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using HeadRaceTimingSite.Helpers;
 using AutoMapper;
+using HeadRaceTimingSite.ViewModels;
 
 namespace HeadRaceTimingSite.Controllers
 {
@@ -31,15 +32,17 @@ namespace HeadRaceTimingSite.Controllers
             Competition competition;
             if (Int32.TryParse(id, out competitionId))
             {
-                competition = await _context.Competitions.Include(x => x.TimingPoints)
+                competition = await _context.Competitions.Include(x => x.TimingPoints).Include(x => x.Awards)
                     .SingleOrDefaultAsync(c => c.CompetitionId == competitionId);
             }
             else
             {
-                competition = await _context.Competitions.Include(x => x.TimingPoints)
+                competition = await _context.Competitions.Include(x => x.TimingPoints).Include(x => x.Awards)
                     .SingleOrDefaultAsync(c => c.FriendlyName == id);
             }
-            return View(competition);
+            CompetitionDetailsViewModel viewModel = _mapper.Map<CompetitionDetailsViewModel>(competition);
+            viewModel.AwardFilterName = "Overall";
+            return View(viewModel);
         }
 
         [HttpGet]

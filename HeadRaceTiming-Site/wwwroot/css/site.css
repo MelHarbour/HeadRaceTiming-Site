@@ -73,3 +73,8 @@ paper-item, paper-icon-item {
 app-drawer paper-item:first-child {
     margin-top: 64px;
 }
+[main-title] {
+    /* override pointer-events: none set by app-toolbar */
+    pointer-events: auto;
+    margin-right: 100px
+}

@@ -208,4 +208,13 @@ namespace HeadRaceTimingSite
                 .ReverseMap();
         }
     }
+
+    public class WebProfile : Profile
+    {
+        public WebProfile()
+        {
+            CreateMap<Competition, ViewModels.CompetitionDetailsViewModel>();
+            CreateMap<Award, ViewModels.AwardViewModel>();
+        }
+    }
 }
