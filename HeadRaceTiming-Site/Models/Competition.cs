@@ -120,5 +120,20 @@ namespace HeadRaceTimingSite.Models
                     return null;
             }
         }
+
+        public TimeSpan? StandardTime
+        {
+            get
+            {
+                List<TimeSpan?> mastersCrews = Awards.Where(x => x.IsMasters == true)
+                    .SelectMany(x => x.Crews).Select(x => x.Crew.OverallTime).OrderByDescending(x => x.HasValue)
+                    .ThenBy(x => x.Value).ToList();
+
+                if (mastersCrews.Count > 0 && mastersCrews[0].HasValue)
+                    return mastersCrews[0].Value;
+                else
+                    return null;
+            }
+        }
     }
 }
