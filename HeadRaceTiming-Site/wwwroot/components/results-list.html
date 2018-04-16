@@ -45,7 +45,7 @@
             }
         </style>
 
-        <iron-ajax id="ajax" url$="/api/competitions/[[competitionId]]/crews?s=[[searchValue]]" last-response="{{data}}" timeout="10000" on-error="updateData" on-response="updateData"></iron-ajax>
+        <iron-ajax id="ajax" url$="/api/competitions/[[competitionId]]/crews?s=[[searchValue]]&award=[[awardId]]" last-response="{{data}}" timeout="10000" on-error="updateData" on-response="updateData"></iron-ajax>
         <iron-media-query query="min-width: 840px" query-matches="{{wide}}"></iron-media-query>
 
         <div class="header-row">
@@ -114,6 +114,7 @@
                     firstIntermediateId: Number,
                     secondIntermediateId: Number,
                     searchValue: String,
+                    awardId: Number,
                     data: Array
                 };
             }

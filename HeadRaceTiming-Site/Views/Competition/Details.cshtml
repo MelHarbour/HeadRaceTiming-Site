@@ -15,15 +15,14 @@
 
 @section titleBar{
     <div main-title>
-        @Model.Name - @Model.AwardFilterName
+        @Model.Name - [[awardName(awardId)]]
         <paper-menu-button>
             <paper-icon-button icon="arrow-drop-down" slot="dropdown-trigger"></paper-icon-button>
-            <paper-listbox slot="dropdown-content">
-                <paper-item>Overall</paper-item>
-                @foreach (HeadRaceTimingSite.ViewModels.AwardViewModel award in Model.Awards)
-                {
-                    <paper-item>@award.Title</paper-item>
-                }
+            <paper-listbox attr-for-selected="award-id" selected="{{awardId}}" slot="dropdown-content">
+                <paper-item award-id="">Overall</paper-item>
+                <template is="dom-repeat" items="{{menuItems}}">
+                    <paper-item award-id="{{item.awardId}}">{{item.name}}</paper-item>
+                </template>
             </paper-listbox>
         </paper-menu-button>
     </div>
@@ -49,7 +48,7 @@
 
 <results-list competition-id="@Model.CompetitionId" first-intermediate-name="@Model.FirstIntermediateName"
               second-intermediate-name="@Model.SecondIntermediateName" search-value="{{subrouteData.searchValue}}"
-              first-intermediate-id="@Model.FirstIntermediateId" second-intermediate-id="@Model.SecondIntermediateId"></results-list>
+              first-intermediate-id="@Model.FirstIntermediateId" second-intermediate-id="@Model.SecondIntermediateId" award-id="[[awardId]]"></results-list>
 
 <paper-dialog id="dialog">
     <h2>Information</h2>
@@ -63,8 +62,27 @@
 
 @section scripts {
     <script>
-        window.addEventListener('WebComponentsReady', function (e) {
-            document.querySelector("#searchButton").addEventListener("click", function (e) {
+        var autobind = document.querySelector('dom-bind');
+
+        autobind.menuItems = [
+            @foreach (var award in Model.Awards) {
+                <text>{ name: '</text>@award.Title<text>', awardId: </text>@award.AwardId<text>},</text>
+            }
+        ];
+
+            autobind.awardName = function (awardId) {
+                for (var i = 0; i < autobind.menuItems.length; i++) {
+                    if (autobind.menuItems[i].awardId == awardId) {
+                        return autobind.menuItems[i].name;
+                    }
+                }
+                return 'Overall';
+            };
+
+            autobind.awardId = '';
+
+            window.addEventListener('WebComponentsReady', function (e) {
+                document.querySelector("#searchButton").addEventListener("click", function (e) {
                 $("#searchButton").css("display", "none");
                 $("#downloadButton").css("display", "none");
                 $("#infoButton").css("display", "none");
@@ -72,34 +90,33 @@
                 $("#searchBox").css("display", "block");
                 $("#searchBox").focus();
                 $("[main-title]").css("display", "none");
-            });
-            document.querySelector("#backButton").addEventListener("click", function (e) {
+                });
+                document.querySelector("#backButton").addEventListener("click", function (e) {
                 $("#searchButton").css("display", "inline-block");
                 $("#downloadButton").css("display", "inline-block");
                 $("#infoButton").css("display", "inline-block");
                 $("#backButton").css("display", "none");
                 $("#searchBox").css("display", "none");
                 $("[main-title]").css("display", "block");
-            });
+                });
 
-            document.querySelector("#downloadButton").addEventListener("click", function (e) {
-                location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
+                document.querySelector("#downloadButton").addEventListener("click", function (e) {
+                    location.href = '/Competition/DetailsAsCsv/@Model.CompetitionId'
+                });
+                document.getElementById("searchBox").addEventListener('value-changed', function () {
+                    var appRoute = document.getElementsByTagName('app-route')[0].route;
+                    if (appRoute.path.slice(-1) !== '/') {
+                        appRoute.path = appRoute.path + '/';
+                    }
+                });
             });
-            document.getElementById("searchBox").addEventListener('value-changed', function () {
-                var appRoute = document.getElementsByTagName('app-route')[0].route;
-                if (appRoute.path.slice(-1) !== '/') {
-                    appRoute.path = appRoute.path + '/';
+        $(window).scroll(function () {
+                sessionStorage.scrollTop = $(this).scrollTop();
+            });
+            document.querySelector('results-list').addEventListener('update', function (e) {
+                if (sessionStorage.scrollTop != "undefined") {
+                $(window).scrollTop(sessionStorage.scrollTop);
                 }
             });
-        });
-        $(window).scroll(function () {
-            sessionStorage.scrollTop = $(this).scrollTop();
-        });
-        document.querySelector('results-list').addEventListener('update', function (e) {
-            if (sessionStorage.scrollTop != "undefined") {
-                $(window).scrollTop(sessionStorage.scrollTop);
-            }
-        });
-
     </script>
 }
