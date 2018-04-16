@@ -16,6 +16,7 @@ namespace HeadRaceTimingSite.ViewModels
         public int SecondIntermediateId { get; set; }
         public string AwardFilterName { get; set; }
         public int? AwardFilterId { get; set; }
+        public string DialogInformation { get; set; }
         public List<AwardViewModel> Awards { get; set; }
 }
 

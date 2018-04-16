@@ -42,6 +42,8 @@ namespace HeadRaceTimingSite.Models
         [NotMapped]
         public Color TextColor { get; set; }
 
+        public string DialogInformation { get; set; }
+
         public string BackgroundHtmlColor
         {
             get
