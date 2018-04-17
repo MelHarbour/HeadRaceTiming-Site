@@ -51,28 +51,33 @@ namespace HeadRaceTimingSite.Helpers
                 int rank = 1;
                 for (int j = 0; j < apiCrews.Count; j++)
                 {
-                    Api.Resources.Result currentResult = apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId);
-                    if (currentResult == null)
+                    if (apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId) == null)
                         break;
-
-                    currentResult.Rank = rank.ToString(CultureInfo.CurrentCulture);
 
                     if (j == 0)
                     {
                         if (apiCrews.Count > 1)
                         {
-                            currentResult.Rank += (apiCrews[j + 1].Results.FirstOrDefault(y => y.Id == currentTimingPointId)?.RunTime == currentResult.RunTime ? "=" : String.Empty);
+                            apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId).Rank = 
+                                rank.ToString(CultureInfo.CurrentCulture) 
+                                    + (apiCrews[j + 1].Results.FirstOrDefault(y => y.Id == currentTimingPointId)?.RunTime == apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId).RunTime ? "=" : String.Empty);
+                        }
+                        else
+                        {
+                            apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId).Rank = rank.ToString(CultureInfo.CurrentCulture);
                         }
                     }
-                    else if (currentResult.RunTime == apiCrews[j - 1].Results.FirstOrDefault(y => y.Id == currentTimingPointId).RunTime)
+                    else if (apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId).RunTime == apiCrews[j - 1].Results.FirstOrDefault(y => y.Id == currentTimingPointId).RunTime)
                     {
-                        currentResult.Rank += "=";
+                        apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId).Rank = rank.ToString(CultureInfo.CurrentCulture) + "=";
                     }
                     else
                     {
                         rank = j + 1;
                         if (j < apiCrews.Count - 1)
-                            currentResult.Rank += (apiCrews[j + 1].Results.FirstOrDefault(y => y.Id == currentTimingPointId)?.RunTime == currentResult.RunTime ? "=" : String.Empty);
+                            apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId).Rank = rank.ToString(CultureInfo.CurrentCulture) + (apiCrews[j + 1].Results.FirstOrDefault(y => y.Id == currentTimingPointId)?.RunTime == apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId)?.RunTime ? "=" : String.Empty);
+                        else
+                            apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId).Rank = rank.ToString(CultureInfo.CurrentCulture);
                     }
                 }
             }
@@ -107,28 +112,31 @@ namespace HeadRaceTimingSite.Helpers
             int overallRank = 1;
             for (int i = 0; i < apiCrews.Count; i++)
             {
-                Api.Resources.Crew currentCrew = apiCrews[i];
-                if (currentCrew.OverallTime == null)
+                if (apiCrews[i].OverallTime == null)
                     break;
-
-                currentCrew.Rank = overallRank.ToString(CultureInfo.CurrentCulture);
 
                 if (i == 0)
                 {
                     if (apiCrews.Count > 1)
                     {
-                        currentCrew.Rank += (apiCrews[i + 1].OverallTime == currentCrew.OverallTime ? "=" : String.Empty);
+                        apiCrews[i].Rank = overallRank.ToString(CultureInfo.CurrentCulture) + (apiCrews[i + 1].OverallTime == apiCrews[i].OverallTime ? "=" : String.Empty);
+                    }
+                    else
+                    {
+                        apiCrews[i].Rank = overallRank.ToString(CultureInfo.CurrentCulture);
                     }
                 }
-                else if (currentCrew.OverallTime == apiCrews[i - 1].OverallTime)
+                else if (apiCrews[i].OverallTime == apiCrews[i - 1].OverallTime)
                 {
-                    currentCrew.Rank += "=";
+                    apiCrews[i].Rank = overallRank.ToString(CultureInfo.CurrentCulture) + "=";
                 }
                 else
                 {
                     overallRank = i + 1;
                     if (i < apiCrews.Count - 1)
-                        currentCrew.Rank += (apiCrews[i + 1].OverallTime == currentCrew.OverallTime ? "=" : String.Empty);
+                        apiCrews[i].Rank = overallRank.ToString(CultureInfo.CurrentCulture) + (apiCrews[i + 1].OverallTime == apiCrews[i].OverallTime ? "=" : String.Empty);
+                    else
+                        apiCrews[i].Rank = overallRank.ToString(CultureInfo.CurrentCulture);
                 }
             }
 
