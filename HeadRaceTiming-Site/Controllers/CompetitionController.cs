@@ -56,10 +56,5 @@ namespace HeadRaceTimingSite.Controllers
 
             return Ok(ResultsHelper.BuildCrewsList(_mapper, crews));
         }
-
-        public IActionResult Error()
-        {
-            return View();
-        }
     }
 }
