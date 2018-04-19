@@ -206,6 +206,9 @@ namespace HeadRaceTimingSite
                 .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.Athlete.LastName))
                 .ForMember(d => d.MembershipNumber, opt => opt.MapFrom(s => s.Athlete.MembershipNumber))
                 .ReverseMap();
+            CreateMap<Penalty, Api.Resources.Penalty>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.PenaltyId))
+                .ReverseMap();
         }
     }
 

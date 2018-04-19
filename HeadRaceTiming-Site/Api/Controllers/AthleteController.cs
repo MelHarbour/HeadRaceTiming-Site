@@ -134,7 +134,7 @@ namespace HeadRaceTimingSite.Api.Controllers
             if (crew == null)
                 return NotFound();
 
-            return Ok(crew.Athletes.Select(x => _mapper.Map<Athlete>(x)).ToList());
+            return Ok(_mapper.Map<List<Models.CrewAthlete>, List<Athlete>>(crew.Athletes));
         }
     }
 }

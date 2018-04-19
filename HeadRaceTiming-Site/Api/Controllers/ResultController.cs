@@ -10,11 +10,11 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace HeadRaceTimingSite.Api.Controllers
 {
-    public class ResultsController : HeadRaceTimingSite.Controllers.BaseController
+    public class ResultController : HeadRaceTimingSite.Controllers.BaseController
     {
         private readonly IMapper _mapper;
 
-        public ResultsController(IMapper mapper, Models.TimingSiteContext context) : base(context)
+        public ResultController(IMapper mapper, Models.TimingSiteContext context) : base(context)
         {
             _mapper = mapper;
         }
@@ -96,14 +96,14 @@ namespace HeadRaceTimingSite.Api.Controllers
         }
 
         /// <summary>
-        /// Retrieves a given result for a given crew
+        /// Creates or updates a given result for a given crew
         /// </summary>
         /// <param name="id">The BROE ID of the crew</param>
         /// <param name="timingPointId">The ID of the timing point</param>
         /// <param name="result">Details of the result</param>
         [SwaggerResponse(201, Description = "Result has been successfully created in the system")]
         [SwaggerResponse(204, Description = "Result has been successfully updated in the system")]
-        [HttpGet("/api/crews/{id}/results/{timingPointId}")]
+        [HttpPut("/api/crews/{id}/results/{timingPointId}")]
         public async Task<IActionResult> Put(int id, int timingPointId, [FromBody] Result result)
         {
             Models.Crew crew = await _context.Crews.Include(x => x.Results).FirstAsync(x => x.BroeCrewId == id);
