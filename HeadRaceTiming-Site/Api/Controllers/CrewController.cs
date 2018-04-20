@@ -113,6 +113,26 @@ namespace HeadRaceTimingSite.Api.Controllers
         }
 
         /// <summary>
+        /// Deletes a crew by its BROE ID
+        /// </summary>
+        /// <param name="id">The BROE ID for the crew</param>
+        /// <response code="204">The crew was deleted</response>
+        [HttpDelete("/api/crews/{id}")]
+        public async Task<IActionResult> DeleteById(int id)
+        {
+            Models.Crew crew = await _context.Crews.Include(x => x.Competition.TimingPoints)
+                .Include(x => x.Results).Include(x => x.Penalties).FirstOrDefaultAsync(x => x.BroeCrewId == id);
+
+            if (crew == null)
+                return NotFound();
+
+            _context.Crews.Remove(crew);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        /// <summary>
         /// Retrieves all the crews for a given competition
         /// </summary>
         /// <param name="id">The ID of the competition</param>

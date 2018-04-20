@@ -391,5 +391,70 @@ namespace HeadRaceTimingSite.Tests.Api
                 Assert.AreEqual(20, dbCrew.Athletes[0].PriMax);
             }
         }
+
+        [TestMethod]
+        public async Task Delete_WithValidAthlete_ShouldRemoveFromCrew()
+        {
+            using (var context = provider.GetService<TimingSiteContext>())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
+            {
+                Crew crew = new Crew { BroeCrewId = 1 };
+                context.Crews.Add(crew);
+                crew.Athletes.Add(new CrewAthlete
+                {
+                    Athlete = new Athlete
+                    {
+                        FirstName = "John",
+                        LastName = "Smith",
+                        MembershipNumber = "DEF456",
+                    },
+                    Age = 22,
+                    Position = 1,
+                    Pri = 20,
+                    PriMax = 30
+                });
+                context.SaveChanges();
+
+                var response = await controller.DeleteByCrewAndPosition(1, 1).ConfigureAwait(false);
+                var noContentResult = response as NoContentResult;
+
+                Assert.IsNotNull(noContentResult);
+                Assert.AreEqual(204, noContentResult.StatusCode);
+                Assert.AreEqual(0, crew.Athletes.Count);
+            }
+        }
+
+        [TestMethod]
+        public async Task Delete_WithValidAthlete_ShouldLeaveAthleteInSystem()
+        {
+            using (var context = provider.GetService<TimingSiteContext>())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.AthleteController(mapper, context))
+            {
+                Crew crew = new Crew { BroeCrewId = 1 };
+                context.Crews.Add(crew);
+                crew.Athletes.Add(new CrewAthlete
+                {
+                    Athlete = new Athlete
+                    {
+                        FirstName = "John",
+                        LastName = "Smith",
+                        MembershipNumber = "DEF456",
+                    },
+                    Age = 22,
+                    Position = 1,
+                    Pri = 20,
+                    PriMax = 30
+                });
+                context.SaveChanges();
+
+                var response = await controller.DeleteByCrewAndPosition(1, 1).ConfigureAwait(false);
+                var noContentResult = response as NoContentResult;
+
+                Assert.IsNotNull(noContentResult);
+                Assert.AreEqual(204, noContentResult.StatusCode);
+                Assert.AreEqual(1, context.Athletes.Count());
+                Assert.AreEqual("DEF456", context.Athletes.First().MembershipNumber);
+            }
+        }
     }
 }

@@ -83,7 +83,7 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <param name="penaltyId">The ID of the penalty</param>
         /// <response code="204">Penalty successfully deleted</response>
         [Produces("application/json")]
-        [HttpGet("/api/crews/{id}/penalties/{penaltyId}")]
+        [HttpDelete("/api/crews/{id}/penalties/{penaltyId}")]
         public async Task<IActionResult> DeleteByCrewAndId(int id, int penaltyId)
         {
             Models.Crew crew = await _context.Crews.Include(x => x.Penalties).FirstOrDefaultAsync(x => x.BroeCrewId == id);

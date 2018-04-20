@@ -123,5 +123,31 @@ namespace HeadRaceTimingSite.Api.Controllers
                 return CreatedAtRoute("GetByCrewAndTimingPoint", new { crewId = crew.BroeCrewId });
             }
         }
+
+        /// <summary>
+        /// Deletes a given result for a given crew
+        /// </summary>
+        /// <param name="id">The BROE ID of the crew</param>
+        /// <param name="timingPointId">The ID of the timing point</param>
+        /// <response code="204">Result successfully deleted</response>
+        [Produces("application/json")]
+        [HttpDelete("/api/crews/{id}/results/{timingPointId}")]
+        public async Task<IActionResult> DeleteByCrewAndTimingPoint(int id, int timingPointId)
+        {
+            Models.Crew crew = await _context.Crews.Include(x => x.Results).FirstOrDefaultAsync(x => x.BroeCrewId == id);
+
+            if (crew == null)
+                return NotFound();
+
+            Models.Result result = crew.Results.FirstOrDefault(x => x.TimingPointId == timingPointId);
+
+            if (result == null)
+                return NotFound();
+
+            _context.Results.Remove(result);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

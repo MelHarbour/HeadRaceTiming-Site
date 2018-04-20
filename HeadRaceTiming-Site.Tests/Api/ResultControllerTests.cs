@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace HeadRaceTimingSite.Tests.Api
 {
     [TestClass]
-    public class ResultsControllerTests
+    public class ResultControllerTests
     {
         private IMapper mapper;
         private ServiceProvider provider;
@@ -159,6 +159,27 @@ namespace HeadRaceTimingSite.Tests.Api
                 Assert.AreEqual(1, crew.Results.Count, "Should be one result");
                 Assert.AreEqual(new TimeSpan(10, 0, 0), crew.Results[0].TimeOfDay);
                 Assert.AreEqual(1, crew.Results[0].TimingPointId, "Should be for timing point 1");
+            }
+        }
+
+        [TestMethod]
+        public async Task Delete_WithValidCrewAndTimingPoint_ShouldDeleteResult()
+        {
+            using (var context = provider.GetService<TimingSiteContext>())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.ResultController(mapper, context))
+            {
+                Crew dbCrew = new Crew { CrewId = 1, BroeCrewId = 123456 };
+                context.Crews.Add(dbCrew);
+                Result result = new Result { TimingPointId = 1 };
+                dbCrew.Results.Add(result);
+                context.SaveChanges();
+
+                var response = await controller.DeleteByCrewAndTimingPoint(123456, 1).ConfigureAwait(false);
+                var noContentResult = response as NoContentResult;
+
+                Assert.IsNotNull(noContentResult);
+                Assert.AreEqual(204, noContentResult.StatusCode);
+                Assert.AreEqual(0, dbCrew.Results.Count);
             }
         }
     }

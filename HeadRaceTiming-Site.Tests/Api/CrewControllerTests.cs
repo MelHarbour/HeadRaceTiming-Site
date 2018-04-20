@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -326,6 +327,32 @@ namespace HeadRaceTimingSite.Tests.Api
                 Assert.AreEqual("Leander A", competition.Crews[0].Name);
                 Assert.AreEqual(1, competition.Crews[0].StartNumber);
                 Assert.AreEqual(Crew.ResultStatus.Dns, competition.Crews[0].Status);
+            }
+        }
+
+        [TestMethod]
+        public async Task Delete_WithValidCrew_ShouldDeleteCrew()
+        {
+            var authService = new Mock<IAuthorizationHelper>();
+            authService.Setup(x => x.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), It.IsAny<string>()))
+                .ReturnsAsync(AuthorizationResult.Success());
+
+            using (var context = provider.GetService<TimingSiteContext>())
+            using (var controller = new HeadRaceTimingSite.Api.Controllers.CrewController(authService.Object, mapper, context))
+            {
+                Competition competition = new Competition { CompetitionId = 1 };
+                context.Competitions.Add(competition);
+                Crew dbCrew = new Crew { BroeCrewId = 123456 };
+                competition.Crews.Add(dbCrew);
+                context.SaveChanges();
+
+                var response = await controller.DeleteById(123456).ConfigureAwait(false);
+                var noContentResult = response as NoContentResult;
+
+                Assert.IsNotNull(noContentResult);
+                Assert.AreEqual(204, noContentResult.StatusCode);
+                Assert.AreEqual(0, context.Crews.Count());
+                Assert.AreEqual(0, competition.Crews.Count);
             }
         }
     }

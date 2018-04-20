@@ -136,5 +136,31 @@ namespace HeadRaceTimingSite.Api.Controllers
 
             return Ok(_mapper.Map<List<Models.CrewAthlete>, List<Athlete>>(crew.Athletes));
         }
+
+        /// <summary>
+        /// Removes a given athlete from a crew. Note that the record of the athlete will remain in the system, just no longer attached to that crew.
+        /// </summary>
+        /// <param name="id">The BROE ID of the crew</param>
+        /// <param name="position">The position of the athlete</param>
+        /// <response code="204">Athlete successfully removed</response>
+        [Produces("application/json")]
+        [HttpDelete("/api/crews/{id}/athletes/{position}")]
+        public async Task<IActionResult> DeleteByCrewAndPosition(int id, int position)
+        {
+            Models.Crew crew = await _context.Crews.Include(x => x.Athletes).FirstOrDefaultAsync(x => x.BroeCrewId == id);
+
+            if (crew == null)
+                return NotFound();
+
+            Models.CrewAthlete athlete = crew.Athletes.FirstOrDefault(x => x.Position == position);
+
+            if (athlete == null)
+                return NotFound();
+
+            crew.Athletes.Remove(athlete);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
