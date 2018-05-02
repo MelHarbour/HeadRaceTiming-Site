@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "polymer": "v2.6.0",
-    "app-layout": "v2.1.0",
+    "app-layout": "v2.1.1",
     "paper-icon-button": "v2.2.0",
     "iron-icons": "v2.1.1",
     "iron-list": "v2.0.14",
@@ -82,6 +82,7 @@
     "paper-listbox": "v2.1.1",
     "iron-collapse": "v2.2.1",
     "paper-button": "v2.1.1",
-    "paper-dialog-behavior": "v2.2.2"
+    "paper-dialog-behavior": "v2.2.2",
+    "app-layout": "v2.1.1"
   }
 }
