@@ -42,11 +42,12 @@
     "paper-ripple": "PolymerElements/paper-ripple#v2.1.1",
     "neon-animation": "v2.2.1",
     "iron-menu-behavior": "v2.1.1",
-    "app-route": "PolymerElements/app-route#*",
+    "app-route": "PolymerElements/app-route#v2.1.1",
     "paper-dialog-behavior": "v2.2.2",
     "paper-menu-button": "v2.1.1",
     "iron-overlay-behavior": "v2.3.4",
-    "iron-fit-behavior": "v2.2.0"
+    "iron-fit-behavior": "v2.2.0",
+    "iron-location": "v2.2.1"
   },
   "resolutions": {
     "webcomponentsjs": "^v1.1.0",
@@ -83,6 +84,7 @@
     "iron-collapse": "v2.2.1",
     "paper-button": "v2.1.1",
     "paper-dialog-behavior": "v2.2.2",
-    "app-layout": "v2.1.1"
+    "app-layout": "v2.1.1",
+    "iron-location": "v2.2.1"
   }
 }
