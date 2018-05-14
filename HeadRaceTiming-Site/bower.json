@@ -14,7 +14,7 @@
     "paper-item": "v2.1.1",
     "paper-button": "v2.1.1",
     "iron-form": "v2.3.0",
-    "shadycss": "v1.2.0",
+    "shadycss": "v1.2.1",
     "webcomponentsjs": "v2.0.0",
     "gulp": "v4.0.0",
     "iron-resizable-behavior": "v2.1.0",
@@ -51,7 +51,7 @@
   },
   "resolutions": {
     "webcomponentsjs": "v2.0.0",
-    "shadycss": "v1.2.0",
+    "shadycss": "v1.2.1",
     "iron-flex-layout": "v2.0.3",
     "paper-styles": "1 - 2",
     "iron-image": "1 - 2",
