@@ -14,8 +14,8 @@
     "paper-item": "v2.1.1",
     "paper-button": "v2.1.1",
     "iron-form": "v2.3.0",
-    "shadycss": "v1.2.1",
-    "webcomponentsjs": "v2.0.0",
+    "shadycss": "v1.3.1",
+    "webcomponentsjs": "v2.0.1",
     "gulp": "v4.0.0",
     "iron-resizable-behavior": "v2.1.0",
     "iron-collapse": "v2.2.1",
@@ -46,12 +46,12 @@
     "paper-dialog-behavior": "v2.2.2",
     "paper-menu-button": "v2.1.1",
     "iron-overlay-behavior": "v2.3.4",
-    "iron-fit-behavior": "v2.2.0",
+    "iron-fit-behavior": "v2.2.1",
     "iron-location": "v2.2.1"
   },
   "resolutions": {
-    "webcomponentsjs": "v2.0.0",
-    "shadycss": "v1.2.1",
+    "webcomponentsjs": "v2.0.1",
+    "shadycss": "v1.3.1",
     "iron-flex-layout": "v2.0.3",
     "paper-styles": "1 - 2",
     "iron-image": "1 - 2",
@@ -85,6 +85,7 @@
     "paper-button": "v2.1.1",
     "paper-dialog-behavior": "v2.2.2",
     "app-layout": "v2.1.1",
-    "iron-location": "v2.2.1"
+    "iron-location": "v2.2.1",
+    "iron-fit-behavior": "v2.2.1"
   }
 }

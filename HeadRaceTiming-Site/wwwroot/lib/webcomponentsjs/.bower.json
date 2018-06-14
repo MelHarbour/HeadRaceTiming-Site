@@ -21,15 +21,15 @@
   "devDependencies": {
     "web-component-tester": "^v6.0.0"
   },
-  "version": "2.0.0",
-  "_release": "2.0.0",
+  "version": "2.0.1",
+  "_release": "2.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "v2.0.0",
-    "commit": "95803da0fe85fbf7dd652958b4be7199660f4c93"
+    "tag": "v2.0.1",
+    "commit": "576e97738913b5497b39bfc36de4ae10628d3d4c"
   },
   "_source": "https://github.com/Polymer/webcomponentsjs.git",
-  "_target": "v2.0.0",
+  "_target": "v2.0.1",
   "_originalSource": "webcomponentsjs",
   "_direct": true
 }
