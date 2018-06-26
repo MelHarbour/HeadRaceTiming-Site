@@ -13,11 +13,11 @@
     "paper-listbox": "v2.1.1",
     "paper-item": "v2.1.1",
     "paper-button": "v2.1.1",
-    "iron-form": "v2.3.0",
+    "iron-form": "v2.4.0",
     "shadycss": "v1.3.1",
-    "webcomponentsjs": "v2.0.1",
+    "webcomponentsjs": "v2.0.2",
     "gulp": "v4.0.0",
-    "iron-resizable-behavior": "v2.1.0",
+    "iron-resizable-behavior": "v2.1.1",
     "iron-collapse": "v2.2.1",
     "paper-behaviors": "v2.1.1",
     "paper-input": "v2.2.2",
@@ -47,16 +47,16 @@
     "paper-menu-button": "v2.1.1",
     "iron-overlay-behavior": "v2.3.4",
     "iron-fit-behavior": "v2.2.1",
-    "iron-location": "v2.2.1"
+    "iron-location": "v2.2.2"
   },
   "resolutions": {
-    "webcomponentsjs": "v2.0.1",
+    "webcomponentsjs": "v2.0.2",
     "shadycss": "v1.3.1",
     "iron-flex-layout": "v2.0.3",
     "paper-styles": "1 - 2",
     "iron-image": "1 - 2",
     "iron-media-query": "1 - 2",
-    "iron-resizable-behavior": "v2.1.0",
+    "iron-resizable-behavior": "v2.1.1",
     "iron-scroll-target-behavior": "v2.1.1",
     "iron-icon": "1 - 2",
     "iron-meta": "v2.1.1",
@@ -73,7 +73,7 @@
     "iron-input": "v2.1.3",
     "iron-list": "v2.0.16",
     "paper-input": "v2.2.2",
-    "iron-form": "v2.3.0",
+    "iron-form": "v2.4.0",
     "polymer": "v2.6.0",
     "neon-animation": "1 - 2",
     "paper-menu-button": "v2.1.1",
@@ -85,7 +85,7 @@
     "paper-button": "v2.1.1",
     "paper-dialog-behavior": "v2.2.2",
     "app-layout": "v2.1.1",
-    "iron-location": "v2.2.1",
+    "iron-location": "v2.2.2",
     "iron-fit-behavior": "v2.2.1"
   }
 }
