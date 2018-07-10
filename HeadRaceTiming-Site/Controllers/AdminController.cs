@@ -29,7 +29,7 @@ namespace HeadRaceTimingSite.Controllers
         public async Task<IActionResult> ImportAthletes(ImportAthletesViewModel importAthletesViewModel)
         {
             CsvReader csv = new CsvReader(new StreamReader(importAthletesViewModel.CsvUpload.OpenReadStream()));
-            csv.Configuration.PrepareHeaderForMatch = header => header.Replace(" ", String.Empty);
+            csv.Configuration.PrepareHeaderForMatch = header => header.Replace(" ", String.Empty, StringComparison.CurrentCulture);
 
             var records = csv.GetRecords<CsvCrewAthlete>();
 

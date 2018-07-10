@@ -166,7 +166,8 @@ namespace HeadRaceTimingSite.Api.Controllers
             if (String.IsNullOrEmpty(s))
                 return Ok(results);
             else
-                return Ok(results.Where(x => x.Name.ToUpper(CultureInfo.CurrentCulture).Contains(s.ToUpper(CultureInfo.CurrentCulture))).ToList());
+                return Ok(results.Where(x => x.Name.ToUpper(CultureInfo.CurrentCulture)
+                    .Contains(s.ToUpper(CultureInfo.CurrentCulture), StringComparison.CurrentCulture)).ToList());
         }
     }
 }

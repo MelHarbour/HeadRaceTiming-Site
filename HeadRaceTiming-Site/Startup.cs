@@ -113,7 +113,7 @@ namespace HeadRaceTimingSite
                         var postLogoutUri = context.Properties.RedirectUri;
                         if (!string.IsNullOrEmpty(postLogoutUri))
                         {
-                            if (postLogoutUri.StartsWith("/"))
+                            if (postLogoutUri.StartsWith("/", StringComparison.CurrentCulture))
                             {
                                 // transform to absolute
                                 var request = context.Request;
