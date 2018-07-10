@@ -6,11 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using HeadRaceTimingSite.Helpers;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using HeadRaceTimingSite.Api.Resources;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using AutoMapper;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace HeadRaceTimingSite.Api.Controllers
 {

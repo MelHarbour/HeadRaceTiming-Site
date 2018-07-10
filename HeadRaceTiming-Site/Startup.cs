@@ -63,6 +63,7 @@ namespace HeadRaceTimingSite
                 c.DescribeAllEnumsAsStrings();
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "HeadRaceTimingSite.xml");
                 c.IncludeXmlComments(filePath);
+                c.EnableAnnotations();
             });
 
             services.AddDbContext<TimingSiteContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TimingSiteDatabase")));

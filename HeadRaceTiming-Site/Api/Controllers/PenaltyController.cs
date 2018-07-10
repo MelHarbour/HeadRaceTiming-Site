@@ -6,7 +6,7 @@ using AutoMapper;
 using HeadRaceTimingSite.Api.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace HeadRaceTimingSite.Api.Controllers
 {
