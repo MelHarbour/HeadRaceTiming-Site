@@ -1,15 +1,15 @@
 {
   "name": "webcomponentsjs",
   "homepage": "https://github.com/Polymer/webcomponentsjs",
-  "version": "2.0.3",
-  "_release": "2.0.3",
+  "version": "2.0.4",
+  "_release": "2.0.4",
   "_resolution": {
     "type": "version",
-    "tag": "v2.0.3",
-    "commit": "7350a4d64881b37f2841ad7f2971ce99ef39b823"
+    "tag": "v2.0.4",
+    "commit": "5c07b031671e519455b6c92b4bd4f352b8a9d4aa"
   },
   "_source": "https://github.com/Polymer/webcomponentsjs.git",
-  "_target": "v2.0.3",
+  "_target": "v2.0.4",
   "_originalSource": "webcomponentsjs",
   "_direct": true
 }
