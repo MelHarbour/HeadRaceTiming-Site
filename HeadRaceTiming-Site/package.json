@@ -1,9 +1,13 @@
 {
   "devDependencies": {
-    "gulp": "3.9.1",
-    "gulp-concat": "2.6.1",
-    "gulp-cssmin": "0.1.7",
-    "gulp-uglify": "2.0.1",
-    "rimraf": "2.6.1"
+    "css-loader": "^1.0.1",
+    "mini-css-extract-plugin": "^0.4.4",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "webpack": "^4.25.0",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "@material/top-app-bar": "^0.41.0"
   }
 }

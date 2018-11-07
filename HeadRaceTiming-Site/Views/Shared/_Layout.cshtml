@@ -7,10 +7,10 @@
     <title>@ViewData["Title"] - Head Race Timing</title>
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/src/site.css" />
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
     <link rel="shortcut icon" href="~/favicon.ico">
