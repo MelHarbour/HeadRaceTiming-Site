@@ -6,12 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Head Race Timing</title>
 
-    <environment names="Development">
-        <link rel="stylesheet" href="~/src/site.css" />
-    </environment>
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
-    </environment>
+    
+    <link rel="stylesheet" href="~/dist/site.css"/>
     @Html.Raw(JavaScriptSnippet.FullScript)
     <link rel="shortcut icon" href="~/favicon.ico">
     <script src="~/lib/webcomponentsjs/webcomponents-loader.js"></script>
@@ -29,6 +25,7 @@
     <link rel="import" href="~/lib/paper-button/paper-button.html" />
     <link rel="import" href="~/lib/paper-input/paper-input.html" />
     <link rel="import" href="~/components/custom-iconset.html" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     @RenderSection("imports", required: false)
     @if (IsSectionDefined("titleStyle"))
@@ -80,32 +77,18 @@
     </custom-style>
 </head>
 <body>
-    <dom-bind>
-        <template>
-            <app-drawer-layout fullbleed>
-                <app-header-layout>
-
-                    <app-header slot="header" reveals>
-                        <app-toolbar>
-                            @if (IsSectionDefined("titleBar"))
-                            {
-                                @RenderSection("titleBar", required: false)
-                            }
-                            else
-                            {
-                                <div main-title>@ViewData["Title"]</div>
-                            }
-                        </app-toolbar>
-                    </app-header>
-
-                    @RenderBody()
-                </app-header-layout>
-                <app-drawer slot="drawer">
-                    @await  Html.PartialAsync("_LoginPartial")
-                </app-drawer>
-            </app-drawer-layout>
-        </template>
-    </dom-bind>
-    @RenderSection("scripts", required: false)
+    <header class="mdc-top-app-bar">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+                <span class="mdc-top-app-bar__title">@ViewData["Title"]</span>
+            </section>
+        </div>
+    </header>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        @RenderBody()
+    </div>
+        <script src="~/dist/site.js" async></script>
+        @RenderSection("scripts", required: false)
 </body>
 </html>
