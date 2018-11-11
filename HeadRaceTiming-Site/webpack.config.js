@@ -3,33 +3,34 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
-module.exports = {
-    entry: ['./wwwroot/src/site.js', './wwwroot/src/site.css'],
+module.exports = [{
+    entry: ['./wwwroot/src/site.js', './wwwroot/src/site.scss'],
     mode: 'production',
     output: {
         filename: 'site.js',
         path: path.resolve(__dirname, 'wwwroot/dist')
     },
-    optimization: {
-        minimizer: [
-            new OptimizeCSSAssetsPlugin({})
-        ]
-    },
-    plugins: [
-        new MiniCssExtractPlugin({
-            filename: "[name].css",
-            chunkFilename: "[id].css"
-        })
-    ],
     module: {
         rules: [
             {
-                test: /\.css$/,
+                test: /\.scss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader"
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'site.css'
+                        }
+                    },
+                    { loader: 'extract-loader' },
+                    { loader: 'css-loader' },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            includePaths: ['./node_modules']
+                        },
+                    }
                 ]
             }
         ]
     }
-}
+}];
