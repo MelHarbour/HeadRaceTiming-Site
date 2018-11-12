@@ -5,26 +5,22 @@
 }
 
 <div class="bodyDetails">
-    @foreach (var item in Model)
+   @foreach (var item in Model)
     {
-        @if (String.IsNullOrEmpty(item.ImageUriText))
-        {
-            <div class="mdc-card competitionCard" style="background-color: #@item.BackgroundHtmlColor" data-competition-id="@item.FriendlyName">
-                <div class="mdc-typography--headline6" style="color: #@item.TextHtmlColor">@item.Name</div>
+        <div class="mdc-card competitionCard" style="background-color: #@item.BackgroundHtmlColor" data-competition-id="@item.FriendlyName">
+            <div class="mdc-card__primary-action">
+                @if (String.IsNullOrEmpty(item.ImageUriText))
+                {
+                    <div class="mdc-typography--headline6" style="color: #@item.TextHtmlColor">@item.Name</div>
+                }
+                else
+                {
+                    <div class="mdc-card__media" style="background-image: url('@item.ImageUriText')">
+                        <div class="mdc-card__media-content mdc-typography--headline6" style="color: #@item.TextHtmlColor">@item.Name</div>
+                    </div>
+                }
             </div>
-        }
-        else
-        {
-            <div class="mdc-card competitionCard" style="background-color: #@item.BackgroundHtmlColor" data-competition-id="@item.FriendlyName">
-                <div class="mdc-card__media">
-                    <div class="mdc-card__media-content mdc-typography--headline6" style="color: #@item.TextHtmlColor">@item.Name</div>
-                </div>
-            </div>
-
-            <paper-card data-competition-id="@item.FriendlyName" class="competitionCard" image="@item.ImageUriText" style="--paper-card-background-color: #@item.BackgroundHtmlColor">
-                <div class="card-content" style="color:#@item.TextHtmlColor">@item.Name</div>
-            </paper-card>
-        }
+        </div>
     }
 </div>
 
@@ -33,7 +29,7 @@
         window.addEventListener('WebComponentsReady', function (e) {
             document.querySelectorAll(".competitionCard").forEach(function (element) {
                 element.addEventListener("click", function (e) {
-                    location.href = '/Competition/Details/' + e.target.getAttribute("data-competition-id");
+                    location.href = '/Competition/Details/' + this.getAttribute("data-competition-id");
                 });
             })
         });
