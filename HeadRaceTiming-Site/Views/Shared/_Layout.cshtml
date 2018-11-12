@@ -15,14 +15,12 @@
     <link rel="import" href="~/lib/polymer/polymer.html">
     <link rel="import" href="~/lib/paper-styles/typography.html">
     <link rel="import" href="~/lib/app-layout/app-layout.html">
-    <link rel="import" href="~/lib/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="~/lib/iron-icons/iron-icons.html">
     <link rel="import" href="~/lib/iron-flex-layout/iron-flex-layout.html">
     <link rel="import" href="~/lib/paper-card/paper-card.html">
     <link rel="import" href="~/lib/paper-listbox/paper-listbox.html" />
     <link rel="import" href="~/lib/paper-item/paper-item.html" />
     <link rel="import" href="~/lib/paper-item/paper-icon-item.html" />
-    <link rel="import" href="~/lib/paper-button/paper-button.html" />
     <link rel="import" href="~/lib/paper-input/paper-input.html" />
     <link rel="import" href="~/components/custom-iconset.html" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -79,10 +77,17 @@
 <body class="mdc-typography">
     <header class="mdc-top-app-bar">
         <div class="mdc-top-app-bar__row">
-            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
-                <span class="mdc-top-app-bar__title">@ViewData["Title"]</span>
-            </section>
+            @if (IsSectionDefined("titlebar"))
+            {
+                @RenderSection("titlebar", required: false)
+            }
+            else
+            {
+                <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                    <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+                    <span class="mdc-top-app-bar__title">@ViewData["Title"]</span>
+                </section>
+            }
         </div>
     </header>
     <div class="mdc-top-app-bar--fixed-adjust">

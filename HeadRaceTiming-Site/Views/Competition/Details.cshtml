@@ -10,7 +10,6 @@
     <link rel="import" href="~/lib/app-route/app-location.html" />
     <link rel="import" href="~/lib/app-route/app-route.html" />
     <script src="~/lib/web-animations-js/web-animations-next-lite.min.js"></script>
-    <link rel="import" href="~/lib/paper-menu-button/paper-menu-button.html" />
 }
 
 @section titleBar{
@@ -19,12 +18,12 @@
         <span class="mdc-top-app-bar__title">@Model.Name - [[awardName(awardId)]]</span>
     </section>
     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">file_download</a>
-        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Print this page" alt="Print this page">print</a>
-        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Bookmark this page" alt="Bookmark this page">bookmark</a>
+        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" alt="Search">search</a>
+        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
+        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
     </section>
 
-    <div main-title>
+    <!--<div main-title>
         
         <paper-menu-button>
             <paper-icon-button icon="arrow-drop-down" slot="dropdown-trigger"></paper-icon-button>
@@ -40,7 +39,7 @@
     <paper-icon-button icon="cloud-download" id="downloadButton"></paper-icon-button>
     <paper-icon-button onclick="dialog.open()" icon="info" id="infoButton"></paper-icon-button>
     <paper-icon-button class="searchTools" icon="arrow-back" id="backButton"></paper-icon-button>
-    <paper-input class="searchTools" id="searchBox" value="{{subrouteData.searchValue}}" no-label-float="true"></paper-input>
+    <paper-input class="searchTools" id="searchBox" value="{{subrouteData.searchValue}}" no-label-float="true"></paper-input>-->
 }
 
 @section titleStyle{

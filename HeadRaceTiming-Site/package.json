@@ -22,11 +22,13 @@
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "uglifyjs-webpack-plugin": "^2.0.1",
-    "webpack": "^4.25.0",
+    "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
+    "@material/button": "^0.41.0",
     "@material/card": "^0.41.0",
+    "@material/list": "^0.41.0",
     "@material/top-app-bar": "^0.41.0",
     "@material/typography": "^0.41.0",
     "@webcomponents/webcomponentsjs": "^2.1.3"
