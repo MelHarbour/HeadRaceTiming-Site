@@ -1,4 +1,6 @@
 ﻿@import "@material/top-app-bar/mdc-top-app-bar";
+@import "@material/card/mdc-card";
+@import "@material/typography/mdc-typography";
 
 body {
     margin: 0;
@@ -31,7 +33,9 @@ paper-card {
 
 .competitionCard {
     width: 250px;
+    height: 76px;
     cursor: pointer;
+    padding: 1rem;
 }
 
 .search, .searchTools {

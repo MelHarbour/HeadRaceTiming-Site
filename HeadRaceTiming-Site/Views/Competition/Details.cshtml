@@ -14,8 +14,18 @@
 }
 
 @section titleBar{
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+        <span class="mdc-top-app-bar__title">@Model.Name - [[awardName(awardId)]]</span>
+    </section>
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">file_download</a>
+        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Print this page" alt="Print this page">print</a>
+        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Bookmark this page" alt="Bookmark this page">bookmark</a>
+    </section>
+
     <div main-title>
-        @Model.Name - [[awardName(awardId)]]
+        
         <paper-menu-button>
             <paper-icon-button icon="arrow-drop-down" slot="dropdown-trigger"></paper-icon-button>
             <paper-listbox attr-for-selected="award-id" selected="{{awardId}}" slot="dropdown-content">

@@ -9,12 +9,18 @@
     {
         @if (String.IsNullOrEmpty(item.ImageUriText))
         {
-            <paper-card data-competition-id="@item.FriendlyName" class="competitionCard" heading="@item.Name" style="--paper-card-background-color: #@item.BackgroundHtmlColor; --paper-card-header-color: #@item.TextHtmlColor">
-
-            </paper-card>
+            <div class="mdc-card competitionCard" style="background-color: #@item.BackgroundHtmlColor" data-competition-id="@item.FriendlyName">
+                <div class="mdc-typography--headline6" style="color: #@item.TextHtmlColor">@item.Name</div>
+            </div>
         }
         else
         {
+            <div class="mdc-card competitionCard" style="background-color: #@item.BackgroundHtmlColor" data-competition-id="@item.FriendlyName">
+                <div class="mdc-card__media">
+                    <div class="mdc-card__media-content mdc-typography--headline6" style="color: #@item.TextHtmlColor">@item.Name</div>
+                </div>
+            </div>
+
             <paper-card data-competition-id="@item.FriendlyName" class="competitionCard" image="@item.ImageUriText" style="--paper-card-background-color: #@item.BackgroundHtmlColor">
                 <div class="card-content" style="color:#@item.TextHtmlColor">@item.Name</div>
             </paper-card>
@@ -25,7 +31,7 @@
 @section scripts{
     <script>
         window.addEventListener('WebComponentsReady', function (e) {
-            document.querySelectorAll("paper-card").forEach(function (element) {
+            document.querySelectorAll(".competitionCard").forEach(function (element) {
                 element.addEventListener("click", function (e) {
                     location.href = '/Competition/Details/' + e.target.getAttribute("data-competition-id");
                 });
