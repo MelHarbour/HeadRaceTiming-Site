@@ -20,7 +20,7 @@
     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
         <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" alt="Search">search</a>
         <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
-        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
+        <a href="#" class="material-icons mdc-top-app-bar__action-item" onclick="window.dialog.open()" aria-label="Info" alt="Info">info</a>
     </section>
 
     <!--<div main-title>
@@ -59,17 +59,25 @@
               second-intermediate-name="@Model.SecondIntermediateName" search-value="{{subrouteData.searchValue}}"
               first-intermediate-id="@Model.FirstIntermediateId" second-intermediate-id="@Model.SecondIntermediateId" award-id="[[awardId]]"></results-list>
 
-<paper-dialog id="dialog">
-    <h2>Information</h2>
+<div class="mdc-dialog">
+    <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface">
+            <h2 class="mdc-dialog__title">Information</h2>
+            <div class="mdc-dialog__content">
+                @Html.Raw(Model.DialogInformation)
 
-    @Model.DialogInformation
-
-    <p>Crew lists may not show recent substitutions as these do not update automatically.</p>
-</paper-dialog>
+                <p>Crew lists may not show recent substitutions as these do not update automatically.</p>
+            </div>
+        </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+</div>
 
 @section scripts {
     <script>
-        var autobind = document.querySelector('dom-bind');
+        
+
+        @*var autobind = document.querySelector('dom-bind');
 
         autobind.menuItems = [
             @foreach (var award in Model.Awards) {
@@ -124,6 +132,6 @@
                 if (sessionStorage.scrollTop != "undefined") {
                 $(window).scrollTop(sessionStorage.scrollTop);
                 }
-            });
+            });*@
     </script>
 }
