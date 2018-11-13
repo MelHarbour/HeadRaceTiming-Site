@@ -6,8 +6,6 @@
 
 @section imports {
     <link rel="import" href="~/components/results-list.html" />
-    <link rel="import" href="~/lib/app-route/app-location.html" />
-    <link rel="import" href="~/lib/app-route/app-route.html" />
     <script src="~/lib/web-animations-js/web-animations-next-lite.min.js"></script>
 }
 
@@ -49,10 +47,6 @@
         }
     </style>
 }
-
-<app-location route="{{route}}"></app-location>
-<app-route route="{{route}}" pattern="/Competition/Details/:page" data="{{data}}" tail="{{subroute}}"></app-route>
-<app-route route="{{subroute}}" auto-activate pattern="/:searchValue" data="{{subrouteData}}"></app-route>
 
 <results-list competition-id="@Model.CompetitionId" first-intermediate-name="@Model.FirstIntermediateName"
               second-intermediate-name="@Model.SecondIntermediateName" search-value="{{subrouteData.searchValue}}"
