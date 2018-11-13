@@ -7,22 +7,26 @@
 @section imports {
     <link rel="import" href="~/components/crew-results-list.html" />
     <link rel="import" href="~/lib/iron-media-query/iron-media-query.html" />
-    <link rel="import" href="~/lib/paper-dialog/paper-dialog.html" />
 }
 
 @section titleBar{
     <div main-title>@ViewData["Title"]</div>
-    <paper-icon-button onclick="dialog.open()" icon="info"></paper-icon-button>
+    <paper-icon-button onclick="window.dialog.open()" icon="info"></paper-icon-button>
 }
 
 <iron-media-query query="max-width: 600px" query-matches="{{narrow}}"></iron-media-query>
 
-<paper-dialog id="dialog">
-    <h2>Information</h2>
-    <p>
-        Crew lists may not show recent substitutions as these do not update automatically.
-    </p>
-</paper-dialog>
+<div class="mdc-dialog">
+    <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface">
+            <h2 class="mdc-dialog__title">Information</h2>
+            <div class="mdc-dialog__content">
+                <p>Crew lists may not show recent substitutions as these do not update automatically.</p>
+            </div>
+        </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+</div>
 
 <div class="bodyDetails">
     <paper-card heading="Crew Details">
