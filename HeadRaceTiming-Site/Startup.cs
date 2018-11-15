@@ -174,6 +174,7 @@ namespace HeadRaceTimingSite
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Competition}/{action=Index}/{id?}");
+                routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
             });
         }
     }

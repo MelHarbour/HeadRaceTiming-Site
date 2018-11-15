@@ -1131,10 +1131,6 @@ paper-card {
 app-drawer-layout:not([narrow]) [drawer-toggle] {
   display: none; }
 
-paper-item, paper-icon-item {
-  color: #666;
-  cursor: pointer; }
-
 .card-table {
   padding-left: 0;
   padding-right: 0;

@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = [{
-    entry: ['./wwwroot/src/site.js', './wwwroot/src/site.scss'],
+    entry: ['babel-polyfill', './wwwroot/src/site.js', './wwwroot/src/site.scss', './wwwroot/src/components/timing-app.js'],
     mode: 'production',
     output: {
         filename: 'site.js',
@@ -35,8 +35,8 @@ module.exports = [{
                 test: /\.js$/,
                 loader: 'babel-loader',
                 query: {
-                    presets: ['es2015'],
-                    plugins: ['transform-object-assign']
+                    presets: ['es2015', 'stage-2'],
+                    plugins: ['transform-object-assign','transform-custom-element-classes']
                 },
             }
         ]
