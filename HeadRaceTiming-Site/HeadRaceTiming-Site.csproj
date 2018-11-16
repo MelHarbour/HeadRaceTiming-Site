@@ -47,8 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\dist\" />
-    <Folder Include="wwwroot\src\actions\" />
-    <Folder Include="wwwroot\src\reducers\" />
   </ItemGroup>
 
 

@@ -22,7 +22,9 @@ class TimingApp extends connect(store)(LitElement) {
     <link rel="stylesheet" href="/dist/site.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
-      
+      main {
+        display: block;
+      }
     </style>
 
     <header class="mdc-top-app-bar">
@@ -33,9 +35,9 @@ class TimingApp extends connect(store)(LitElement) {
             </section>
         </div>
     </header>
-    <div class="mdc-top-app-bar--fixed-adjust">
-        Testing
-    </div>
+    <main role="main" class="mdc-top-app-bar--fixed-adjust">
+        <my-view1 ?active="${this._page === 'view1'}"></my-view1>
+    </main>
     `;
   }
 

@@ -173,7 +173,7 @@ namespace HeadRaceTimingSite
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Competition}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
             });
         }
@@ -211,6 +211,7 @@ namespace HeadRaceTimingSite
             CreateMap<Penalty, Api.Resources.Penalty>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.PenaltyId))
                 .ReverseMap();
+            CreateMap<Competition, Api.Resources.Competition>().ReverseMap();
         }
     }
 

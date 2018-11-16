@@ -18,7 +18,7 @@ namespace HeadRaceTimingSite.Helpers
             if (crews.Count() == 0)
                 return apiCrews;
 
-            Competition competition = crews.First().Competition;
+            Models.Competition competition = crews.First().Competition;
             TimingPoint startPoint = competition.TimingPoints.First();
             TimingPoint finishPoint = competition.TimingPoints.Last();
 

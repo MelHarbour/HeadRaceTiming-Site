@@ -13,8 +13,7 @@ export const navigate = (path) => (dispatch) => {
 const loadPage = (page) => (dispatch) => {
   switch(page) {
     case 'view1':
-      require('../components/my-view1.js').then((module) => {
-      });
+      require('../components/my-view1.js');
       break;
     default:
       page = 'view404';
