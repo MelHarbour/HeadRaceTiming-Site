@@ -1,7 +1,7 @@
 ﻿import { GET_COMPETITIONS } from '../actions/competitions.js';
 
 const INITIAL_STATE = {
-    competitions: {}
+    competitions: []
 };
 
 const competitions = (state = INITIAL_STATE, action) => {
@@ -17,5 +17,3 @@ const competitions = (state = INITIAL_STATE, action) => {
 };
 
 export default competitions;
-
-export const competitionsSelector = state => state.competitions;

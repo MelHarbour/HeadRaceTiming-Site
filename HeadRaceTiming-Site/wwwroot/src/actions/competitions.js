@@ -3,7 +3,10 @@
 const COMPETITIONS_LIST = [
     {
         "id": 1,
-        "title": "WEHoRR 2018"
+        "title": "WEHoRR 2018",
+        "friendlyName": "wehorr2018",
+        "backgroundColor": "0000FF",
+        "textColor": "FFFFFF"
     }
 ];
 

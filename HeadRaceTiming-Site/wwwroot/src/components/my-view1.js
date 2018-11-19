@@ -4,33 +4,23 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 
-import counter from '../reducers/counter.js';
 import competitions from '../reducers/competitions.js';
+import { getAllCompetitions } from '../actions/competitions.js';
 store.addReducers({
-    competitions,
-    counter
+    competitions
 });
 
 
 class MyView1 extends connect(store)(PageViewElement) {
   render() {
       return html`
-        <div>${this._value}</div>
+        <link rel="stylesheet" href="/dist/site.css">
 
-        ${this._competitions && repeat(this._competitions, (competition) =>
-        html`
-        <div class="mdc-card competitionCard" style="background-color: #@item.BackgroundHtmlColor" data-competition-id="@item.FriendlyName">
+        ${this._competitions.competitions && repeat(this._competitions.competitions, (competition) =>
+              html`
+        <div class="mdc-card competitionCard" style="background-color: #${competition.backgroundColor}" data-competition-id=${competition.friendlyName}>
             <div class="mdc-card__primary-action">
-                @if (String.IsNullOrEmpty(item.ImageUriText))
-                {
-                    <div class="mdc-typography--headline6" style="color: #@item.TextHtmlColor">@item.Name</div>
-                }
-                else
-                {
-                    <div class="mdc-card__media" style="background-image: url('@item.ImageUriText')">
-                        <div class="mdc-card__media-content mdc-typography--headline6" style="color: #@item.TextHtmlColor">@item.Name</div>
-                    </div>
-                }
+                <div class="mdc-typography--headline6" style="color: #${competition.textColor}">${competition.title}</div>
             </div>
         </div>
        `)}`;
@@ -38,14 +28,16 @@ class MyView1 extends connect(store)(PageViewElement) {
 
     static get properties() {
         return {
-            _value: {type: Number },
             _competitions: { type: Array }
         };
     }
 
+    firstUpdated() {
+        store.dispatch(getAllCompetitions());
+    }
+
     stateChanged(state) {
-        this._competitions = state.competitions.competitions;
-        this._value = state.counter.value;
+        this._competitions = state.competitions;
     }
 }
 

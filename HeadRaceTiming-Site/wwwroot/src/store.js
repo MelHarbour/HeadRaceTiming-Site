@@ -12,7 +12,7 @@ import app from './reducers/app.js';
 const devCompose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(
-  state => state,
+  (state, action) => state,
   devCompose(
     lazyReducerEnhancer(combineReducers),
     applyMiddleware(thunk))
