@@ -4,10 +4,10 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../store.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 
-import results from '../../reducers/results.js';
-import { getCompetitionResults } from '../../actions/results.js';
+import crews from '../../reducers/crews.js';
+import { getCompetitionCrews } from '../../actions/crews.js';
 store.addReducers({
-    results
+    crews
 });
 
 class ResultsView extends connect(store)(PageViewElement) {
@@ -54,14 +54,14 @@ class ResultsView extends connect(store)(PageViewElement) {
             <div class="intermediate">${this._secondIntermediateName}</div>
             <div class="time">Finish</div>
         </div>
-        ${this._results && repeat(this._results, (result) => 
+        ${this._crews && repeat(this._crews, (crew) => 
           html`
             <div class="row">
                 <div class="startNumber">
-                    ${result.startNumber}
+                    ${crew.startNumber}
                 </div>
                 <div class="name" title="[[item.name]]">
-                    ${result.name}
+                    ${crew.name}
                 </div>
                 <div class="intermediate">
                             
@@ -70,11 +70,11 @@ class ResultsView extends connect(store)(PageViewElement) {
                             
                 </div>
                 <div class="time">
-                    ${result.status
-                        ? html`${result.status}`
+                    ${crew.status
+              ? html`${crew.status}`
                         : html`
-                            ${result.overallTime}${result.hasPenalty ? html`P` : html``}
-                            ${result.overallTime ? html`(${result.rank})` :html``}
+                            ${crew.overallTime}${crew.hasPenalty ? html`P` : html``}
+                            ${crew.overallTime ? html`(${crew.rank})` :html``}
                     `}
                 </div>
             </div>
@@ -82,14 +82,18 @@ class ResultsView extends connect(store)(PageViewElement) {
     }
     static get properties() {
         return {
-            _results: { type: Array },
+            _crews: { type: Array },
             _firstIntermediateName: { type: String },
             _secondIntermediateName: { type: String }
         };
     }
 
+    firstUpdated() {
+        store.dispatch(getCompetitionCrews());
+    }
+
     stateChanged(state) {
-        this._results = state.results.results;
+        this._crews = state.crews.crews;
     }
 }
 
