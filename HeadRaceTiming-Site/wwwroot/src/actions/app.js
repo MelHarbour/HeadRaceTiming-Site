@@ -18,8 +18,11 @@ const loadPage = (page, id) => (dispatch) => {
         require('../components/results/results-view.js');
         break;
       case 'competition':
-        require('../components/competition/competition-index.js');
-        break;
+          require('../components/competition/competition-index.js');
+          break;
+      case 'crew':
+          require('../components/crew/crew-view.js');
+          break;
     default:
       page = 'view404';
       require('../components/my-view404.js');

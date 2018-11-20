@@ -42,6 +42,7 @@ class TimingApp extends connect(store)(LitElement) {
     <main role="main" class="mdc-top-app-bar--fixed-adjust">
         <competition-index class="page" ?active="${this._page === 'competition'}"></competition-index>
         <results-view class="page" ?active="${this._page === 'results'}"></results-view>
+        <crew-view class="page" ?active="${this._page === 'crew'}"></crew-view>
     </main>
     `;
   }
