@@ -89,7 +89,7 @@ class ResultsView extends connect(store)(PageViewElement) {
     }
 
     firstUpdated() {
-        store.dispatch(getCompetitionCrews());
+        setInterval(() => store.dispatch(getCompetitionCrews()), 10000);
     }
 
     stateChanged(state) {
