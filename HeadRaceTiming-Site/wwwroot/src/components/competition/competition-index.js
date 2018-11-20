@@ -19,9 +19,9 @@ class CompetitionIndex extends connect(store)(PageViewElement) {
 
         ${this._competitions && repeat(this._competitions, (competition) =>
               html`
-        <div @click="${(event) => this.clickHandler(event)}" class="mdc-card competitionCard" style="background-color: #${competition.backgroundColor}" data-competition-id=${competition.friendlyName}>
+        <div @click="${(event) => this.clickHandler(event)}" class="mdc-card competitionCard" style="background-color: #${competition.backgroundHtmlColor}" data-competition-id=${competition.friendlyName}>
             <div class="mdc-card__primary-action">
-                <div class="mdc-typography--headline6" style="color: #${competition.textColor}">${competition.title}</div>
+                <div class="mdc-typography--headline6" style="color: #${competition.textHtmlColor}">${competition.name}</div>
             </div>
         </div>
        `)}`;

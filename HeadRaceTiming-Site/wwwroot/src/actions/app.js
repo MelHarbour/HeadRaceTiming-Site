@@ -29,7 +29,6 @@ const loadPage = (page, id) => (dispatch) => {
 };
 
 const updatePage = (page) => {
-    console.log('updatePage');
   return {
     type: UPDATE_PAGE,
     page

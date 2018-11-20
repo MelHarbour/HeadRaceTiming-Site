@@ -1,18 +1,14 @@
-﻿export const GET_COMPETITIONS = 'GET_COMPETITIONS';
-
-const COMPETITIONS_LIST = [
-    {
-        "id": 1,
-        "title": "WEHoRR 2018",
-        "friendlyName": "wehorr2018",
-        "backgroundColor": "0000FF",
-        "textColor": "FFFFFF"
-    }
-];
+﻿export const RECEIVE_COMPETITIONS = 'RECEIVE_COMPETITIONS';
 
 export const getAllCompetitions = () => (dispatch) => {
-    dispatch({
-        type: GET_COMPETITIONS,
-        competitions: COMPETITIONS_LIST
-    });
+    fetch('/api/competitions')
+        .then(res => res.json())
+        .then(data => dispatch(receiveCompetitions(data)));
+};
+
+const receiveCompetitions = (items) => {
+    return {
+        type: RECEIVE_COMPETITIONS,
+        competitions: items
+    };
 };

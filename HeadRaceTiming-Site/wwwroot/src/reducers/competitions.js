@@ -1,4 +1,4 @@
-﻿import { GET_COMPETITIONS } from '../actions/competitions.js';
+﻿import { RECEIVE_COMPETITIONS } from '../actions/competitions.js';
 
 const INITIAL_STATE = {
     competitions: []
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 const competitions = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case GET_COMPETITIONS:
+        case RECEIVE_COMPETITIONS:
             return {
                 ...state,
                 competitions: action.competitions

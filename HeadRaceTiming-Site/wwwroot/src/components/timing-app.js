@@ -61,7 +61,6 @@ class TimingApp extends connect(store)(LitElement) {
   }
 
     updated(changedProps) {
-        console.log('updated');
     if (changedProps.has('_page')) {
       const pageTitle = this.appTitle + ' - ' + this._page;
       updateMetadata({
