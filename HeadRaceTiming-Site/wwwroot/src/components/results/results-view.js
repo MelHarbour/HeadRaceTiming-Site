@@ -5,6 +5,7 @@ import { store } from '../../store.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 
 import crews from '../../reducers/crews.js';
+import { navigate } from '../../actions/app.js';
 import { getCompetitionCrews } from '../../actions/crews.js';
 store.addReducers({
     crews
@@ -56,7 +57,7 @@ class ResultsView extends connect(store)(PageViewElement) {
         </div>
         ${this._crews && repeat(this._crews, (crew) => 
           html`
-            <div class="row">
+            <div class="row" @click="${(event) => this.clickHandler(event)}" data-crew-id=${crew.id}>
                 <div class="startNumber">
                     ${crew.startNumber}
                 </div>
@@ -89,11 +90,17 @@ class ResultsView extends connect(store)(PageViewElement) {
     }
 
     firstUpdated() {
+        store.dispatch(getCompetitionCrews());
         setInterval(() => store.dispatch(getCompetitionCrews()), 10000);
     }
 
     stateChanged(state) {
         this._crews = state.crews.crews;
+    }
+
+    clickHandler(event) {
+        window.history.pushState({}, '', '/crew/' + event.currentTarget.dataset.crewId);
+        store.dispatch(navigate(window.location.pathname));
     }
 }
 
