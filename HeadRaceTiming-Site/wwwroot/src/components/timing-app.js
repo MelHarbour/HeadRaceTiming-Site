@@ -13,8 +13,6 @@ import {
   updateOffline
 } from '../actions/app.js';
 
-import { MDCTopAppBar } from '@material/top-app-bar/index';
-
 class TimingApp extends connect(store)(LitElement) {
   render() {
     // Anything that's related to rendering should be done in here.
@@ -23,6 +21,12 @@ class TimingApp extends connect(store)(LitElement) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
       main {
+        display: block;
+      }
+      main .page {
+        display: none;
+      }
+      main .page[active] {
         display: block;
       }
     </style>
@@ -36,7 +40,8 @@ class TimingApp extends connect(store)(LitElement) {
         </div>
     </header>
     <main role="main" class="mdc-top-app-bar--fixed-adjust">
-        <my-view1 ?active="${this._page === 'view1'}"></my-view1>
+        <competition-index class="page" ?active="${this._page === 'competition'}"></competition-index>
+        <results-view class="page" ?active="${this._page === 'results'}"></results-view>
     </main>
     `;
   }
@@ -45,7 +50,8 @@ class TimingApp extends connect(store)(LitElement) {
       return {
           appTitle: { type: String },
           _page: { type: String },
-          _offline: { type: Boolean }
+          _offline: { type: Boolean },
+          _id: { type: String }
       };
   }
 
@@ -54,7 +60,8 @@ class TimingApp extends connect(store)(LitElement) {
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
   }
 
-  updated(changedProps) {
+    updated(changedProps) {
+        console.log('updated');
     if (changedProps.has('_page')) {
       const pageTitle = this.appTitle + ' - ' + this._page;
       updateMetadata({
@@ -65,7 +72,8 @@ class TimingApp extends connect(store)(LitElement) {
   }
 
   stateChanged(state) {
-    this._page = state.app.page;
+      this._page = state.app.page;
+      this._id = state.app.id;
   }
 }
 

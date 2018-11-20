@@ -11,13 +11,8 @@ const COMPETITIONS_LIST = [
 ];
 
 export const getAllCompetitions = () => (dispatch) => {
-    const competitions = COMPETITIONS_LIST.reduce((obj, competition) => {
-        obj[competition.id] = competition;
-        return obj;
-    });
-
     dispatch({
         type: GET_COMPETITIONS,
-        competitions
+        competitions: COMPETITIONS_LIST
     });
 };

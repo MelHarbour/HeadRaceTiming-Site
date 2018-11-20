@@ -9,6 +9,7 @@ const INITIAL_STATE = {
 };
 
 const app = (state = INITIAL_STATE, action) => {
+    console.log('reducer');
   switch (action.type) {
     case UPDATE_PAGE:
       return {
