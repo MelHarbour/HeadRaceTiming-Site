@@ -60,7 +60,7 @@ class ResultsView extends connect(store)(PageViewElement) {
                 <div class="startNumber">
                     ${crew.startNumber}
                 </div>
-                <div class="name" title="[[item.name]]">
+                <div class="name" title="${crew.name}">
                     ${crew.name}
                 </div>
                 <div class="intermediate">
