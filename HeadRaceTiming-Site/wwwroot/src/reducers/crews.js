@@ -1,7 +1,9 @@
 ﻿import { RECEIVE_CREWS } from '../actions/crews.js';
+import { createSelector } from 'reselect';
 
 const INITIAL_STATE = {
-    crews: []
+    crews: {},
+    orderedCrews: []
 };
 
 const crews = (state = INITIAL_STATE, action) => {
@@ -9,7 +11,11 @@ const crews = (state = INITIAL_STATE, action) => {
         case RECEIVE_CREWS:
             return {
                 ...state,
-                crews: action.crews
+                crews: action.crews.reduce((obj, item) => {
+                    obj[item.id] = item;
+                    return obj;
+                }, {}),
+                orderedCrews: action.crews.map(item => item.id)
             };
         default:
             return state;
@@ -17,3 +23,16 @@ const crews = (state = INITIAL_STATE, action) => {
 };
 
 export default crews;
+
+const crewsSelector = state => state.crews && state.crews.crews;
+const orderedCrewsSelector = state => state.crews && state.crews.orderedCrews;
+
+export const crewsListSelector = createSelector(
+    crewsSelector, orderedCrewsSelector,
+    (crews, order) => {
+        if (!crews) {
+            return;
+        }
+        return order.map(key => crews[key]);
+    }
+);

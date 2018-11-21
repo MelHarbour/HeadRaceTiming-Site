@@ -5,6 +5,7 @@ import { store } from '../../store.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 
 import crews from '../../reducers/crews.js';
+import { crewsListSelector } from '../../reducers/crews.js';
 import { navigate } from '../../actions/app.js';
 import { getCompetitionCrews } from '../../actions/crews.js';
 store.addReducers({
@@ -55,8 +56,8 @@ class ResultsView extends connect(store)(PageViewElement) {
             <div class="intermediate">${this._secondIntermediateName}</div>
             <div class="time">Finish</div>
         </div>
-        ${this._crews && repeat(this._crews, (crew) => 
-          html`
+        ${this._crews && repeat(this._crews, (crew) =>
+              html`
             <div class="row" @click="${(event) => this.clickHandler(event)}" data-crew-id=${crew.id}>
                 <div class="startNumber">
                     ${crew.startNumber}
@@ -72,14 +73,15 @@ class ResultsView extends connect(store)(PageViewElement) {
                 </div>
                 <div class="time">
                     ${crew.status
-              ? html`${crew.status}`
-                        : html`
+                      ? html`${crew.status}`
+                      : html`
                             ${crew.overallTime}${crew.hasPenalty ? html`P` : html``}
-                            ${crew.overallTime ? html`(${crew.rank})` :html``}
+                            ${crew.overallTime ? html`(${crew.rank})` : html``}
                     `}
                 </div>
             </div>
-       `)}`;
+       `)}
+        `;
     }
     static get properties() {
         return {
@@ -95,7 +97,7 @@ class ResultsView extends connect(store)(PageViewElement) {
     }
 
     stateChanged(state) {
-        this._crews = state.crews.crews;
+        this._crews = crewsListSelector(state);
     }
 
     clickHandler(event) {
