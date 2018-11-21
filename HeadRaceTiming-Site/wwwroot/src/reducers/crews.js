@@ -24,7 +24,7 @@ const crews = (state = INITIAL_STATE, action) => {
 
 export default crews;
 
-const crewsSelector = state => state.crews && state.crews.crews;
+export const crewsSelector = state => state.crews && state.crews.crews;
 const orderedCrewsSelector = state => state.crews && state.crews.orderedCrews;
 
 export const crewsListSelector = createSelector(

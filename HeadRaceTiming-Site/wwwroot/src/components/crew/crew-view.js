@@ -2,6 +2,7 @@ import { html } from '@polymer/lit-element';
 import { PageViewElement } from '../page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../store.js';
+import { crewsSelector } from '../../reducers/crews.js';
 
 import crews from '../../reducers/crews.js';
 store.addReducers({
@@ -35,7 +36,9 @@ class CrewView extends connect(store)(PageViewElement) {
     }
 
     stateChanged(state) {
-        this._name = state.name;
+        if (state.app.id && crewsSelector(state)[state.app.id]) {
+            this._name = crewsSelector(state)[state.app.id].name;
+        }
     }
 }
 

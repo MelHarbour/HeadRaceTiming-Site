@@ -6,9 +6,6 @@ export const navigate = (path) => (dispatch) => {
     const parts = path.slice(1).split('/');
     const page = parts[0] || 'competition';
     const id = parts[1];
-
-  // Any other info you might want to extract from the path (like page type),
-  // you can do here
   dispatch(loadPage(page, id));
 };
 
@@ -28,13 +25,14 @@ const loadPage = (page, id) => (dispatch) => {
       require('../components/my-view404.js');
   }
 
-  dispatch(updatePage(page));
+  dispatch(updatePage(page, id));
 };
 
-const updatePage = (page) => {
+const updatePage = (page, id) => {
   return {
     type: UPDATE_PAGE,
-    page
+      page: page,
+    id : id
   };
 };
 

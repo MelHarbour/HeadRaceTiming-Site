@@ -4,7 +4,8 @@ import {
 } from '../actions/app.js';
 
 const INITIAL_STATE = {
-  page: '',
+    page: '',
+    id: '',
   offline: false
 };
 
@@ -13,7 +14,8 @@ const app = (state = INITIAL_STATE, action) => {
     case UPDATE_PAGE:
       return {
         ...state,
-        page: action.page
+          page: action.page,
+          id: action.id
       };
     case UPDATE_OFFLINE:
       return {
