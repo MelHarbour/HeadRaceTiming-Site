@@ -75,8 +75,8 @@ class ResultsView extends connect(store)(PageViewElement) {
                     ${crew.status
                       ? html`${crew.status}`
                       : html`
-                            ${crew.overallTime}${crew.hasPenalty ? html`P` : html``}
-                            ${crew.overallTime ? html`(${crew.rank})` : html``}
+                            ${crew.overallTime}${crew.hasPenalty ? html`P` : null}
+                            ${crew.overallTime ? html`(${crew.rank})` : null}
                     `}
                 </div>
             </div>

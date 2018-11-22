@@ -3,6 +3,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installOfflineWatcher } from 'pwa-helpers/network.js';
 import { installRouter } from 'pwa-helpers/router.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
+import { MDCTopAppBar } from "@material/top-app-bar/index";
 
 // This element is connected to the Redux store.
 import { store } from '../store.js';
@@ -15,7 +16,6 @@ import {
 
 class TimingApp extends connect(store)(LitElement) {
   render() {
-    // Anything that's related to rendering should be done in here.
       return html`
     <link rel="stylesheet" href="/dist/site.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -42,7 +42,7 @@ class TimingApp extends connect(store)(LitElement) {
                         <a href="#" @click="${(event) => this.clickHandler(event)}" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
                         <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
                     </section>
-                `: ''}
+                `: null}
         </div>
     </header>
     <main role="main" class="mdc-top-app-bar--fixed-adjust">
@@ -63,7 +63,9 @@ class TimingApp extends connect(store)(LitElement) {
 
   firstUpdated() {
     installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
-    installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
+      installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
+      const topAppBarElement = this.shadowRoot.querySelector('.mdc-top-app-bar');
+      const topAppBar = new MDCTopAppBar(topAppBarElement);
   }
 
     updated(changedProps) {
