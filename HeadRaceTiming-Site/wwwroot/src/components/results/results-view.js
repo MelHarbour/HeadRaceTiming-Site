@@ -92,8 +92,12 @@ class ResultsView extends connect(store)(PageViewElement) {
     }
 
     firstUpdated() {
-        store.dispatch(getCompetitionCrews());
-        setInterval(() => store.dispatch(getCompetitionCrews()), 10000);
+        const state = store.getState();
+        if (state.app.focussedCompetition) {
+            const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
+            store.dispatch(getCompetitionCrews(competitionId));
+            setInterval(() => store.dispatch(getCompetitionCrews(competitionId)), 10000);
+        }
     }
 
     stateChanged(state) {

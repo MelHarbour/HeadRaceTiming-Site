@@ -1,7 +1,8 @@
 ﻿import { RECEIVE_COMPETITIONS } from '../actions/competitions.js';
 
 const INITIAL_STATE = {
-    competitions: []
+    competitions: [],
+    competitionsByFriendlyName: {}
 };
 
 const competitions = (state = INITIAL_STATE, action) => {
@@ -9,7 +10,11 @@ const competitions = (state = INITIAL_STATE, action) => {
         case RECEIVE_COMPETITIONS:
             return {
                 ...state,
-                competitions: action.competitions
+                competitions: action.competitions,
+                competitionsByFriendlyName: action.competitions.reduce((obj, item) => {
+                    obj[item.friendlyName] = item.competitionId;
+                    return obj;
+                }, {})
             };
         default:
             return state;

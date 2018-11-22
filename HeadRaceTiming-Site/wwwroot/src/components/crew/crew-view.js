@@ -17,10 +17,10 @@ class CrewView extends connect(store)(PageViewElement) {
         <div class="mdc-card">
         <div class="mdc-card__primary-action">
         <div class="mdc-typography--headline6">Crew Details</div>
-            <div>${this._name}</div>
+            <div>${this._crew.name}</div>
             <div>Competition: ${this._competitionName}</div>
-            <div>Start Number: ${this._startNumber}</div>
-            <div>CRI Max: ${this._criMax}</div>
+            <div>Start Number: ${this._crew.startNumber}</div>
+            <div>CRI Max: ${this._crew.criMax}</div>
         </div>
         </div>
        `;
@@ -28,16 +28,14 @@ class CrewView extends connect(store)(PageViewElement) {
 
     static get properties() {
         return {
-            _name: { type: String},
-            _competitionName: { type: String },
-            _startNumber: { type: Number },
-            _criMax: { type: Number }
+            _crew: { type: Object },
+            _competitionName: { type: String }
         };
     }
 
     stateChanged(state) {
-        if (state.app.id && crewsSelector(state)[state.app.id]) {
-            this._name = crewsSelector(state)[state.app.id].name;
+        if (state.app.focussedCrew && crewsSelector(state)[state.app.focussedCrew]) {
+            this._crew = crewsSelector(state)[state.app.focussedCrew];
         }
     }
 }

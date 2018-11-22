@@ -5,18 +5,33 @@ import {
 
 const INITIAL_STATE = {
     page: '',
-    id: '',
+    focussedCrew: '',
+    focussedCompetition: '',
   offline: false
 };
 
 const app = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case UPDATE_PAGE:
-      return {
-        ...state,
-          page: action.page,
-          id: action.id
-      };
+      case UPDATE_PAGE:
+          switch (action.page) {
+              case 'results':
+                  return {
+                      ...state,
+                      page: action.page,
+                      focussedCompetition: action.id
+                  };
+              case 'crew':
+                  return {
+                      ...state,
+                      page: action.page,
+                      focussedCrew: action.id
+                  };
+              default:
+                  return {
+                      ...state,
+                      page: action.page
+                  };
+          }
     case UPDATE_OFFLINE:
       return {
         ...state,

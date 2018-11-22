@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = [{
-    entry: ['babel-polyfill', './wwwroot/src/site.js', './wwwroot/src/site.scss', './wwwroot/src/components/timing-app.js'],
+    entry: ['babel-polyfill', './wwwroot/src/site.scss', './wwwroot/src/components/timing-app.js'],
     mode: 'production',
     output: {
         filename: 'site.js',
