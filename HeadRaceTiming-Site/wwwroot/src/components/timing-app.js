@@ -37,6 +37,12 @@ class TimingApp extends connect(store)(LitElement) {
                 <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
                 <span class="mdc-top-app-bar__title">${this.appTitle}</span>
             </section>
+                ${this._page === 'results' ? html`
+                    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+                        <a href="#" @click="${(event) => this.clickHandler(event)}" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
+                        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
+                    </section>
+                `: ''}
         </div>
     </header>
     <main role="main" class="mdc-top-app-bar--fixed-adjust">
@@ -51,8 +57,7 @@ class TimingApp extends connect(store)(LitElement) {
       return {
           appTitle: { type: String },
           _page: { type: String },
-          _offline: { type: Boolean },
-          _id: { type: String }
+          _offline: { type: Boolean }
       };
   }
 
@@ -73,8 +78,16 @@ class TimingApp extends connect(store)(LitElement) {
 
   stateChanged(state) {
       this._page = state.app.page;
-      this._id = state.app.id;
-  }
+    }
+
+    clickHandler(event) {
+        const state = store.getState();
+        if (state.app.focussedCompetition) {
+            const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
+            window.history.pushState({}, '', '/Competition/DetailsAsCsv/' + competitionId);
+            store.dispatch(navigate(window.location.pathname));
+        }
+    }
 }
 
 window.customElements.define('timing-app', TimingApp);
