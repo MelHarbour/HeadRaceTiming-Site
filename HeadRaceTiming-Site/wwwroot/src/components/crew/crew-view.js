@@ -67,13 +67,6 @@ class CrewView extends connect(store)(PageViewElement) {
         }
     }
 
-    firstUpdated() {
-        const state = store.getState();
-        if (state.app.focussedCrew) {
-            store.dispatch(getCrewAthletes(state.app.focussedCrew));
-        }
-    }
-
     stateChanged(state) {
         if (state.app.focussedCrew && crewsSelector(state)[state.app.focussedCrew]) {
             this._crew = crewsSelector(state)[state.app.focussedCrew];
