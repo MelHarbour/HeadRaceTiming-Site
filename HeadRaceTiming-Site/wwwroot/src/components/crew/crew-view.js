@@ -16,6 +16,38 @@ class CrewView extends connect(store)(PageViewElement) {
   render() {
       return html`
         <link rel="stylesheet" href="/dist/site.css">
+        <style>
+.mdc-card {
+    margin: 16px;
+}
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr, td {
+    border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
+}
+
+tr {
+    height: 48px;
+}
+
+td, th {
+    text-align: left;
+    padding-left: 56px;
+    white-space: nowrap;
+}
+
+td:first-child, th:first-child {
+    padding-left: 24px;
+}
+
+td:last-child, th:last-child {
+    padding-right: 24px;
+}
+</style>
 
         <div class="mdc-card">
         <div class="mdc-card__primary-action">
@@ -48,6 +80,26 @@ class CrewView extends connect(store)(PageViewElement) {
             </table>
         </div>
         </div>
+
+        <div class="mdc-card">
+        <div class="mdc-card__primary-action">
+        <div class="mdc-typography--headline6">Penalties</div>
+            <table>
+                <thead>
+                    <tr><th>Amount</th><th>Reason</th></tr>
+                </thead>
+                <tbody>
+                    ${this._penalties && repeat(this._penalties, (penalty) =>
+                    html`
+                    <tr>
+                        <td>${penalty.value}</td>
+                        <td>${penalty.reason}</td>
+                    </tr>
+                    `)}
+                </tbody>
+            </table>
+        </div>
+        </div>
        `;
     }
 
@@ -56,7 +108,8 @@ class CrewView extends connect(store)(PageViewElement) {
             _crew: { type: Object },
             _competitionName: { type: String },
             _compLink: { type: String },
-            _athletes: { type: Array }
+            _athletes: { type: Array },
+            _penalties: { type: Array }
         };
     }
 

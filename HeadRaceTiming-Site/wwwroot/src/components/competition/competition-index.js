@@ -16,10 +16,19 @@ class CompetitionIndex extends connect(store)(PageViewElement) {
   render() {
       return html`
         <link rel="stylesheet" href="/dist/site.css">
+<style>
+.mdc-card {
+    width: 250px;
+    height: 76px;
+    cursor: pointer;
+    margin: 16px;
+    padding: 1rem;
+}
+</style>
 
         ${this._competitions && repeat(this._competitions, (competition) =>
               html`
-        <div @click="${(event) => this.clickHandler(event)}" class="mdc-card competitionCard" style="background-color: #${competition.backgroundHtmlColor}" data-competition-id=${competition.friendlyName}>
+        <div @click="${(event) => this.clickHandler(event)}" class="mdc-card" style="background-color: #${competition.backgroundHtmlColor}" data-competition-id=${competition.friendlyName}>
             <div class="mdc-card__primary-action">
                 <div class="mdc-typography--headline6" style="color: #${competition.textHtmlColor}">${competition.name}</div>
             </div>
