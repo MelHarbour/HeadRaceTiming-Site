@@ -38,7 +38,7 @@ class CompetitionIndex extends connect(store)(PageViewElement) {
     }
 
     stateChanged(state) {
-        this._competitions = state.competitions.competitions;
+        this._competitions = Object.values(state.competitions.competitions);
     }
 
     clickHandler(event) {

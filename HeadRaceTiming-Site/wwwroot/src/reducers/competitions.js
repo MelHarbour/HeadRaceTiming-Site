@@ -10,7 +10,10 @@ const competitions = (state = INITIAL_STATE, action) => {
         case RECEIVE_COMPETITIONS:
             return {
                 ...state,
-                competitions: action.competitions,
+                competitions: action.competitions.reduce((obj, item) => {
+                    obj[item.competitionId] = item;
+                    return obj;
+                }, {}),
                 competitionsByFriendlyName: action.competitions.reduce((obj, item) => {
                     obj[item.friendlyName] = item.competitionId;
                     return obj;
