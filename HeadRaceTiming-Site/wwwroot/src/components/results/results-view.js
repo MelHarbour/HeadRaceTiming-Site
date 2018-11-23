@@ -8,6 +8,7 @@ import crews from '../../reducers/crews.js';
 import { crewsListSelector } from '../../reducers/crews.js';
 import { navigate } from '../../actions/app.js';
 import { getCompetitionCrews } from '../../actions/crews.js';
+import { setTimeout } from 'timers';
 store.addReducers({
     crews
 });
@@ -87,8 +88,20 @@ class ResultsView extends connect(store)(PageViewElement) {
         return {
             _crews: { type: Array },
             _firstIntermediateName: { type: String },
-            _secondIntermediateName: { type: String }
+            _secondIntermediateName: { type: String },
+            _timeout: { type: Number }
         };
+    }
+
+    updated() {
+        const state = store.getState();
+        if (state.app.focussedCompetition && !this._timeout) {
+            const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
+            this._timeout = setTimeout(() => {
+                store.dispatch(getCompetitionCrews(competitionId));
+                this._timeout = null;
+                }, 10000);
+        }
     }
 
     firstUpdated() {
@@ -96,7 +109,6 @@ class ResultsView extends connect(store)(PageViewElement) {
         if (state.app.focussedCompetition) {
             const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
             store.dispatch(getCompetitionCrews(competitionId));
-            setInterval(() => store.dispatch(getCompetitionCrews(competitionId)), 10000);
         }
     }
 
