@@ -17,12 +17,19 @@ class CompetitionIndex extends connect(store)(PageViewElement) {
       return html`
         <link rel="stylesheet" href="/dist/site.css">
 <style>
+:host {
+    padding: 16px;
+}
 .mdc-card {
-    width: 250px;
+    width: 100%;
     height: 76px;
     cursor: pointer;
-    margin: 16px;
     padding: 1rem;
+}
+@media (min-width: 282px) {
+    .mdc-card {
+        width: 250px;
+    }
 }
 </style>
 
