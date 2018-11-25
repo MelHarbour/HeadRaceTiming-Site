@@ -49,10 +49,6 @@ class CompetitionIndex extends connect(store)(PageViewElement) {
         };
     }
 
-    firstUpdated() {
-        store.dispatch(getAllCompetitions());
-    }
-
     stateChanged(state) {
         this._competitions = Object.values(state.competitions.competitions);
     }
@@ -64,3 +60,5 @@ class CompetitionIndex extends connect(store)(PageViewElement) {
 }
 
 window.customElements.define('competition-index', CompetitionIndex);
+
+export { getAllCompetitions };

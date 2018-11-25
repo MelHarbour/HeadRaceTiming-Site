@@ -113,13 +113,6 @@ td:last-child, th:last-child {
         };
     }
 
-    updated() {
-        const state = store.getState();
-        if (state.app.focussedCrew) {
-            store.dispatch(getCrewAthletes(state.app.focussedCrew));
-        }
-    }
-
     stateChanged(state) {
         if (state.app.focussedCrew && crewsSelector(state)[state.app.focussedCrew]) {
             this._crew = crewsSelector(state)[state.app.focussedCrew];
@@ -134,3 +127,5 @@ td:last-child, th:last-child {
 }
 
 window.customElements.define('crew-view', CrewView);
+
+export { getCrewAthletes };

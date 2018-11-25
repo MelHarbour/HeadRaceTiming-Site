@@ -104,14 +104,6 @@ class ResultsView extends connect(store)(PageViewElement) {
         }
     }
 
-    firstUpdated() {
-        const state = store.getState();
-        if (state.app.focussedCompetition) {
-            const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
-            store.dispatch(getCompetitionCrews(competitionId));
-        }
-    }
-
     stateChanged(state) {
         this._crews = crewsListSelector(state);
     }
@@ -123,3 +115,5 @@ class ResultsView extends connect(store)(PageViewElement) {
 }
 
 window.customElements.define('results-view', ResultsView);
+
+export { getCompetitionCrews };

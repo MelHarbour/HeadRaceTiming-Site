@@ -9,20 +9,25 @@ export const navigate = (path) => (dispatch) => {
   dispatch(loadPage(page, id));
 };
 
-const loadPage = (page, id) => (dispatch) => {
-  switch(page) {
-      case 'results':
-        require('../components/results/results-view.js');
-        break;
-      case 'competition':
-          require('../components/competition/competition-index.js');
-          break;
-      case 'crew':
-          require('../components/crew/crew-view.js');
-          break;
-    default:
-      page = 'view404';
-      require('../components/my-view404.js');
+const loadPage = (page, id) => async (dispatch, getState) => {
+    let module;
+    switch(page) {
+        case 'results':
+            module = await import('../components/results/results-view.js');
+            const competitionId = getState().competitions.competitionsByFriendlyName[id];
+            await dispatch(module.getCompetitionCrews(competitionId));
+            break;
+        case 'competition':
+            module = await import('../components/competition/competition-index.js');
+            await dispatch(module.getAllCompetitions());
+            break;
+        case 'crew':
+            module = await import('../components/crew/crew-view.js');
+            await dispatch(module.getCrewAthletes(id));
+            break;
+        default:
+            page = 'view404';
+            require('../components/my-view404.js');
   }
 
   dispatch(updatePage(page, id));

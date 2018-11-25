@@ -8,7 +8,8 @@ module.exports = [{
     mode: 'production',
     output: {
         filename: 'site.js',
-        path: path.resolve(__dirname, 'wwwroot/dist')
+        path: path.resolve(__dirname, 'wwwroot/dist'),
+        publicPath: '/dist/'
     },
     module: {
         rules: [
