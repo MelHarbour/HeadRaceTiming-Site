@@ -16,6 +16,7 @@ store.addReducers({
 class ResultsView extends connect(store)(PageViewElement) {
   render() {
       return html`
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <style>
             .header-row, .row {
                 display: flex;
@@ -75,7 +76,7 @@ class ResultsView extends connect(store)(PageViewElement) {
                 </div>
                 <div class="time">
                     ${crew.status
-                      ? html`${_statusCode(crew.status)}`
+                      ? html`${this._statusCode(crew.status)}`
                       : html`
                             ${crew.overallTime}${crew.hasPenalty ? html`P` : null}
                             ${crew.overallTime ? html`(${crew.rank})` : null}
