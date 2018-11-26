@@ -65,6 +65,11 @@ class ResultsView extends connect(store)(PageViewElement) {
                 </div>
                 <div class="name" title="${crew.name}">
                     ${crew.name}
+                    ${crew.isStarted ?
+              html`
+                <span class="material-icons">rowing</span>
+                    `
+              : null }
                 </div>
                 <div class="intermediate">
                             
@@ -74,7 +79,7 @@ class ResultsView extends connect(store)(PageViewElement) {
                 </div>
                 <div class="time">
                     ${crew.status
-                      ? html`${crew.status}`
+                      ? html`${_statusCode(crew.status)}`
                       : html`
                             ${crew.overallTime}${crew.hasPenalty ? html`P` : null}
                             ${crew.overallTime ? html`(${crew.rank})` : null}
@@ -91,6 +96,15 @@ class ResultsView extends connect(store)(PageViewElement) {
             _secondIntermediateName: { type: String },
             _timeout: { type: Number }
         };
+    }
+
+    _statusCode(s) {
+        switch (s) {
+            case 1: return "Missing";
+            case 2: return "DNF";
+            case 3: return "DSQ";
+            case 4: return "DNS";
+        }
     }
 
     updated() {
