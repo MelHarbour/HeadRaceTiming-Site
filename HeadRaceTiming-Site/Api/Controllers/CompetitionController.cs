@@ -28,7 +28,6 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// Retrieves all the competitions
         /// </summary>
         /// <response code="200">List of competitions returned</response>
-        /// <response code="404">Competition not found</response>
         [Produces("application/json")]
         [HttpGet("/api/competitions")]
         public async Task<IActionResult> ListAll()
@@ -36,6 +35,21 @@ namespace HeadRaceTimingSite.Api.Controllers
             List<Models.Competition> competitions = await _context.Competitions.ToListAsync();
 
             return Ok(_mapper.Map<List<Models.Competition>, List<Competition>>(competitions));
+        }
+
+        /// <summary>
+        /// Retrieves an individual competition
+        /// </summary>
+        /// <param name="friendlyName">The Friendly Name of the competition to retrieve</param>
+        /// <response code="200">Competition returned</response>
+        /// <response code="404">Competition not found</response>
+        [Produces("application/json")]
+        [HttpGet("/api/competitions/{friendlyName}")]
+        public async Task<IActionResult> GetByFriendlyName(string friendlyName)
+        {
+            Models.Competition competition = await _context.Competitions.FirstOrDefaultAsync(x => x.FriendlyName == friendlyName);
+
+            return Ok(_mapper.Map<Competition>(competition));
         }
     }
 }

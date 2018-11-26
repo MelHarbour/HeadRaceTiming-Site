@@ -1,4 +1,4 @@
-﻿import { RECEIVE_COMPETITIONS } from '../actions/competitions.js';
+﻿import { RECEIVE_COMPETITIONS, RECEIVE_COMPETITION } from '../actions/competitions.js';
 
 const INITIAL_STATE = {
     competitions: [],
@@ -18,6 +18,13 @@ const competitions = (state = INITIAL_STATE, action) => {
                     obj[item.friendlyName] = item.competitionId;
                     return obj;
                 }, {})
+            };
+        case RECEIVE_COMPETITION:
+            console.log(action);
+            return {
+                ...state,
+                competitions: { [action.competition.competitionId]: action.competition },
+                competitionsByFriendlyName: { [action.competition.friendlyName]: action.competition.competitionId }
             };
         default:
             return state;

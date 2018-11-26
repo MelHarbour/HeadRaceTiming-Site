@@ -5,12 +5,15 @@ import { store } from '../../store.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 
 import crews from '../../reducers/crews.js';
+import competitions from '../../reducers/competitions.js';
 import { crewsListSelector } from '../../reducers/crews.js';
 import { navigate } from '../../actions/app.js';
 import { getCompetitionCrews } from '../../actions/crews.js';
+import { getCompetition } from '../../actions/competitions.js';
 import { setTimeout } from 'timers';
 store.addReducers({
-    crews
+    crews,
+    competitions
 });
 
 class ResultsView extends connect(store)(PageViewElement) {
@@ -127,4 +130,4 @@ class ResultsView extends connect(store)(PageViewElement) {
 
 window.customElements.define('results-view', ResultsView);
 
-export { getCompetitionCrews };
+export { getCompetitionCrews, getCompetition };
