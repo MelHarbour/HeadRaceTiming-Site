@@ -7,28 +7,3 @@
 body {
     margin: 0;
 }
-
-.bodyDetails {
-    margin: 24px 24px 0 24px;
-}
-
-@media (max-width: 480px) {
-    .bodyDetails {
-        margin: 8px 8px 0 8px;
-    }
-}
-
-.card-image {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 150px;
-    background-repeat: no-repeat;
-}
-
-[main-title] {
-    /* override pointer-events: none set by app-toolbar */
-    pointer-events: auto;
-    margin-right: 100px
-}
