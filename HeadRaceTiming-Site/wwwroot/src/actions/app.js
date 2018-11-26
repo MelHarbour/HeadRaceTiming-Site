@@ -27,7 +27,7 @@ const loadPage = (page, id) => async (dispatch, getState) => {
             break;
         default:
             page = 'view404';
-            require('../components/my-view404.js');
+            await import('../components/my-view404.js');
     }
 
     dispatch(updatePage(page, id));
