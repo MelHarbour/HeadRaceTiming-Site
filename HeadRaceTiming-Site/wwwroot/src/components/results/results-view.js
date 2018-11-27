@@ -53,6 +53,14 @@ class ResultsView extends connect(store)(PageViewElement) {
                 text-align: center;
                 margin-left: 56px;
             }
+            .intermediate {
+                display: none;
+            }
+            @media (min-width: 840px) {
+                .intermediate {
+                    display: block;
+                }
+            }
         </style>
         <div class="header-row">
             <div class="startNumber">Start</div>
