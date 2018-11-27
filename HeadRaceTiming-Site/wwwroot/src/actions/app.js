@@ -16,7 +16,10 @@ const loadPage = (page, id) => async (dispatch, getState) => {
             module = await import('../components/results/results-view.js');
             const state = getState();
             if (!state.competitions || !state.competitions.competitionsByFriendlyName || !state.competitions.competitionsByFriendlyName[id]) {
-                await dispatch(module.getCompetition(id));
+                dispatch(module.getCompetition(id)).then(() => {
+                    const competitionId = getState().competitions.competitionsByFriendlyName[id];
+                    dispatch(module.getCompetitionCrews(competitionId));
+                });
             }
             const competitionId = getState().competitions.competitionsByFriendlyName[id];
             await dispatch(module.getCompetitionCrews(competitionId));

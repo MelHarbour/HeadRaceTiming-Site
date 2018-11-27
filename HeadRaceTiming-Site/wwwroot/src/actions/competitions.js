@@ -7,11 +7,15 @@ export const getAllCompetitions = () => (dispatch) => {
         .then(data => dispatch(receiveCompetitions(data)));
 };
 
-export const getCompetition = (id) => (dispatch) => {
-    fetch('/api/competitions/'+id)
-        .then(res => res.json())
-        .then(data => dispatch(receiveCompetition(data)));
-};
+export function getCompetition(id) {
+    return dispatch => {
+        return fetch('/api/competitions/' + id)
+            .then(res => res.json())
+            .then(response => {
+                dispatch(receiveCompetition(response));
+            });
+    };
+}
 
 const receiveCompetition = (item) => {
     return {
