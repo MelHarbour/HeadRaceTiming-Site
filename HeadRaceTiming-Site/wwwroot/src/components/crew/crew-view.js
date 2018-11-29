@@ -6,6 +6,8 @@ import { crewsSelector } from '../../reducers/crews.js';
 import { getCrewAthletes } from '../../actions/athletes.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 
+import './penalties-card.js';
+
 import crews from '../../reducers/crews.js';
 import athletes from '../../reducers/athletes.js';
 store.addReducers({
@@ -81,25 +83,7 @@ td:last-child, th:last-child {
         </div>
         </div>
 
-        <div class="mdc-card">
-        <div class="mdc-card__primary-action">
-        <div class="mdc-typography--headline6">Penalties</div>
-            <table>
-                <thead>
-                    <tr><th>Amount</th><th>Reason</th></tr>
-                </thead>
-                <tbody>
-                    ${this._penalties && repeat(this._penalties, (penalty) =>
-                    html`
-                    <tr>
-                        <td>${penalty.value}</td>
-                        <td>${penalty.reason}</td>
-                    </tr>
-                    `)}
-                </tbody>
-            </table>
-        </div>
-        </div>
+        <penalties-card crewId=${this._crew.id}></penalties-card>
        `;
     }
 
@@ -108,8 +92,7 @@ td:last-child, th:last-child {
             _crew: { type: Object },
             _competitionName: { type: String },
             _compLink: { type: String },
-            _athletes: { type: Array },
-            _penalties: { type: Array }
+            _athletes: { type: Array }
         };
     }
 
