@@ -5,6 +5,7 @@ import { repeat } from 'lit-html/directives/repeat.js';
 import { CardTableStyles } from '../card-table-styles.js';
 
 import results from '../../reducers/results.js';
+import '../basic-card.js';
 import { getCrewResults } from '../../actions/results.js';
 store.addReducers({
     results
@@ -13,12 +14,9 @@ store.addReducers({
 class ResultsCard extends connect(store)(LitElement) {
     render() {
         return html`
-        <link rel="stylesheet" href="/dist/site.css">
         ${CardTableStyles}
-        <div class="mdc-card">
-        <div class="mdc-card__primary-action">
-        <div class="mdc-typography--headline6">Section Times</div>
-            <table>
+        <basic-card headline="Section Times">
+            <table slot="content">
             <tr><th>Point</th><th>Time of Day</th><th>Section Time</th><th>Total Time</th></tr>
             ${this._results && repeat(this._results, (result) =>
                 html`
@@ -30,8 +28,7 @@ class ResultsCard extends connect(store)(LitElement) {
                 </tr>
            `)}
         </table>
-        </div>
-        </div>
+        </basic-card>
         `;
     }
 

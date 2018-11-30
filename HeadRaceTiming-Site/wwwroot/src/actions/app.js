@@ -20,6 +20,7 @@ const loadPage = (page, id) => async (dispatch, getState) => {
                     const competitionId = getState().competitions.competitionsByFriendlyName[id];
                     dispatch(module.getCompetitionCrews(competitionId));
                 });
+                break;
             }
             const competitionId = getState().competitions.competitionsByFriendlyName[id];
             await dispatch(module.getCompetitionCrews(competitionId));

@@ -1,6 +1,7 @@
-﻿import html from '@polymer/lit-element';
+﻿import { html } from '@polymer/lit-element';
 
 export const CardTableStyles = html`
+<style>
 table {
     border-spacing: 0;
     border-collapse: collapse;
@@ -28,4 +29,5 @@ td:first-child, th:first-child {
 td:last-child, th:last-child {
     padding-right: 24px;
 }
+</style>
 `;

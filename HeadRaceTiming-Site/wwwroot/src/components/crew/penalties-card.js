@@ -5,6 +5,7 @@ import { CardTableStyles } from '../card-table-styles.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 
 import penalties from '../../reducers/penalties.js';
+import '../basic-card.js';
 import { getCrewPenalties } from '../../actions/penalties.js';
 store.addReducers({
     penalties
@@ -13,12 +14,9 @@ store.addReducers({
 class PenaltiesCard extends connect(store)(LitElement) {
     render() {
         return html`
-        <link rel="stylesheet" href="/dist/site.css">
         ${CardTableStyles}
-        <div class="mdc-card">
-        <div class="mdc-card__primary-action">
-        <div class="mdc-typography--headline6">Penalties</div>
-            <table>
+        <basic-card headline="Penalties">
+            <table slot="content">
                 <thead>
                     <tr><th>Amount</th><th>Reason</th></tr>
                 </thead>
@@ -26,8 +24,7 @@ class PenaltiesCard extends connect(store)(LitElement) {
                     
                 </tbody>
             </table>
-        </div>
-        </div>
+        </basic-card>
         `;
     }
 

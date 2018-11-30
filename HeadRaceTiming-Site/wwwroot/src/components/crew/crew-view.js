@@ -6,6 +6,7 @@ import { crewsSelector } from '../../reducers/crews.js';
 import { getCrewAthletes } from '../../actions/athletes.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 import { CardTableStyles } from '../card-table-styles.js';
+import '../basic-card.js';
 
 import './penalties-card.js';
 
@@ -20,26 +21,18 @@ class CrewView extends connect(store)(PageViewElement) {
       return html`
         <link rel="stylesheet" href="/dist/site.css">
         ${CardTableStyles}
-        <style>
-.mdc-card {
-    margin: 16px;
-}
-</style>
 
-        <div class="mdc-card">
-        <div class="mdc-card__primary-action">
-        <div class="mdc-typography--headline6">Crew Details</div>
+        <basic-card headline="Crew Details">
+        <div slot="content">
             <div>${this._crew.name}</div>
             <div>Competition: <a href=${this._compLink}>${this._competitionName}</a></div>
             <div>Start Number: ${this._crew.startNumber}</div>
             <div>CRI Max: ${this._crew.criMax}</div>
         </div>
-        </div>
+        </basic-card>
 
-        <div class="mdc-card">
-        <div class="mdc-card__primary-action">
-        <div class="mdc-typography--headline6">Athletes</div>
-            <table>
+        <basic-card headline="Athletes">
+            <table slot="content">
                 <thead>
                     <tr><th>Seat</th><th>Name</th><th>PRI</th><th>PRIMax</th></tr>
                 </thead>
@@ -55,8 +48,7 @@ class CrewView extends connect(store)(PageViewElement) {
                     `)}
                 </tbody>
             </table>
-        </div>
-        </div>
+        </basic-card>
 
         <results-card crewId=${this._crew.id}></results-card>
 
