@@ -8,6 +8,7 @@ import { repeat } from 'lit-html/directives/repeat.js';
 import { CardTableStyles } from '../card-table-styles.js';
 import '../basic-card.js';
 
+import './results-card.js';
 import './penalties-card.js';
 
 import crews from '../../reducers/crews.js';
