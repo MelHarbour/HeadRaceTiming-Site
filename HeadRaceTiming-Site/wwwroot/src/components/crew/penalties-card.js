@@ -1,6 +1,7 @@
 ﻿import { html, LitElement } from '@polymer/lit-element';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../store.js';
+import { CardTableStyles } from '../card-table-styles.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 
 import penalties from '../../reducers/penalties.js';
@@ -13,6 +14,7 @@ class PenaltiesCard extends connect(store)(LitElement) {
     render() {
         return html`
         <link rel="stylesheet" href="/dist/site.css">
+        ${CardTableStyles}
         <div class="mdc-card">
         <div class="mdc-card__primary-action">
         <div class="mdc-typography--headline6">Penalties</div>

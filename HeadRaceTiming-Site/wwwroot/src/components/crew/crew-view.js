@@ -5,6 +5,7 @@ import { store } from '../../store.js';
 import { crewsSelector } from '../../reducers/crews.js';
 import { getCrewAthletes } from '../../actions/athletes.js';
 import { repeat } from 'lit-html/directives/repeat.js';
+import { CardTableStyles } from '../card-table-styles.js';
 
 import './penalties-card.js';
 
@@ -18,36 +19,10 @@ class CrewView extends connect(store)(PageViewElement) {
   render() {
       return html`
         <link rel="stylesheet" href="/dist/site.css">
+        ${CardTableStyles}
         <style>
 .mdc-card {
     margin: 16px;
-}
-table {
-    border-spacing: 0;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-tr, td {
-    border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
-}
-
-tr {
-    height: 48px;
-}
-
-td, th {
-    text-align: left;
-    padding-left: 56px;
-    white-space: nowrap;
-}
-
-td:first-child, th:first-child {
-    padding-left: 24px;
-}
-
-td:last-child, th:last-child {
-    padding-right: 24px;
 }
 </style>
 
@@ -82,6 +57,8 @@ td:last-child, th:last-child {
             </table>
         </div>
         </div>
+
+        <results-card crewId=${this._crew.id}></results-card>
 
         <penalties-card crewId=${this._crew.id}></penalties-card>
        `;
