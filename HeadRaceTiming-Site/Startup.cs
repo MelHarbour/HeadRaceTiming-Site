@@ -211,6 +211,9 @@ namespace HeadRaceTimingSite
             CreateMap<Penalty, Api.Resources.Penalty>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.PenaltyId))
                 .ReverseMap();
+            CreateMap<Award, Api.Resources.Award>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.AwardId))
+                .ReverseMap();
             CreateMap<Competition, Api.Resources.Competition>().ReverseMap();
         }
     }

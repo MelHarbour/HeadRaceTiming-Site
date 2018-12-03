@@ -34,6 +34,10 @@ class TimingApp extends connect(store)(LitElement) {
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                         <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
                         <span class="mdc-top-app-bar__title">${this.appTitle}</span>
+                        ${this._page === 'results' ? html`
+                        <button class="mdc-icon-button material-icons">arrow_drop_down</button>
+                        <results-menu ?active="${this._page === 'results'}"></results-menu>
+                        ` : null}
                     </section>
                     ${this._page === 'results' ? html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">

@@ -14,6 +14,7 @@ const loadPage = (page, id) => async (dispatch, getState) => {
     switch(page) {
         case 'results':
             module = await import('../components/results/results-view.js');
+            await import('../components/results/results-menu.js');
             const state = getState();
             if (!state.competitions || !state.competitions.competitionsByFriendlyName || !state.competitions.competitionsByFriendlyName[id]) {
                 dispatch(module.getCompetition(id)).then(() => {
