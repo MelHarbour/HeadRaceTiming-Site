@@ -35,7 +35,6 @@ class TimingApp extends connect(store)(LitElement) {
                         <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
                         <span class="mdc-top-app-bar__title">${this.appTitle}</span>
                         ${this._page === 'results' ? html`
-                        <button class="mdc-icon-button material-icons">arrow_drop_down</button>
                         <results-menu ?active="${this._page === 'results'}"></results-menu>
                         ` : null}
                     </section>

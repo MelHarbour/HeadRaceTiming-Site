@@ -20,7 +20,6 @@ const competitions = (state = INITIAL_STATE, action) => {
                 }, {})
             };
         case RECEIVE_COMPETITION:
-            console.log(action);
             return {
                 ...state,
                 competitions: { [action.competition.competitionId]: action.competition },
