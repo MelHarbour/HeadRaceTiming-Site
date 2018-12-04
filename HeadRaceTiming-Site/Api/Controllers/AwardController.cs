@@ -26,7 +26,7 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <response code="200">List of awards returned</response>
         /// <response code="404">Competition not found</response>
         [Produces("application/json")]
-        [HttpGet("/api/competition/{id}/awards")]
+        [HttpGet("/api/competitions/{id}/awards")]
         public async Task<IActionResult> GetByCompetition(int id)
         {
             Models.Competition competition = await _context.Competitions.Include(x => x.Awards).FirstOrDefaultAsync(x => x.CompetitionId == id);

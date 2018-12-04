@@ -10,11 +10,11 @@ export const navigate = (path) => (dispatch) => {
 };
 
 const loadPage = (page, id) => async (dispatch, getState) => {
-    let module;
+    let module, menuModule;
     switch(page) {
         case 'results':
             module = await import('../components/results/results-view.js');
-            await import('../components/results/results-menu.js');
+            menuModule = await import('../components/results/results-menu.js');
             const state = getState();
             if (!state.competitions || !state.competitions.competitionsByFriendlyName || !state.competitions.competitionsByFriendlyName[id]) {
                 dispatch(module.getCompetition(id)).then(() => {
@@ -25,6 +25,7 @@ const loadPage = (page, id) => async (dispatch, getState) => {
             }
             const competitionId = getState().competitions.competitionsByFriendlyName[id];
             await dispatch(module.getCompetitionCrews(competitionId));
+            await dispatch(menuModule.getCompetitionAwards(competitionId));
             break;
         case 'competition':
             module = await import('../components/competition/competition-index.js');

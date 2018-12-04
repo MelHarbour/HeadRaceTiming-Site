@@ -4,6 +4,12 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../store.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 import { MDCMenu } from '@material/menu';
+import { getCompetitionAwards } from '../../actions/awards.js';
+
+import awards from '../../reducers/awards.js';
+store.addReducers({
+    awards
+});
 
 class ResultsMenu extends connect(store)(PageViewElement) {
   render() {
@@ -18,6 +24,12 @@ class ResultsMenu extends connect(store)(PageViewElement) {
                     <li class="mdc-list-item" role="menuitem">
                         <span class="mdc-list-item__text">Overall</span>
                     </li>
+                    ${this._awards && repeat(this._awards, (award) =>
+                    html`
+                    <li class="mdc-list-item" role="menuitem">
+                        <span class="mdc-list-item__text">${award.title}</span>
+                    </li>
+                    `)}
                 </ul>
             </div>
         </div>
@@ -25,7 +37,8 @@ class ResultsMenu extends connect(store)(PageViewElement) {
     }
     static get properties() {
         return {
-            _menu: { type: Object }
+            _menu: { type: Object },
+            _awards: { type: Array }
         };
     }
 
@@ -38,6 +51,12 @@ class ResultsMenu extends connect(store)(PageViewElement) {
         event.preventDefault();
         return false;
     }
+
+    stateChanged(state) {
+        this._awards = Object.values(state.awards.awards);
+    }
 }
 
 window.customElements.define('results-menu', ResultsMenu);
+
+export { getCompetitionAwards };
