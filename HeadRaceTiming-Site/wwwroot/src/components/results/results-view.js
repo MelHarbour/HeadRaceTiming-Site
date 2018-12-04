@@ -120,7 +120,7 @@ class ResultsView extends connect(store)(PageViewElement) {
         if (state.app.focussedCompetition && !this._timeout) {
             const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
             this._timeout = setTimeout(() => {
-                store.dispatch(getCompetitionCrews(competitionId));
+                store.dispatch(getCompetitionCrews(competitionId, state.app.filterAward));
                 this._timeout = null;
                 }, 10000);
         }

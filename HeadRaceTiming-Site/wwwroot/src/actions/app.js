@@ -17,15 +17,16 @@ const loadPage = (page, id) => async (dispatch, getState) => {
             module = await import('../components/results/results-view.js');
             menuModule = await import('../components/results/results-menu.js');
             const state = getState();
+            const awardId = state.app.filterAward;
             if (!state.competitions || !state.competitions.competitionsByFriendlyName || !state.competitions.competitionsByFriendlyName[id]) {
                 dispatch(module.getCompetition(id)).then(() => {
                     const competitionId = getState().competitions.competitionsByFriendlyName[id];
-                    dispatch(module.getCompetitionCrews(competitionId));
+                    dispatch(module.getCompetitionCrews(competitionId, awardId));
                 });
                 break;
             }
             const competitionId = getState().competitions.competitionsByFriendlyName[id];
-            await dispatch(module.getCompetitionCrews(competitionId));
+            await dispatch(module.getCompetitionCrews(competitionId, awardId));
             await dispatch(menuModule.getCompetitionAwards(competitionId));
             break;
         case 'competition':

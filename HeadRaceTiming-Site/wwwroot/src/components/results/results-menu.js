@@ -27,7 +27,7 @@ class ResultsMenu extends connect(store)(PageViewElement) {
                     </li>
                     ${this._awards && repeat(this._awards, (award) =>
                     html`
-                    <li class="mdc-list-item" role="menuitem">
+                    <li class="mdc-list-item" role="menuitem" data-award-id=${award.id}>
                         <span class="mdc-list-item__text">${award.title}</span>
                     </li>
                     `)}
@@ -61,7 +61,7 @@ class ResultsMenu extends connect(store)(PageViewElement) {
     menuSelected(event) {
         var detail = event.detail;
         if (detail.index > 0) {
-            store.dispatch(applyFilter(this._awards[detail.index].id));
+            store.dispatch(applyFilter(detail.item.dataset.awardId));
         } else {
             store.dispatch(applyFilter(''));
         }
