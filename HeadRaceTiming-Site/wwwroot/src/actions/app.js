@@ -1,5 +1,6 @@
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
+export const APPLY_FILTER = 'APPLY_FILTER';
 
 export const navigate = (path) => (dispatch) => {
     // Extract the page name from path.
@@ -56,4 +57,11 @@ export const updateOffline = (offline) => (dispatch, getState) => {
     type: UPDATE_OFFLINE,
     offline
   });
+};
+
+export const applyFilter = (awardId) => (dispatch) => {
+    dispatch({
+        type: APPLY_FILTER,
+        awardId
+    });
 };

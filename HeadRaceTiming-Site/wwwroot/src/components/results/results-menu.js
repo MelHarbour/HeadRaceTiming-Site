@@ -43,7 +43,10 @@ class ResultsMenu extends connect(store)(PageViewElement) {
     }
 
     firstUpdated() {
-        this._menu = new MDCMenu(this.shadowRoot.querySelector('.mdc-menu'));
+        const menuEl = this.shadowRoot.querySelector('.mdc-menu');
+        this._menu = new MDCMenu(menuEl);
+
+        menuEl.addEventListener('MDCMenu:selected', this.menuSelected);
     }
 
     clickHandler(event) {
@@ -52,6 +55,11 @@ class ResultsMenu extends connect(store)(PageViewElement) {
 
     stateChanged(state) {
         this._awards = Object.values(state.awards.awards);
+    }
+
+    menuSelected(event) {
+        var detail = event.detail;
+        console.log(detail.index);
     }
 }
 

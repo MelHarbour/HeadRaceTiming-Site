@@ -1,13 +1,14 @@
 import {
   UPDATE_PAGE,
-  UPDATE_OFFLINE
+  UPDATE_OFFLINE,  APPLY_FILTER
 } from '../actions/app.js';
 
 const INITIAL_STATE = {
     page: '',
     focussedCrew: '',
     focussedCompetition: '',
-  offline: false
+    filterAward: '',
+    offline: false
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -36,7 +37,12 @@ const app = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         offline: action.offline
-      };
+          };
+      case APPLY_FILTER:
+          return {
+              ...state,
+              filterAward: action.award
+          };
     default:
       return state;
   }
