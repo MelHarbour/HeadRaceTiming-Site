@@ -41,7 +41,7 @@ const app = (state = INITIAL_STATE, action) => {
       case APPLY_FILTER:
           return {
               ...state,
-              filterAward: action.award
+              filterAward: action.awardId
           };
     default:
       return state;

@@ -5,6 +5,7 @@ import { store } from '../../store.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 import { MDCMenu } from '@material/menu';
 import { getCompetitionAwards } from '../../actions/awards.js';
+import { applyFilter } from '../../actions/app.js';
 
 import awards from '../../reducers/awards.js';
 store.addReducers({
@@ -59,7 +60,11 @@ class ResultsMenu extends connect(store)(PageViewElement) {
 
     menuSelected(event) {
         var detail = event.detail;
-        console.log(detail.index);
+        if (detail.index > 0) {
+            store.dispatch(applyFilter(this._awards[detail.index].id));
+        } else {
+            store.dispatch(applyFilter(''));
+        }
     }
 }
 
