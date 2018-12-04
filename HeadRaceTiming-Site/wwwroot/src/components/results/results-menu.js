@@ -47,9 +47,7 @@ class ResultsMenu extends connect(store)(PageViewElement) {
     }
 
     clickHandler(event) {
-        this._menu.open = true;
-        event.preventDefault();
-        return false;
+        this._menu.open = !this._menu.open;
     }
 
     stateChanged(state) {
