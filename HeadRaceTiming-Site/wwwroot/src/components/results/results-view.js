@@ -10,7 +10,7 @@ import { crewsListSelector } from '../../reducers/crews.js';
 import { navigate } from '../../actions/app.js';
 import { getCompetitionCrews } from '../../actions/crews.js';
 import { getCompetition } from '../../actions/competitions.js';
-import { setTimeout } from 'timers';
+import { setTimeout, clearTimeout } from 'timers';
 store.addReducers({
     crews,
     competitions
@@ -102,7 +102,8 @@ class ResultsView extends connect(store)(PageViewElement) {
             _crews: { type: Array },
             _firstIntermediateName: { type: String },
             _secondIntermediateName: { type: String },
-            _timeout: { type: Number }
+            _timeout: { type: Number },
+            _filterAwardId: { type: Number }
         };
     }
 
@@ -120,14 +121,20 @@ class ResultsView extends connect(store)(PageViewElement) {
         if (state.app.focussedCompetition && !this._timeout) {
             const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
             this._timeout = setTimeout(() => {
-                store.dispatch(getCompetitionCrews(competitionId, state.app.filterAward));
+                store.dispatch(getCompetitionCrews(competitionId, this._filterAwardId));
                 this._timeout = null;
                 }, 10000);
         }
     }
 
     stateChanged(state) {
+        if (state.app.filterAward !== this._filterAwardId && this._timeout !== null) {
+            clearTimeout(this._timeout);
+            const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
+            store.dispatch(getCompetitionCrews(competitionId, state.app.filterAward));
+        }
         this._crews = crewsListSelector(state);
+        this._filterAwardId = state.app.filterAward;
     }
 
     clickHandler(event) {
