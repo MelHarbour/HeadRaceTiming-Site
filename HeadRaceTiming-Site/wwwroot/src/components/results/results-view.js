@@ -80,9 +80,20 @@ class ResultsView extends connect(store)(PageViewElement) {
                     ${crew.isStarted ? html`<span class="material-icons">rowing</span>` : null }
                 </div>
                 <div class="intermediate">
+                    ${crew.status ? null : html`
+                        ${this._getTime(crew, this._firstIntermediatePoint)}
+                        ${this._getTime(crew, this._firstIntermediatePoint) ? html`
+                            (${this._getRank(crew, this._firstIntermediatePoint)})
+                        ` : null}
+                    `}
                 </div>
                 <div class="intermediate">
-                            
+                    ${crew.status ? null : html`
+                        ${this._getTime(crew, this._secondIntermediatePoint)}        
+                        ${this._getTime(crew, this._secondIntermediatePoint) ? html`
+                            (${this._getRank(crew, this._secondIntermediatePoint)})
+                        ` : null}
+                    `}
                 </div>
                 <div class="time">
                     ${crew.status
@@ -152,7 +163,9 @@ class ResultsView extends connect(store)(PageViewElement) {
             this._crews = crewsListSelector(state);
             this._filterAwardId = state.app.filterAward;
             this._firstIntermediateName = state.competitions.competitions[competitionId].firstIntermediateName;
+            this._firstIntermediatePoint = state.competitions.competitions[competitionId].firstIntermediateId;
             this._secondIntermediateName = state.competitions.competitions[competitionId].secondIntermediateName;
+            this._secondIntermediatePoint = state.competitions.competitions[competitionId].secondIntermediateId;
         }
     }
 
