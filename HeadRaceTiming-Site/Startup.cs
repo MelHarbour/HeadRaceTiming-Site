@@ -55,7 +55,8 @@ namespace HeadRaceTimingSite
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.Converters.Add(new TimeSpanConverter());
-            });
+            })
+            .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
             services.AddSwaggerGen(c =>
             {
@@ -184,8 +185,8 @@ namespace HeadRaceTimingSite
         public ApiProfile()
         {
             CreateMap<Crew, Api.Resources.Crew>()
-                .ForSourceMember(s => s.CrewId, y => y.Ignore())
-                .ForSourceMember(s => s.Results, y => y.Ignore())
+                .ForSourceMember(s => s.CrewId, y => y.DoNotValidate())
+                .ForSourceMember(s => s.Results, y => y.DoNotValidate())
                 .ForMember(d => d.Results, y => y.Ignore())
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.BroeCrewId))
                 .ForMember(d => d.IsStarted, opt => opt.MapFrom(s => s.Results.Count > 0))
