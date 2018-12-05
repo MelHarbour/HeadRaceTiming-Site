@@ -40,6 +40,7 @@ class TimingApp extends connect(store)(LitElement) {
                     </section>
                     ${this._page === 'results' ? html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+                        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" alt="Search">search</a>
                         <a href="#" @click="${(event) => this.clickHandler(event)}" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
                         <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
                     </section>
