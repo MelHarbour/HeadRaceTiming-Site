@@ -215,7 +215,12 @@ namespace HeadRaceTimingSite
             CreateMap<Award, Api.Resources.Award>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.AwardId))
                 .ReverseMap();
-            CreateMap<Competition, Api.Resources.Competition>().ReverseMap();
+            CreateMap<Competition, Api.Resources.Competition>()
+                .ReverseMap()
+                .ForMember(d => d.FirstIntermediateName, opt => opt.Ignore())
+                .ForMember(d => d.SecondIntermediateName, opt => opt.Ignore())
+                .ForMember(d => d.FirstIntermediateId, opt => opt.Ignore())
+                .ForMember(d => d.SecondIntermediateId, opt => opt.Ignore());
         }
     }
 

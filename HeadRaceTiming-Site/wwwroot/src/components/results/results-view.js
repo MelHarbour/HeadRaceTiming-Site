@@ -80,7 +80,6 @@ class ResultsView extends connect(store)(PageViewElement) {
                     ${crew.isStarted ? html`<span class="material-icons">rowing</span>` : null }
                 </div>
                 <div class="intermediate">
-                            
                 </div>
                 <div class="intermediate">
                             
@@ -102,6 +101,8 @@ class ResultsView extends connect(store)(PageViewElement) {
             _crews: { type: Array },
             _firstIntermediateName: { type: String },
             _secondIntermediateName: { type: String },
+            _firstIntermediatePoint: { type: Number },
+            _secondIntermediatePoint: { type: Number },
             _timeout: { type: Number },
             _filterAwardId: { type: Number }
         };
@@ -113,6 +114,20 @@ class ResultsView extends connect(store)(PageViewElement) {
             case 2: return "DNF";
             case 3: return "DSQ";
             case 4: return "DNS";
+        }
+    }
+
+    _getTime(crew, timingPointId) {
+        for (var i = 0; i < crew.results.length; i++) {
+            if (crew.results[i].id === timingPointId)
+                return crew.results[i].runTime;
+        }
+    }
+
+    _getRank(crew, timingPointId) {
+        for (var i = 0; i < crew.results.length; i++) {
+            if (crew.results[i].id === timingPointId)
+                return crew.results[i].rank;
         }
     }
 
@@ -128,13 +143,17 @@ class ResultsView extends connect(store)(PageViewElement) {
     }
 
     stateChanged(state) {
-        if (state.app.filterAward !== this._filterAwardId && this._timeout !== null) {
-            clearTimeout(this._timeout);
+        if (state.app.focussedCompetition) {
             const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
-            store.dispatch(getCompetitionCrews(competitionId, state.app.filterAward));
+            if (state.app.filterAward !== this._filterAwardId && this._timeout !== null) {
+                clearTimeout(this._timeout);
+                store.dispatch(getCompetitionCrews(competitionId, state.app.filterAward));
+            }
+            this._crews = crewsListSelector(state);
+            this._filterAwardId = state.app.filterAward;
+            this._firstIntermediateName = state.competitions.competitions[competitionId].firstIntermediateName;
+            this._secondIntermediateName = state.competitions.competitions[competitionId].secondIntermediateName;
         }
-        this._crews = crewsListSelector(state);
-        this._filterAwardId = state.app.filterAward;
     }
 
     clickHandler(event) {

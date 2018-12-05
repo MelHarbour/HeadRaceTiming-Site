@@ -32,7 +32,7 @@ namespace HeadRaceTimingSite.Api.Controllers
         [HttpGet("/api/competitions")]
         public async Task<IActionResult> ListAll()
         {
-            List<Models.Competition> competitions = await _context.Competitions.ToListAsync();
+            List<Models.Competition> competitions = await _context.Competitions.Include(x => x.TimingPoints).ToListAsync();
 
             return Ok(_mapper.Map<List<Models.Competition>, List<Competition>>(competitions));
         }
@@ -47,7 +47,8 @@ namespace HeadRaceTimingSite.Api.Controllers
         [HttpGet("/api/competitions/{friendlyName}")]
         public async Task<IActionResult> GetByFriendlyName(string friendlyName)
         {
-            Models.Competition competition = await _context.Competitions.FirstOrDefaultAsync(x => x.FriendlyName == friendlyName);
+            Models.Competition competition = await _context.Competitions.Include(x => x.TimingPoints)
+                .FirstOrDefaultAsync(x => x.FriendlyName == friendlyName);
 
             return Ok(_mapper.Map<Competition>(competition));
         }
