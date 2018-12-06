@@ -26,7 +26,7 @@
     "sass-loader": "^7.1.0",
     "transform-runtime": "0.0.0",
     "uglifyjs-webpack-plugin": "^2.0.1",
-    "webpack": "^4.27.0",
+    "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
