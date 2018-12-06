@@ -44,6 +44,8 @@ class TimingApp extends connect(store)(LitElement) {
                         <a href="#" @click="${() => this.searchClickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" alt="Search">search</a>
                         <a href="#" @click="${() => this.clickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
                         <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
+                        <basic-dialog>
+                        </basic-dialog>
                     </section>
                     `: null}
                 </div>
