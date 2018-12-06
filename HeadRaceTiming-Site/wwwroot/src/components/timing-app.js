@@ -41,8 +41,8 @@ class TimingApp extends connect(store)(LitElement) {
                     </section>
                     ${this._page === 'results' ? html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-                        <a href="#" @click="${(event) => this.searchClickHandler(event)}" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" alt="Search">search</a>
-                        <a href="#" @click="${(event) => this.clickHandler(event)}" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
+                        <a href="#" @click="${() => this.searchClickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" alt="Search">search</a>
+                        <a href="#" @click="${() => this.clickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
                         <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
                     </section>
                     `: null}
@@ -85,7 +85,7 @@ class TimingApp extends connect(store)(LitElement) {
         this._page = state.app.page;
     }
 
-    clickHandler(event) {
+    clickHandler() {
         const state = store.getState();
         if (state.app.focussedCompetition) {
             const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
@@ -94,8 +94,8 @@ class TimingApp extends connect(store)(LitElement) {
         }
     }
 
-    searchClickHandler(event) {
-        store.dispatch(showSearch());
+    searchClickHandler() {
+        store.dispatch(updateSearch(true));
     }
 }
 

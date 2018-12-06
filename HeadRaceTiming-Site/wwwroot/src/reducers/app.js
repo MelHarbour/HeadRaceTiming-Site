@@ -48,10 +48,10 @@ const app = (state = INITIAL_STATE, action) => {
                 ...state,
                 filterAward: action.awardId
             };
-        case SHOW_SEARCH:
+        case UPDATE_SEARCH:
             return {
                 ...state,
-                showSearch: true
+                showSearch: action.visible
             };
         default:
             return state;
