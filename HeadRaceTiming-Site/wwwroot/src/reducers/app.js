@@ -1,7 +1,7 @@
 import {
     UPDATE_PAGE,
     UPDATE_OFFLINE,    APPLY_FILTER,
-    SHOW_SEARCH
+    UPDATE_SEARCH
 } from '../actions/app.js';
 
 const INITIAL_STATE = {

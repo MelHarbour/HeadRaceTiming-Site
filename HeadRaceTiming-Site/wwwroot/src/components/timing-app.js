@@ -10,8 +10,13 @@ import { store } from '../store.js';
 import {
     navigate,
     updateOffline,
-    showSearch
+    updateSearch
 } from '../actions/app.js';
+
+import competitions from '../reducers/competitions.js';
+store.addReducers({
+    competitions
+});
 
 class TimingApp extends connect(store)(LitElement) {
     render() {
@@ -41,11 +46,10 @@ class TimingApp extends connect(store)(LitElement) {
                     </section>
                     ${this._page === 'results' ? html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-                        <a href="#" @click="${() => this.searchClickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" alt="Search">search</a>
-                        <a href="#" @click="${() => this.clickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
-                        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
-                        <basic-dialog>
-                        </basic-dialog>
+                            <a href="#" @click="${() => this.searchClickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" alt="Search">search</a>
+                            <a href="#" @click="${() => this.clickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
+                            <a href="#" @click="${(event) => this.infoClickHandler(event)}" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
+                            <basic-dialog><div slot="content">${this._competition.dialogInformation}</div></basic-dialog>
                     </section>
                     `: null}
                 </div>
@@ -62,7 +66,8 @@ class TimingApp extends connect(store)(LitElement) {
         return {
             appTitle: { type: String },
             _page: { type: String },
-            _offline: { type: Boolean }
+            _offline: { type: Boolean },
+            _competition: { type: Object }
         };
     }
 
@@ -85,6 +90,9 @@ class TimingApp extends connect(store)(LitElement) {
 
     stateChanged(state) {
         this._page = state.app.page;
+        if (state.app.focussedCompetition) {
+            this._competition = state.competitions.competitions[state.competitions.competitionsByFriendlyName[state.app.focussedCompetition]];
+        }
     }
 
     clickHandler() {
@@ -98,6 +106,11 @@ class TimingApp extends connect(store)(LitElement) {
 
     searchClickHandler() {
         store.dispatch(updateSearch(true));
+    }
+
+    infoClickHandler(event) {
+        this.shadowRoot.querySelector('basic-dialog').open();
+        event.preventDefault();
     }
 }
 

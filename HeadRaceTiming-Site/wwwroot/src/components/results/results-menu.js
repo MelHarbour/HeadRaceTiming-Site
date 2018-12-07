@@ -19,7 +19,7 @@ class ResultsMenu extends connect(store)(PageViewElement) {
         <link rel="stylesheet" href="/dist/site.css">
 
         <div id="menu" class="mdc-menu-surface--anchor">
-            <button class="mdc-icon-button material-icons" @click="${(event) => this.clickHandler(event)}">arrow_drop_down</button>
+            <button class="mdc-icon-button material-icons" @click="${() => this.clickHandler()}">arrow_drop_down</button>
             <div class="mdc-menu mdc-menu-surface" tabindex="-1">
                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
                     <li class="mdc-list-item" role="menuitem">
@@ -50,7 +50,7 @@ class ResultsMenu extends connect(store)(PageViewElement) {
         menuEl.addEventListener('MDCMenu:selected', this.menuSelected);
     }
 
-    clickHandler(event) {
+    clickHandler() {
         this._menu.open = !this._menu.open;
     }
 

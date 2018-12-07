@@ -13,6 +13,9 @@ class BasicDialog extends LitElement {
                     <div class="mdc-dialog__content" id="my-dialog-content">
                         <slot name="content"></slot>
                     </div>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="accept">Ok</button>
+                    </footer>
                 </div>
             </div>
             <div class="mdc-dialog__scrim"></div>
@@ -20,8 +23,18 @@ class BasicDialog extends LitElement {
         `;
     }
 
+    static get properties() {
+        return {
+            _dialog: { type: Object }
+        };
+    }
+
+    open() {
+        this._dialog.open();
+    }
+
     firstUpdated() {
-        const dialog = new MDCDialog(this.shadowRoot.querySelector('.mdc-dialog'));
+        this._dialog = new MDCDialog(this.shadowRoot.querySelector('.mdc-dialog'));
     }
 }
 

@@ -17,6 +17,7 @@ const loadPage = (page, id) => async (dispatch, getState) => {
         case 'results':
             module = await import('../components/results/results-view.js');
             menuModule = await import('../components/results/results-menu.js');
+            await import('../components/basic-dialog.js');
             const state = getState();
             const awardId = state.app.filterAward;
             if (!state.competitions || !state.competitions.competitionsByFriendlyName || !state.competitions.competitionsByFriendlyName[id]) {
