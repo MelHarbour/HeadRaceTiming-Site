@@ -1,13 +1,13 @@
 import { html } from '@polymer/lit-element';
-import { PageViewElement } from '../page-view-element.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from '../../store.js';
-import { repeat } from 'lit-html/directives/repeat.js';
+import { PageViewElement } from '../page-view-element';
+import { connect } from 'pwa-helpers/connect-mixin';
+import { store } from '../../store';
+import { repeat } from 'lit-html/directives/repeat';
 import { MDCMenu } from '@material/menu';
-import { getCompetitionAwards } from '../../actions/awards.js';
-import { applyFilter } from '../../actions/app.js';
+import { getCompetitionAwards } from '../../actions/awards';
+import { applyFilter } from '../../actions/app';
 
-import awards from '../../reducers/awards.js';
+import awards from '../../reducers/awards';
 store.addReducers({
     awards
 });

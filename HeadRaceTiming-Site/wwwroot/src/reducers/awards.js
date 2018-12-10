@@ -1,4 +1,4 @@
-﻿import { RECEIVE_AWARDS } from '../actions/awards.js';
+﻿import { RECEIVE_AWARDS } from '../actions/awards';
 
 const INITIAL_STATE = {
     awards: {},

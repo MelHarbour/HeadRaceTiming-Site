@@ -1,4 +1,4 @@
-﻿import { RECEIVE_PENALTIES } from '../actions/penalties.js';
+﻿import { RECEIVE_PENALTIES } from '../actions/penalties';
 
 const INITIAL_STATE = {
     penalties: {},

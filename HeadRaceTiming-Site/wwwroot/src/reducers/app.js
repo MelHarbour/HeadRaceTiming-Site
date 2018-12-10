@@ -2,7 +2,7 @@ import {
     UPDATE_PAGE,
     UPDATE_OFFLINE,    APPLY_FILTER,
     UPDATE_SEARCH
-} from '../actions/app.js';
+} from '../actions/app';
 
 const INITIAL_STATE = {
     page: '',

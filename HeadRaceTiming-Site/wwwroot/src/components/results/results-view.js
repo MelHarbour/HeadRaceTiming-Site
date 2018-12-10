@@ -1,15 +1,15 @@
 import { html } from '@polymer/lit-element';
-import { PageViewElement } from '../page-view-element.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from '../../store.js';
-import { repeat } from 'lit-html/directives/repeat.js';
+import { PageViewElement } from '../page-view-element';
+import { connect } from 'pwa-helpers/connect-mixin';
+import { store } from '../../store';
+import { repeat } from 'lit-html/directives/repeat';
 
-import crews from '../../reducers/crews.js';
-import competitions from '../../reducers/competitions.js';
-import { crewsListSelector } from '../../reducers/crews.js';
-import { navigate } from '../../actions/app.js';
-import { getCompetitionCrews } from '../../actions/crews.js';
-import { getCompetition } from '../../actions/competitions.js';
+import crews from '../../reducers/crews';
+import competitions from '../../reducers/competitions';
+import { crewsListSelector } from '../../reducers/crews';
+import { navigate } from '../../actions/app';
+import { getCompetitionCrews } from '../../actions/crews';
+import { getCompetition } from '../../actions/competitions';
 import { setTimeout, clearTimeout } from 'timers';
 store.addReducers({
     crews,

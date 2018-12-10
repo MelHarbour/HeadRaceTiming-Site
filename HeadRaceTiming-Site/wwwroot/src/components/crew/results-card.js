@@ -1,12 +1,12 @@
 ﻿import { html, LitElement } from '@polymer/lit-element';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from '../../store.js';
-import { repeat } from 'lit-html/directives/repeat.js';
-import { CardTableStyles } from '../card-table-styles.js';
+import { connect } from 'pwa-helpers/connect-mixin';
+import { store } from '../../store';
+import { repeat } from 'lit-html/directives/repeat';
+import { CardTableStyles } from '../card-table-styles';
 
-import results from '../../reducers/results.js';
-import '../basic-card.js';
-import { getCrewResults } from '../../actions/results.js';
+import results from '../../reducers/results';
+import '../basic-card';
+import { getCrewResults } from '../../actions/results';
 store.addReducers({
     results
 });

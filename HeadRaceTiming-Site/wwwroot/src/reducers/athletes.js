@@ -1,4 +1,4 @@
-﻿import { RECEIVE_ATHLETES } from '../actions/athletes.js';
+﻿import { RECEIVE_ATHLETES } from '../actions/athletes';
 
 const INITIAL_STATE = {
     athletes: {},

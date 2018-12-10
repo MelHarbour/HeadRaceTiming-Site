@@ -1,4 +1,4 @@
-﻿import { RECEIVE_RESULTS } from '../actions/results.js';
+﻿import { RECEIVE_RESULTS } from '../actions/results';
 
 const INITIAL_STATE = {
     results: {},

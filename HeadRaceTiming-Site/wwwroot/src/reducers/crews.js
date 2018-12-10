@@ -1,4 +1,4 @@
-﻿import { RECEIVE_CREWS } from '../actions/crews.js';
+﻿import { RECEIVE_CREWS } from '../actions/crews';
 import { createSelector } from 'reselect';
 
 const INITIAL_STATE = {

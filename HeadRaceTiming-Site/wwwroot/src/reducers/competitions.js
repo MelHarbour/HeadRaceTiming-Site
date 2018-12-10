@@ -1,4 +1,4 @@
-﻿import { RECEIVE_COMPETITIONS, RECEIVE_COMPETITION } from '../actions/competitions.js';
+﻿import { RECEIVE_COMPETITIONS, RECEIVE_COMPETITION } from '../actions/competitions';
 
 const INITIAL_STATE = {
     competitions: [],

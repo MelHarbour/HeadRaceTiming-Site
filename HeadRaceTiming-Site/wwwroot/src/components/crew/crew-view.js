@@ -1,18 +1,18 @@
 import { html } from '@polymer/lit-element';
-import { PageViewElement } from '../page-view-element.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from '../../store.js';
-import { crewsSelector } from '../../reducers/crews.js';
-import { getCrewAthletes } from '../../actions/athletes.js';
-import { repeat } from 'lit-html/directives/repeat.js';
-import { CardTableStyles } from '../card-table-styles.js';
-import '../basic-card.js';
+import { PageViewElement } from '../page-view-element';
+import { connect } from 'pwa-helpers/connect-mixin';
+import { store } from '../../store';
+import { crewsSelector } from '../../reducers/crews';
+import { getCrewAthletes } from '../../actions/athletes';
+import { repeat } from 'lit-html/directives/repeat';
+import { CardTableStyles } from '../card-table-styles';
+import '../basic-card';
 
-import './results-card.js';
-import './penalties-card.js';
+import './results-card';
+import './penalties-card';
 
-import crews from '../../reducers/crews.js';
-import athletes from '../../reducers/athletes.js';
+import crews from '../../reducers/crews';
+import athletes from '../../reducers/athletes';
 store.addReducers({
     crews, athletes
 });

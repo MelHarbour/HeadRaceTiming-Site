@@ -1,12 +1,12 @@
 import { html } from '@polymer/lit-element';
-import { PageViewElement } from '../page-view-element.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from '../../store.js';
-import { repeat } from 'lit-html/directives/repeat.js';
+import { PageViewElement } from '../page-view-element';
+import { connect } from 'pwa-helpers/connect-mixin';
+import { store } from '../../store';
+import { repeat } from 'lit-html/directives/repeat';
 
-import competitions from '../../reducers/competitions.js';
-import { getAllCompetitions } from '../../actions/competitions.js';
-import { navigate } from '../../actions/app.js';
+import competitions from '../../reducers/competitions';
+import { getAllCompetitions } from '../../actions/competitions';
+import { navigate } from '../../actions/app';
 store.addReducers({
     competitions
 });
