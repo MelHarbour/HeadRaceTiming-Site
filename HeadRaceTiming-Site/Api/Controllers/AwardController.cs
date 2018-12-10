@@ -36,5 +36,23 @@ namespace HeadRaceTimingSite.Api.Controllers
 
             return Ok(_mapper.Map<List<Models.Award>, List<Award>>(competition.Awards));
         }
+
+        /// <summary>
+        /// Retrieves all the awards for a given competition
+        /// </summary>
+        /// <param name="id">The ID of the crew</param>
+        /// <response code="200">List of awards returned</response>
+        /// <response code="404">Crew not found</response>
+        [Produces("application/json")]
+        [HttpGet("/api/crews/{id}/awards")]
+        public async Task<IActionResult> GetByCrew(int id)
+        {
+            Models.Crew crew = await _context.Crews.Include(x => x.Awards).FirstOrDefaultAsync(x => x.CrewId == id);
+
+            if (crew == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<List<Models.Award>, List<Award>>(crew.Awards.Select(x => x.Award).ToList()));
+        }
     }
 }

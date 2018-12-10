@@ -2,7 +2,8 @@
 
 const INITIAL_STATE = {
     awards: {},
-    awardsForCompetition: {}
+    awardsForCompetition: {},
+    awardsForCrew: {}
 };
 
 const awards = (state = INITIAL_STATE, action) => {

@@ -6,6 +6,12 @@ export const getCompetitionAwards = (id) => (dispatch) => {
         .then(data => dispatch(receiveAwards(data)));
 };
 
+export const getCrewAwards = (id) => (dispatch) => {
+    fetch('/api/crews/' + id + '/awards')
+        .then(res => res.json())
+        .then(data => dispatch(receiveAwards(data)));
+};
+
 const receiveAwards = (items) => {
     return {
         type: RECEIVE_AWARDS,
