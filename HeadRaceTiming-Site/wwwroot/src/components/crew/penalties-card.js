@@ -21,7 +21,10 @@ class PenaltiesCard extends connect(store)(LitElement) {
                     <tr><th>Amount</th><th>Reason</th></tr>
                 </thead>
                 <tbody>
-                    
+                    ${this._penalties && repeat(this._penalties, (penalty) =>
+                    html`
+                    <tr><td>${penalty.value}</td><td>${penalty.reason}</td></tr>
+                    `)}
                 </tbody>
             </table>
         </basic-card>
