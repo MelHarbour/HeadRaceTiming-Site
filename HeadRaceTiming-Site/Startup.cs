@@ -58,6 +58,12 @@ namespace HeadRaceTimingSite
             })
             .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
+            services.AddLogging(opt =>
+            {
+                opt.AddConsole();
+                opt.AddDebug();
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
@@ -145,11 +151,8 @@ namespace HeadRaceTimingSite
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -221,15 +224,6 @@ namespace HeadRaceTimingSite
                 .ForMember(d => d.SecondIntermediateName, opt => opt.Ignore())
                 .ForMember(d => d.FirstIntermediateId, opt => opt.Ignore())
                 .ForMember(d => d.SecondIntermediateId, opt => opt.Ignore());
-        }
-    }
-
-    public class WebProfile : Profile
-    {
-        public WebProfile()
-        {
-            CreateMap<Competition, ViewModels.CompetitionDetailsViewModel>();
-            CreateMap<Award, ViewModels.AwardViewModel>();
         }
     }
 }

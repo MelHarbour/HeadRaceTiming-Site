@@ -21,30 +21,6 @@ namespace HeadRaceTimingSite.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Competitions.Where(x => x.IsVisible).ToListAsync());
-        }
-
-        public async Task<IActionResult> Details(string id)
-        {
-            int competitionId;
-            Competition competition;
-            if (Int32.TryParse(id, out competitionId))
-            {
-                competition = await _context.Competitions.Include(x => x.TimingPoints).Include(x => x.Awards)
-                    .SingleOrDefaultAsync(c => c.CompetitionId == competitionId);
-            }
-            else
-            {
-                competition = await _context.Competitions.Include(x => x.TimingPoints).Include(x => x.Awards)
-                    .SingleOrDefaultAsync(c => c.FriendlyName == id);
-            }
-            CompetitionDetailsViewModel viewModel = _mapper.Map<CompetitionDetailsViewModel>(competition);
-            viewModel.AwardFilterName = "Overall";
-            return View(viewModel);
-        }
-
         [HttpGet]
         [Produces("text/csv")]
         public async Task<IActionResult> DetailsAsCsv(int? id)

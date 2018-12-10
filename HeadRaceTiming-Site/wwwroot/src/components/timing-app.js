@@ -1,19 +1,19 @@
 import { LitElement, html } from '@polymer/lit-element';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { installOfflineWatcher } from 'pwa-helpers/network.js';
-import { installRouter } from 'pwa-helpers/router.js';
-import { updateMetadata } from 'pwa-helpers/metadata.js';
+import { connect } from 'pwa-helpers/connect-mixin';
+import { installOfflineWatcher } from 'pwa-helpers/network';
+import { installRouter } from 'pwa-helpers/router';
+import { updateMetadata } from 'pwa-helpers/metadata';
 import { MDCTopAppBar } from "@material/top-app-bar/index";
 
-import { store } from '../store.js';
+import { store } from '../store';
 
 import {
     navigate,
     updateOffline,
     updateSearch
-} from '../actions/app.js';
+} from '../actions/app';
 
-import competitions from '../reducers/competitions.js';
+import competitions from '../reducers/competitions';
 store.addReducers({
     competitions
 });
