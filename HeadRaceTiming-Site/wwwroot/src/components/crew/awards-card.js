@@ -40,10 +40,8 @@ class AwardsCard extends connect(store)(LitElement) {
 
     stateChanged(state) {
         const crew = state.crews.crews[this.crewId];
-        console.log(crew);
         if (crew && crew.awards) {
             this._awards = crew.awards.map(awardId => state.awards.awards[awardId]);
-            console.log(this._awards);
         }
     }
 }

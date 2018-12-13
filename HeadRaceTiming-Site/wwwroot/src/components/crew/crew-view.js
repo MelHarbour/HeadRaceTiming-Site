@@ -43,7 +43,7 @@ class CrewView extends connect(store)(PageViewElement) {
                     ${this._athletes && repeat(this._athletes, (athlete) =>
                     html`
                         <tr>
-                            <td>${athlete.position}</td>
+                            <td>${this._positionText(athlete.position)}</td>
                             <td>${athlete.firstName} ${athlete.lastName}</td>
                             <td>${athlete.pri}</td>
                             <td>${athlete.priMax}</td>
@@ -68,6 +68,24 @@ class CrewView extends connect(store)(PageViewElement) {
             _compLink: { type: String },
             _athletes: { type: Array }
         };
+    }
+
+    _positionText(position) {
+        switch (this._crew.boatClass) {
+            case 7:
+                switch (position) {
+                    case 1:
+                        return "Bow";
+                    case 8:
+                        return "Stroke";
+                    case 9:
+                        return "Cox";
+                    default:
+                        return position;
+                }
+            default:
+                return position;
+        }
     }
 
     stateChanged(state) {
