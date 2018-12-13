@@ -43,7 +43,7 @@ class PenaltiesCard extends connect(store)(LitElement) {
     }
 
     stateChanged(state) {
-        this._penalties = state.penalties.penalties;
+        this._penalties = state.penalties.byId;
     }
 }
 

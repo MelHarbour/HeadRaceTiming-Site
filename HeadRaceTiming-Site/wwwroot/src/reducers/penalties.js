@@ -1,8 +1,7 @@
 ﻿import { RECEIVE_PENALTIES } from '../actions/penalties';
 
 const INITIAL_STATE = {
-    penalties: {},
-    penaltiesForCrew: {}
+    byId: {}
 };
 
 const penalties = (state = INITIAL_STATE, action) => {
@@ -10,7 +9,7 @@ const penalties = (state = INITIAL_STATE, action) => {
         case RECEIVE_PENALTIES:
             return {
                 ...state,
-                penalties: action.penalties
+                byId: action.penalties
             };
         default:
             return state;
