@@ -27,7 +27,7 @@ class CrewView extends connect(store)(PageViewElement) {
         ${CardTableStyles}
 
         <basic-card headline="Crew Details">
-        <div slot="content">
+        <div slot="content" style="padding: 1rem">
             <div>${this._crew.name}</div>
             <div>Competition: <a href=${this._compLink}>${this._competitionName}</a></div>
             <div>Start Number: ${this._crew.startNumber}</div>

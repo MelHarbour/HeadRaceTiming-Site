@@ -8,15 +8,13 @@ class BasicCard extends LitElement {
             .mdc-card {
                 margin: 16px;
             }
-            .mdc-card__primary-action {
+            .headline {
                 padding: 1rem;
             }
             </style>
             <div class="mdc-card">
-                <div class="mdc-card__primary-action">
-                    <div class="mdc-typography--headline6">${this.headline}</div>
-                    <slot name="content"></slot>
-                </div>
+                <div class="mdc-typography--headline6 headline">${this.headline}</div>
+                <slot name="content"></slot>
             </div>
         `;
     }
