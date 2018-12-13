@@ -5,6 +5,7 @@ import { store } from '../../store';
 import { crewsSelector } from '../../reducers/crews';
 import { getCrewAthletes } from '../../actions/athletes';
 import { getCrewAwards } from '../../actions/awards';
+import { getCrewPenalties } from '../../actions/penalties';
 import { repeat } from 'lit-html/directives/repeat';
 import { CardTableStyles } from '../card-table-styles';
 import '../basic-card';
@@ -103,4 +104,4 @@ class CrewView extends connect(store)(PageViewElement) {
 
 window.customElements.define('crew-view', CrewView);
 
-export { getCrewAthletes, getCrewAwards };
+export { getCrewAthletes, getCrewAwards, getCrewPenalties };

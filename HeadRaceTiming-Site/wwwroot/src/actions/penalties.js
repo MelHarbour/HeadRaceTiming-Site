@@ -3,12 +3,13 @@
 export const getCrewPenalties = (id) => (dispatch) => {
     fetch('/api/crews/'+id+'/penalties')
         .then(res => res.json())
-        .then(data => dispatch(receivePenalties(data)));
+        .then(data => dispatch(receiveCrewPenalties(data, id)));
 };
 
-const receivePenalties = (items) => {
+const receiveCrewPenalties = (items, id) => {
     return {
         type: RECEIVE_PENALTIES,
-        penalties: items
+        penalties: items,
+        crewId: id
     };
 };

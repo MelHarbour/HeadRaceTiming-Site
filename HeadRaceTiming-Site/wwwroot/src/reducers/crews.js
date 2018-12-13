@@ -1,6 +1,7 @@
 ﻿import { RECEIVE_CREWS } from '../actions/crews';
 import { RECEIVE_CREW_AWARDS } from '../actions/awards';
 import { createSelector } from 'reselect';
+import { RECEIVE_PENALTIES } from '../actions/penalties';
 
 const INITIAL_STATE = {
     crews: {},
@@ -22,8 +23,22 @@ const crews = (state = INITIAL_STATE, action) => {
                 orderedCrews: action.crews.map(item => item.id)
             };
         case RECEIVE_CREW_AWARDS:
-            const crew = state.crews[action.crewId];
-            crew.awards = action.awards.map(award => award.id);
+            var crew = {
+                ...state.crews[action.crewId],
+                awards: action.awards.map(award => award.id)
+            };
+            return {
+                ...state,
+                crews: Object.keys(state.crews).reduce(function (result, key) {
+                    result[key] = action.crewId !== key ? state.crews[key] : { ...state.crews[key], ...crew };
+                    return result;
+                }, {})
+            };
+        case RECEIVE_PENALTIES:
+            crew = {
+                ...state.crews[action.crewId],
+                penalties: action.penalties.map(penalty => penalty.id)
+            };
             return {
                 ...state,
                 crews: Object.keys(state.crews).reduce(function (result, key) {

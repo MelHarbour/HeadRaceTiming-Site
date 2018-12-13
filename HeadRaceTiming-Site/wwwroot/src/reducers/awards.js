@@ -1,8 +1,7 @@
 ﻿import { RECEIVE_AWARDS, RECEIVE_CREW_AWARDS } from '../actions/awards';
 
 const INITIAL_STATE = {
-    awards: {},
-    awardsForCompetition: {}
+    awards: {}
 };
 
 const awards = (state = INITIAL_STATE, action) => {

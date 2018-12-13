@@ -6,7 +6,6 @@ import { repeat } from 'lit-html/directives/repeat';
 
 import penalties from '../../reducers/penalties';
 import '../basic-card';
-import { getCrewPenalties } from '../../actions/penalties';
 store.addReducers({
     penalties
 });
@@ -38,12 +37,11 @@ class PenaltiesCard extends connect(store)(LitElement) {
         };
     }
 
-    firstUpdated() {
-        store.dispatch(getCrewPenalties(this.crewId));
-    }
-
     stateChanged(state) {
-        this._penalties = state.penalties.byId;
+        const crew = state.crews.crews[this.crewId];
+        if (crew && crew.penalties) {
+            this._penalties = crew.penalties.map(penaltyId => state.penalties.byId[penaltyId]);
+        }
     }
 }
 
