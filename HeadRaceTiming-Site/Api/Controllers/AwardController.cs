@@ -47,7 +47,7 @@ namespace HeadRaceTimingSite.Api.Controllers
         [HttpGet("/api/crews/{id}/awards")]
         public async Task<IActionResult> GetByCrew(int id)
         {
-            Models.Crew crew = await _context.Crews.Include(x => x.Awards).FirstOrDefaultAsync(x => x.CrewId == id);
+            Models.Crew crew = await _context.Crews.Include("Awards.Award").FirstOrDefaultAsync(x => x.BroeCrewId == id);
 
             if (crew == null)
                 return NotFound();

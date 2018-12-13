@@ -38,6 +38,7 @@ const loadPage = (page, id) => async (dispatch, getState) => {
         case 'crew':
             module = await import('../components/crew/crew-view.js');
             await dispatch(module.getCrewAthletes(id));
+            await dispatch(module.getCrewAwards(id));
             break;
         default:
             page = 'view404';

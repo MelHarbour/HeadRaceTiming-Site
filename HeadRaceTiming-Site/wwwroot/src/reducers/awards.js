@@ -1,17 +1,20 @@
-﻿import { RECEIVE_AWARDS } from '../actions/awards';
+﻿import { RECEIVE_AWARDS, RECEIVE_CREW_AWARDS } from '../actions/awards';
 
 const INITIAL_STATE = {
     awards: {},
-    awardsForCompetition: {},
-    awardsForCrew: {}
+    awardsForCompetition: {}
 };
 
 const awards = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case RECEIVE_AWARDS:
+        case RECEIVE_CREW_AWARDS:
             return {
                 ...state,
-                awards: action.awards
+                awards: action.awards.reduce((obj, item) => {
+                    obj[item.id] = item;
+                    return obj;
+                }, state.awards)
             };
         default:
             return state;

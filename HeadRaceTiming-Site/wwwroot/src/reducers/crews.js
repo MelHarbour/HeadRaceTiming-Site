@@ -1,4 +1,5 @@
 ﻿import { RECEIVE_CREWS } from '../actions/crews';
+import { RECEIVE_CREW_AWARDS } from '../actions/awards';
 import { createSelector } from 'reselect';
 
 const INITIAL_STATE = {
@@ -13,9 +14,22 @@ const crews = (state = INITIAL_STATE, action) => {
                 ...state,
                 crews: action.crews.reduce((obj, item) => {
                     obj[item.id] = item;
+                    if (state.crews[item.id]) {
+                        obj[item.id].awards = state.crews[item.id].awards;
+                    }
                     return obj;
                 }, {}),
                 orderedCrews: action.crews.map(item => item.id)
+            };
+        case RECEIVE_CREW_AWARDS:
+            const crew = state.crews[action.crewId];
+            crew.awards = action.awards.map(award => award.id);
+            return {
+                ...state,
+                crews: Object.keys(state.crews).reduce(function (result, key) {
+                    result[key] = action.crewId !== key ? state.crews[key] : { ...state.crews[key], ...crew };
+                    return result;
+                }, {})
             };
         default:
             return state;

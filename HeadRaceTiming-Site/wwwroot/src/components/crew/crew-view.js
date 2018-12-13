@@ -4,12 +4,14 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store';
 import { crewsSelector } from '../../reducers/crews';
 import { getCrewAthletes } from '../../actions/athletes';
+import { getCrewAwards } from '../../actions/awards';
 import { repeat } from 'lit-html/directives/repeat';
 import { CardTableStyles } from '../card-table-styles';
 import '../basic-card';
 
 import './results-card';
 import './penalties-card';
+import './awards-card';
 
 import crews from '../../reducers/crews';
 import athletes from '../../reducers/athletes';
@@ -54,6 +56,8 @@ class CrewView extends connect(store)(PageViewElement) {
         <results-card crewId=${this._crew.id}></results-card>
 
         <penalties-card crewId=${this._crew.id}></penalties-card>
+
+        <awards-card crewId=${this._crew.id}></awards-card>
        `;
     }
 
@@ -81,4 +85,4 @@ class CrewView extends connect(store)(PageViewElement) {
 
 window.customElements.define('crew-view', CrewView);
 
-export { getCrewAthletes };
+export { getCrewAthletes, getCrewAwards };
