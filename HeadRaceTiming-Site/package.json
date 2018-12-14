@@ -38,7 +38,7 @@
     "@material/menu": "^0.41.0",
     "@material/top-app-bar": "^0.41.0",
     "@material/typography": "^0.41.0",
-    "@polymer/lit-element": "^0.6.4",
+    "@polymer/lit-element": "^0.6.5",
     "@webcomponents/webcomponentsjs": "^2.2.1",
     "babel-preset-stage-2": "^6.24.1",
     "pwa-helpers": "^0.9.0",
