@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^9.4.2",
+    "autoprefixer": "^9.4.3",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-custom-element-classes": "^0.1.0",
@@ -36,6 +36,7 @@
     "@material/icon-button": "^0.41.0",
     "@material/list": "^0.41.0",
     "@material/menu": "^0.41.0",
+    "@material/textfield": "^0.42.0",
     "@material/top-app-bar": "^0.41.0",
     "@material/typography": "^0.41.0",
     "@polymer/lit-element": "^0.6.5",
