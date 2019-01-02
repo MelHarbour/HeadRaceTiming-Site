@@ -25,8 +25,8 @@
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "transform-runtime": "0.0.0",
-    "uglifyjs-webpack-plugin": "^2.0.1",
-    "webpack": "^4.27.1",
+    "uglifyjs-webpack-plugin": "^2.1.1",
+    "webpack": "^4.28.3",
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
@@ -36,7 +36,7 @@
     "@material/icon-button": "^0.41.0",
     "@material/list": "^0.41.0",
     "@material/menu": "^0.41.0",
-    "@material/textfield": "^0.42.0",
+    "@material/textfield": "^0.42.1",
     "@material/top-app-bar": "^0.41.0",
     "@material/typography": "^0.41.0",
     "@polymer/lit-element": "^0.6.5",

@@ -4,6 +4,7 @@ import { installOfflineWatcher } from 'pwa-helpers/network';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { MDCTopAppBar } from "@material/top-app-bar/index";
+import { MDCTextField } from "@material/textfield";
 
 import { store } from '../store';
 
@@ -37,6 +38,14 @@ class TimingApp extends connect(store)(LitElement) {
 
             <header class="mdc-top-app-bar">
                 <div class="mdc-top-app-bar__row">
+                    ${this._showSearch ? html`
+                    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                        <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">arrow_back</a>
+                        <div class="mdc-text-field mdc-text-field--fullwidth">
+                            <input class="mdc-text-field__input" type="text" placeholder="Search" aria-label="Search">
+                        </div>
+                    </section>
+                    ` : html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                         <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
                         <span class="mdc-top-app-bar__title">${this.appTitle}</span>
@@ -52,6 +61,7 @@ class TimingApp extends connect(store)(LitElement) {
                             <basic-dialog><div slot="content">${this._competition.dialogInformation}</div></basic-dialog>
                     </section>
                     `: null}
+                    `}
                 </div>
             </header>
             <main role="main" class="mdc-top-app-bar--fixed-adjust">
@@ -67,7 +77,8 @@ class TimingApp extends connect(store)(LitElement) {
             appTitle: { type: String },
             _page: { type: String },
             _offline: { type: Boolean },
-            _competition: { type: Object }
+            _competition: { type: Object },
+            _showSearch: { type: Boolean }
         };
     }
 
@@ -76,6 +87,7 @@ class TimingApp extends connect(store)(LitElement) {
         installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
         const topAppBarElement = this.shadowRoot.querySelector('.mdc-top-app-bar');
         const topAppBar = new MDCTopAppBar(topAppBarElement);
+        //const textField = new MDCTextField(this.shadowRoot.querySelector('.mdc-text-field'));
     }
 
     updated(changedProps) {
@@ -90,6 +102,7 @@ class TimingApp extends connect(store)(LitElement) {
 
     stateChanged(state) {
         this._page = state.app.page;
+        this._showSearch = state.app.showSearch;
         if (state.app.focussedCompetition) {
             this._competition = state.competitions.competitions[state.competitions.competitionsByFriendlyName[state.app.focussedCompetition]];
         }
