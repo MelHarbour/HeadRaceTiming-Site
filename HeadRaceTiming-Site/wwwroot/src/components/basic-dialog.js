@@ -1,4 +1,4 @@
-﻿import { html, LitElement } from '@polymer/lit-element';
+﻿import { html, LitElement } from 'lit-element';
 import { MDCDialog } from '@material/dialog';
 
 class BasicDialog extends LitElement {

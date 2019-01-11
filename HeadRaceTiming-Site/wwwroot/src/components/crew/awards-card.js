@@ -1,4 +1,4 @@
-﻿import { html, LitElement } from '@polymer/lit-element';
+﻿import { html, LitElement } from 'lit-element';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store';
 import { CardTableStyles } from '../card-table-styles';
