@@ -5,6 +5,7 @@ import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { MDCTopAppBar } from "@material/top-app-bar/index";
 import { MDCTextField } from "@material/textfield";
+import { MDCRipple } from "@material/ripple";
 
 import { store } from '../store';
 
@@ -40,7 +41,7 @@ class TimingApp extends connect(store)(LitElement) {
                 <div class="mdc-top-app-bar__row">
                     ${this._showSearch ? html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                        <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">arrow_back</a>
+                        <button @click="${() => this.searchClickHandler()}" class="mdc-icon-button mdc-top-app-bar__navigation-icon material-icons" aria-label="Back">arrow_back</button>
                         <div class="mdc-text-field mdc-text-field--fullwidth">
                             <input class="mdc-text-field__input" type="text" placeholder="Search" aria-label="Search">
                         </div>
@@ -55,7 +56,7 @@ class TimingApp extends connect(store)(LitElement) {
                     </section>
                     ${this._page === 'results' ? html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-                            <a href="#" @click="${() => this.searchClickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" alt="Search">search</a>
+                            <button @click="${() => this.searchClickHandler()}" class="mdc-icon-button mdc-top-app-bar__action-item material-icons" aria-label="Search">search</button>
                             <a href="#" @click="${() => this.clickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
                             <a href="#" @click="${(event) => this.infoClickHandler(event)}" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
                             <basic-dialog><div slot="content">${this._competition.dialogInformation}</div></basic-dialog>
@@ -85,9 +86,7 @@ class TimingApp extends connect(store)(LitElement) {
     firstUpdated() {
         installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
         installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
-        const topAppBarElement = this.shadowRoot.querySelector('.mdc-top-app-bar');
-        const topAppBar = new MDCTopAppBar(topAppBarElement);
-        //const textField = new MDCTextField(this.shadowRoot.querySelector('.mdc-text-field'));
+        const topAppBar = new MDCTopAppBar(this.shadowRoot.querySelector('.mdc-top-app-bar'));
     }
 
     updated(changedProps) {
@@ -97,6 +96,11 @@ class TimingApp extends connect(store)(LitElement) {
                 title: pageTitle,
                 description: pageTitle
             });
+        }
+        const textFieldElement = this.shadowRoot.querySelector('.mdc-text-field');
+        if (textFieldElement) {
+            const textField = new MDCTextField(textFieldElement);
+            textField.focus();
         }
     }
 
@@ -118,7 +122,7 @@ class TimingApp extends connect(store)(LitElement) {
     }
 
     searchClickHandler() {
-        store.dispatch(updateSearch(true));
+        store.dispatch(updateSearch(!this._showSearch));
     }
 
     infoClickHandler(event) {
