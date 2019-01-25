@@ -57,7 +57,7 @@ class TimingApp extends connect(store)(LitElement) {
                     ${this._page === 'results' ? html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
                             <button @click="${() => this.searchClickHandler()}" class="mdc-icon-button mdc-top-app-bar__action-item material-icons" aria-label="Search">search</button>
-                            <a href="#" @click="${() => this.clickHandler()}" class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
+                            <a href="/Competition/DetailsAsCsv/${this._competition.competitionId}" download class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
                             <a href="#" @click="${(event) => this.infoClickHandler(event)}" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
                             <basic-dialog><div slot="content">${this._competition.dialogInformation}</div></basic-dialog>
                     </section>
@@ -109,15 +109,6 @@ class TimingApp extends connect(store)(LitElement) {
         this._showSearch = state.app.showSearch;
         if (state.app.focussedCompetition) {
             this._competition = state.competitions.competitions[state.competitions.competitionsByFriendlyName[state.app.focussedCompetition]];
-        }
-    }
-
-    clickHandler() {
-        const state = store.getState();
-        if (state.app.focussedCompetition) {
-            const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
-            window.history.pushState({}, '', '/Competition/DetailsAsCsv/' + competitionId);
-            store.dispatch(navigate(window.location.pathname));
         }
     }
 
