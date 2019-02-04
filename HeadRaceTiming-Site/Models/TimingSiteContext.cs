@@ -45,5 +45,6 @@ namespace HeadRaceTimingSite.Models
         public DbSet<Athlete> Athletes { get; set; }
         public DbSet<Penalty> Penalties { get; set; }
         public DbSet<CompetitionAdministrator> CompetitionAdministrators { get; set; }
+        public DbSet<HandicapReferenceTime> HandicapReferenceTimes { get; set; }
     }
 }
