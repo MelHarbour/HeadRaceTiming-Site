@@ -209,7 +209,15 @@ namespace HeadRaceTimingSite.Models
         {
             if (MastersCategory == MastersCategory.None)
                 throw new InvalidOperationException();
-            return 0;
+
+            foreach (CrewAward award in Awards)
+            {
+                if (award.Award.IsMasters)
+                {
+                    return 0;
+                }
+            }
+            throw new InvalidOperationException();
         }
 
         public int CompetitionId { get; set; }

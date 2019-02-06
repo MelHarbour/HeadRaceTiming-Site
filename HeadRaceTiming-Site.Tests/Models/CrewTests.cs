@@ -275,8 +275,59 @@ namespace HeadRaceTimingSite.Tests.Models
         {
             Crew crew = new Crew();
             crew.Athletes.Add(new CrewAthlete { Athlete = new Athlete(), Age = 26 });
+            Award award = new Award { IsMasters = true, AwardId = 1 };
+            crew.Awards.Add(new CrewAward() { Award = award });
 
             Assert.ThrowsException<InvalidOperationException>(() => crew.CalculateMastersHandicap());
+        }
+
+        [TestMethod]
+        public void MastersHandicap_WithCrewNotInMastersCompetition_ShouldThrowInvalidOperationException()
+        {
+            Crew crew = new Crew();
+            crew.Athletes.Add(new CrewAthlete { Athlete = new Athlete(), Age = 27 });
+
+            Assert.ThrowsException<InvalidOperationException>(() => crew.CalculateMastersHandicap());
+        }
+
+        [TestMethod]
+        public void MastersHandicap_WithMastersACrew_ShouldReturnZero()
+        {
+            Crew crew = new Crew();
+            crew.Athletes.Add(new CrewAthlete { Athlete = new Athlete(), Age = 27 });
+            Award award = new Award { IsMasters = true, AwardId = 1 };
+            crew.Awards.Add(new CrewAward() { Award = award });
+
+            Assert.AreEqual(0, crew.CalculateMastersHandicap());
+        }
+
+        [DataTestMethod]
+        [DataRow(36, 10, 0, 5)]
+        public void MastersHandicap_WithMastersCrewAndStandardTime_ShouldReturnCorrectHandicap(int age, int minutes, int seconds, int handicap)
+        {
+            Competition competition = new Competition();
+            competition.TimingPoints.Add(new TimingPoint { TimingPointId = 1 });
+            competition.TimingPoints.Add(new TimingPoint { TimingPointId = 2 });
+            Award award = new Award { IsMasters = true, AwardId = 1 };
+            competition.Awards.Add(award);
+            Crew crewOne = new Crew();
+            crewOne.Results.Add(new Result { TimingPointId = 1, TimeOfDay = new TimeSpan(10, 0, 0) });
+            crewOne.Results.Add(new Result { TimingPointId = 2, TimeOfDay = new TimeSpan(10, minutes, seconds) });
+            crewOne.Awards.Add(new CrewAward { Award = award });
+            crewOne.Athletes.Add(new CrewAthlete { Athlete = new Athlete(), Age = 27 });
+            award.Crews.Add(new CrewAward { Crew = crewOne });
+            crewOne.Competition = competition;
+            competition.Crews.Add(crewOne);
+            Crew crewTwo = new Crew();
+            crewTwo.Results.Add(new Result { TimingPointId = 1, TimeOfDay = new TimeSpan(10, 0, 0) });
+            crewTwo.Results.Add(new Result { TimingPointId = 2, TimeOfDay = new TimeSpan(10, minutes, seconds + 20) });
+            crewTwo.Awards.Add(new CrewAward { Award = award });
+            crewTwo.Athletes.Add(new CrewAthlete { Athlete = new Athlete(), Age = age });
+            crewTwo.Competition = competition;
+            award.Crews.Add(new CrewAward { Crew = crewTwo });
+            competition.Crews.Add(crewTwo);
+
+            Assert.AreEqual(handicap, crewTwo.CalculateMastersHandicap());
         }
     }
 }
