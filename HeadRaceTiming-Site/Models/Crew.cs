@@ -205,7 +205,7 @@ namespace HeadRaceTimingSite.Models
             }
         }
 
-        public int CalculateMastersHandicap()
+        public int CalculateMastersHandicap(Dictionary<MastersCategory, int> lowerBounds, Dictionary<MastersCategory, int> upperBounds)
         {
             if (MastersCategory == MastersCategory.None)
                 throw new InvalidOperationException();

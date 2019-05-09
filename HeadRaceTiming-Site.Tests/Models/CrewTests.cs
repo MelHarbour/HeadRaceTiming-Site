@@ -278,7 +278,7 @@ namespace HeadRaceTimingSite.Tests.Models
             Award award = new Award { IsMasters = true, AwardId = 1 };
             crew.Awards.Add(new CrewAward() { Award = award });
 
-            Assert.ThrowsException<InvalidOperationException>(() => crew.CalculateMastersHandicap());
+            Assert.ThrowsException<InvalidOperationException>(() => crew.CalculateMastersHandicap(new Dictionary<MastersCategory, int>(), new Dictionary<MastersCategory, int>()));
         }
 
         [TestMethod]
@@ -287,7 +287,7 @@ namespace HeadRaceTimingSite.Tests.Models
             Crew crew = new Crew();
             crew.Athletes.Add(new CrewAthlete { Athlete = new Athlete(), Age = 27 });
 
-            Assert.ThrowsException<InvalidOperationException>(() => crew.CalculateMastersHandicap());
+            Assert.ThrowsException<InvalidOperationException>(() => crew.CalculateMastersHandicap(new Dictionary<MastersCategory, int>(), new Dictionary<MastersCategory, int>()));
         }
 
         [TestMethod]
@@ -298,12 +298,12 @@ namespace HeadRaceTimingSite.Tests.Models
             Award award = new Award { IsMasters = true, AwardId = 1 };
             crew.Awards.Add(new CrewAward() { Award = award });
 
-            Assert.AreEqual(0, crew.CalculateMastersHandicap());
+            Assert.AreEqual(0, crew.CalculateMastersHandicap(new Dictionary<MastersCategory, int>(), new Dictionary<MastersCategory, int>()));
         }
 
         [DataTestMethod]
         [DataRow(36, 10, 0, 5)]
-        public void MastersHandicap_WithMastersCrewAndStandardTime_ShouldReturnCorrectHandicap(int age, int minutes, int seconds, int handicap)
+        public void MastersHandicap_WithMastersCrew_ShouldReturnCorrectHandicap(int age, int minutes, int seconds, int handicap)
         {
             Competition competition = new Competition();
             competition.TimingPoints.Add(new TimingPoint { TimingPointId = 1 });
@@ -327,7 +327,12 @@ namespace HeadRaceTimingSite.Tests.Models
             award.Crews.Add(new CrewAward { Crew = crewTwo });
             competition.Crews.Add(crewTwo);
 
-            Assert.AreEqual(handicap, crewTwo.CalculateMastersHandicap());
+            Dictionary<MastersCategory, int> lowerBounds = new Dictionary<MastersCategory, int>();
+            lowerBounds.Add(MastersCategory.B, handicap);
+            Dictionary<MastersCategory, int> upperBounds = new Dictionary<MastersCategory, int>();
+            upperBounds.Add(MastersCategory.B, handicap);
+
+            Assert.AreEqual(handicap, crewTwo.CalculateMastersHandicap(lowerBounds, upperBounds));
         }
     }
 }
