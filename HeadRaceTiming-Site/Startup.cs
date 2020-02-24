@@ -23,6 +23,7 @@ using HeadRaceTimingSite.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using HeadRaceTimingSite.Helpers;
+using Microsoft.OpenApi.Models;
 
 namespace HeadRaceTimingSite
 {
@@ -51,7 +52,7 @@ namespace HeadRaceTimingSite
             {
                 options.OutputFormatters.Add(new CsvOutputFormatter());
                 options.FormatterMappings.SetMediaTypeMappingForFormat("csv", MediaTypeHeaderValue.Parse("text/csv"));
-            }).AddJsonOptions(options =>
+            }).AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.Converters.Add(new TimeSpanConverter());
@@ -66,7 +67,7 @@ namespace HeadRaceTimingSite
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 c.DescribeAllEnumsAsStrings();
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "HeadRaceTimingSite.xml");
                 c.IncludeXmlComments(filePath);
@@ -156,7 +157,6 @@ namespace HeadRaceTimingSite
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
@@ -173,12 +173,12 @@ namespace HeadRaceTimingSite
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Timing API v1");
             });
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-                routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
+                endpoints.MapControllers();
             });
         }
     }

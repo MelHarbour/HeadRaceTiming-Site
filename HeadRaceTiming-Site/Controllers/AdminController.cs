@@ -28,10 +28,13 @@ namespace HeadRaceTimingSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ImportAthletes(ImportAthletesViewModel importAthletesViewModel)
         {
-            CsvReader csv = new CsvReader(new StreamReader(importAthletesViewModel.CsvUpload.OpenReadStream()));
-            csv.Configuration.PrepareHeaderForMatch = (header, index) => header.Replace(" ", String.Empty, StringComparison.CurrentCulture);
+            IEnumerable<CsvCrewAthlete> records;
+            using (CsvReader csv = new CsvReader(new StreamReader(importAthletesViewModel.CsvUpload.OpenReadStream()), CultureInfo.InvariantCulture))
+            {
+                csv.Configuration.PrepareHeaderForMatch = (header, index) => header.Replace(" ", String.Empty, StringComparison.CurrentCulture);
 
-            var records = csv.GetRecords<CsvCrewAthlete>();
+                records = csv.GetRecords<CsvCrewAthlete>();
+            }
 
             importAthletesViewModel.Message = records.Count().ToString(CultureInfo.CurrentCulture);
 

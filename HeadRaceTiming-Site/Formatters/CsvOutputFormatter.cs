@@ -4,6 +4,7 @@ using HeadRaceTimingSite.ViewModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,25 +27,27 @@ namespace HeadRaceTimingSite.Formatters
 
             StringWriter sw = new StringWriter();
 
-            var csv = new CsvWriter(sw);
-
-            csv.WriteField("Name");
-            csv.WriteField("Start Number");
-            csv.WriteField("Max CRI");
-            csv.WriteField("Barnes");
-            csv.WriteField("Hammersmith");
-            csv.WriteField("Overall");
-            csv.NextRecord();
-
-            foreach (Crew result in (IList<Crew>)context.Object)
+            using (var csv = new CsvWriter(sw, CultureInfo.InvariantCulture))
             {
-                csv.WriteField(result.Name);
-                csv.WriteField(result.StartNumber);
-                csv.WriteField(result.CriMax);
-                csv.WriteField(result.Results[1]?.RunTime);
-                csv.WriteField(result.Results[2]?.RunTime);
-                csv.WriteField(result.OverallTime);
+
+                csv.WriteField("Name");
+                csv.WriteField("Start Number");
+                csv.WriteField("Max CRI");
+                csv.WriteField("Barnes");
+                csv.WriteField("Hammersmith");
+                csv.WriteField("Overall");
                 csv.NextRecord();
+
+                foreach (Crew result in (IList<Crew>)context.Object)
+                {
+                    csv.WriteField(result.Name);
+                    csv.WriteField(result.StartNumber);
+                    csv.WriteField(result.CriMax);
+                    csv.WriteField(result.Results[1]?.RunTime);
+                    csv.WriteField(result.Results[2]?.RunTime);
+                    csv.WriteField(result.OverallTime);
+                    csv.NextRecord();
+                }
             }
 
             response.Headers.Add("content-disposition", "attachment; filename=\"export.csv\"");
