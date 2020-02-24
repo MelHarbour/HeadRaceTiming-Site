@@ -24,12 +24,13 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using HeadRaceTimingSite.Helpers;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Hosting;
 
 namespace HeadRaceTimingSite
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -76,67 +77,67 @@ namespace HeadRaceTimingSite
 
             services.AddDbContext<TimingSiteContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TimingSiteDatabase")));
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddCookie()
-            .AddOpenIdConnect("Auth0", options => {
-                // Set the authority to your Auth0 domain
-                options.Authority = $"https://{Configuration["Auth0:Domain"]}";
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //})
+            //.AddCookie()
+            //.AddOpenIdConnect("Auth0", options => {
+            //    // Set the authority to your Auth0 domain
+            //    options.Authority = $"https://{Configuration["Auth0:Domain"]}";
 
-                // Configure the Auth0 Client ID and Client Secret
-                options.ClientId = Configuration["Auth0:ClientId"];
-                options.ClientSecret = Configuration["Auth0:ClientSecret"];
+            //    // Configure the Auth0 Client ID and Client Secret
+            //    options.ClientId = Configuration["Auth0:ClientId"];
+            //    options.ClientSecret = Configuration["Auth0:ClientSecret"];
 
-                // Set response type to code
-                options.ResponseType = "code";
+            //    // Set response type to code
+            //    options.ResponseType = "code";
 
-                options.SaveTokens = true;
+            //    options.SaveTokens = true;
 
-                // Configure the scope
-                options.Scope.Clear();
-                options.Scope.Add("openid");
-                options.Scope.Add("profile");
+            //    // Configure the scope
+            //    options.Scope.Clear();
+            //    options.Scope.Add("openid");
+            //    options.Scope.Add("profile");
  
-                options.CallbackPath = new PathString("/signin-auth0");
+            //    options.CallbackPath = new PathString("/signin-auth0");
 
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    NameClaimType = "name"
-                };
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        NameClaimType = "name"
+            //    };
 
-                // Configure the Claims Issuer to be Auth0
-                options.ClaimsIssuer = "Auth0";
+            //    // Configure the Claims Issuer to be Auth0
+            //    options.ClaimsIssuer = "Auth0";
                 
-                options.Events = new OpenIdConnectEvents
-                {
-                    // handle the logout redirection 
-                    OnRedirectToIdentityProviderForSignOut = (context) =>
-                    {
-                        var logoutUri = $"https://{Configuration["Auth0:Domain"]}/v2/logout?client_id={Configuration["Auth0:ClientId"]}";
+            //    options.Events = new OpenIdConnectEvents
+            //    {
+            //        // handle the logout redirection 
+            //        OnRedirectToIdentityProviderForSignOut = (context) =>
+            //        {
+            //            var logoutUri = $"https://{Configuration["Auth0:Domain"]}/v2/logout?client_id={Configuration["Auth0:ClientId"]}";
 
-                        var postLogoutUri = context.Properties.RedirectUri;
-                        if (!string.IsNullOrEmpty(postLogoutUri))
-                        {
-                            if (postLogoutUri.StartsWith("/", StringComparison.CurrentCulture))
-                            {
-                                // transform to absolute
-                                var request = context.Request;
-                                postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
-                            }
-                            logoutUri += $"&returnTo={ Uri.EscapeDataString(postLogoutUri)}";
-                        }
+            //            var postLogoutUri = context.Properties.RedirectUri;
+            //            if (!string.IsNullOrEmpty(postLogoutUri))
+            //            {
+            //                if (postLogoutUri.StartsWith("/", StringComparison.CurrentCulture))
+            //                {
+            //                    // transform to absolute
+            //                    var request = context.Request;
+            //                    postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
+            //                }
+            //                logoutUri += $"&returnTo={ Uri.EscapeDataString(postLogoutUri)}";
+            //            }
 
-                        context.Response.Redirect(logoutUri);
-                        context.HandleResponse();
+            //            context.Response.Redirect(logoutUri);
+            //            context.HandleResponse();
 
-                        return Task.CompletedTask;
-                    }
-                };
-            });
+            //            return Task.CompletedTask;
+            //        }
+            //    };
+            //});
 
             services.AddAuthorization(options =>
             {
@@ -152,7 +153,7 @@ namespace HeadRaceTimingSite
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -178,7 +179,7 @@ namespace HeadRaceTimingSite
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
