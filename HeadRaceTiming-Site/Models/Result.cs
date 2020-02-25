@@ -11,13 +11,13 @@ namespace HeadRaceTimingSite.Models
 
         public Result(TimingPoint timingPoint, Crew crew, TimeSpan timeOfDay) : this(timingPoint, timeOfDay)
         {
-            Crew = crew;
+            Crew = crew ?? throw new ArgumentNullException(nameof(crew));
             CrewId = Crew.CrewId;
         }
 
         public Result(TimingPoint timingPoint, TimeSpan timeOfDay)
         {
-            TimingPoint = timingPoint;
+            TimingPoint = timingPoint ?? throw new ArgumentNullException(nameof(timingPoint));
             TimingPointId = TimingPoint.TimingPointId;
             TimeOfDay = timeOfDay;
         }

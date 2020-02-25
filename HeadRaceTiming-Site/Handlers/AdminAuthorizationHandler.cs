@@ -11,6 +11,9 @@ namespace HeadRaceTimingSite.Handlers
     {
         public Task HandleAsync(AuthorizationHandlerContext context)
         {
+            if (context is null)
+                throw new ArgumentNullException(nameof(context));
+
             var pendingRequirements = context.PendingRequirements.ToList();
 
             foreach (var requirement in pendingRequirements)

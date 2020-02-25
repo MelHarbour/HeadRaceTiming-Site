@@ -82,7 +82,13 @@ namespace HeadRaceTimingSite.Models
         /// <returns></returns>
         public TimeSpan? RunTime(TimingPoint startPoint, TimingPoint finishPoint)
         {
-            if (Results == null)
+            if (startPoint is null)
+                throw new ArgumentNullException(nameof(startPoint));
+
+            if (finishPoint is null)
+                throw new ArgumentNullException(nameof(finishPoint));
+
+            if (Results is null)
                 return null;
 
             return RunTime(startPoint.TimingPointId, finishPoint.TimingPointId);
@@ -105,7 +111,10 @@ namespace HeadRaceTimingSite.Models
         /// <returns></returns>
         public string Rank(IList<Crew> results, TimingPoint startTimingPoint, TimingPoint finishTimingPoint)
         {
-            string returnString = String.Empty;
+            if (results is null)
+                throw new ArgumentNullException(nameof(results));
+
+            string returnString = string.Empty;
             int rank = 1;
 
             for (int i = 0; i < results.Count; i++)
@@ -119,7 +128,7 @@ namespace HeadRaceTimingSite.Models
                         if (results.Count > 1)
                         {
                             return rank.ToString(CultureInfo.CurrentCulture) +
-                                (results[i + 1].RunTime(startTimingPoint, finishTimingPoint) == results[i].RunTime(startTimingPoint, finishTimingPoint) ? "=" : String.Empty);
+                                (results[i + 1].RunTime(startTimingPoint, finishTimingPoint) == results[i].RunTime(startTimingPoint, finishTimingPoint) ? "=" : string.Empty);
                         }
                         else
                         {
@@ -132,7 +141,7 @@ namespace HeadRaceTimingSite.Models
                         rank++;
                         if (i < results.Count - 1)
                             return rank.ToString(CultureInfo.CurrentCulture) +
-                                (results[i + 1].RunTime(startTimingPoint, finishTimingPoint) == results[i].RunTime(startTimingPoint, finishTimingPoint) ? "=" : String.Empty);
+                                (results[i + 1].RunTime(startTimingPoint, finishTimingPoint) == results[i].RunTime(startTimingPoint, finishTimingPoint) ? "=" : string.Empty);
                         else
                             return rank.ToString(CultureInfo.CurrentCulture);
                     }
@@ -142,7 +151,7 @@ namespace HeadRaceTimingSite.Models
                 else
                     rank++;
             }
-            return String.Empty;
+            return string.Empty;
         }
 
         /// <summary>

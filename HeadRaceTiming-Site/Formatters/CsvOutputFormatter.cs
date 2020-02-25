@@ -23,6 +23,9 @@ namespace HeadRaceTimingSite.Formatters
 
         public async override Task WriteResponseBodyAsync(OutputFormatterWriteContext context)
         {
+            if (context is null)
+                throw new ArgumentNullException(nameof(context));
+
             var response = context.HttpContext.Response;
 
             StringWriter sw = new StringWriter();
@@ -51,9 +54,11 @@ namespace HeadRaceTimingSite.Formatters
             }
 
             response.Headers.Add("content-disposition", "attachment; filename=\"export.csv\"");
-            var streamWriter = new StreamWriter(response.Body);
-            await streamWriter.WriteAsync(sw.ToString());
-            await streamWriter.FlushAsync();
+            using (var streamWriter = new StreamWriter(response.Body))
+            {
+                await streamWriter.WriteAsync(sw.ToString());
+                await streamWriter.FlushAsync();
+            }
         }
     }
 }

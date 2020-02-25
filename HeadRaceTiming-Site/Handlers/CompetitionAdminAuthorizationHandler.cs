@@ -13,6 +13,11 @@ namespace HeadRaceTimingSite.Handlers
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CompetitionAdminRequirement requirement, Competition resource)
         {
+            if (context is null)
+                throw new ArgumentNullException(nameof(context));
+            if (resource is null)
+                throw new ArgumentNullException(nameof(resource));
+
             if (context.User.Identity.IsAuthenticated)
             {
                 string nameIdentifier = context.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;

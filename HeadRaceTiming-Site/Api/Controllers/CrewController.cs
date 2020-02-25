@@ -75,7 +75,13 @@ namespace HeadRaceTimingSite.Api.Controllers
         [HttpPatch("/api/competitions/{compid}/crews/{id}")]
         public async Task<IActionResult> Patch(int compid, int id, [FromBody]JsonPatchDocument<Crew> crewPatch)
         {
+            if (crewPatch is null)
+                return BadRequest();
+
             Models.Crew dbCrew = await _context.Crews.FirstOrDefaultAsync(x => x.BroeCrewId == id);
+            if (dbCrew.CompetitionId != compid)
+                return BadRequest();
+
             Crew crew = _mapper.Map<Crew>(dbCrew);
             crewPatch.ApplyTo(crew);
             _mapper.Map(crew, dbCrew);

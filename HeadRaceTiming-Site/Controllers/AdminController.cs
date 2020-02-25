@@ -28,6 +28,9 @@ namespace HeadRaceTimingSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ImportAthletes(ImportAthletesViewModel importAthletesViewModel)
         {
+            if (importAthletesViewModel is null)
+                throw new ArgumentNullException(nameof(importAthletesViewModel));
+
             IEnumerable<CsvCrewAthlete> records;
             using (CsvReader csv = new CsvReader(new StreamReader(importAthletesViewModel.CsvUpload.OpenReadStream()), CultureInfo.InvariantCulture))
             {

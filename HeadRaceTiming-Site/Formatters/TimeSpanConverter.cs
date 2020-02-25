@@ -16,7 +16,10 @@ namespace HeadRaceTimingSite.Formatters
 
         public override void WriteJson(JsonWriter writer, TimeSpan? value, JsonSerializer serializer)
         {
-            if (value == null)
+            if (writer is null)
+                throw new ArgumentNullException(nameof(writer));
+
+            if (value is null)
                 writer.WriteValue(String.Empty);
             else if (value > new TimeSpan(1, 0, 0))
                 writer.WriteValue(String.Format(CultureInfo.CurrentCulture, "{0:hh\\:mm\\:ss\\.f}", value)); // Needed as TimeSpans are used for time of day as well

@@ -17,6 +17,7 @@ namespace HeadRaceTimingSite.Controllers
 {
     public class AccountController : Controller
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1054:Uri parameters should not be strings", Justification = "From web request")]
         public async Task Login(string returnUrl = "/")
         {
             await HttpContext.ChallengeAsync("Auth0", new AuthenticationProperties() { RedirectUri = returnUrl });

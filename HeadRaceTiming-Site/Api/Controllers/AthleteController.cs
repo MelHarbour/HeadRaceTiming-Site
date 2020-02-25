@@ -66,6 +66,9 @@ namespace HeadRaceTimingSite.Api.Controllers
         [HttpPut("/api/crews/{id}/athletes/{position}")]
         public async Task<IActionResult> PutByCrewAndPosition(int id, int position, [FromBody]Athlete athlete)
         {
+            if (athlete is null)
+                return BadRequest();
+
             Models.Crew crew = await _context.Crews.Include("Athletes.Athlete").FirstAsync(x => x.BroeCrewId == id);
             Models.CrewAthlete crewAthlete = crew.Athletes.FirstOrDefault(x => x.Position == position);
 

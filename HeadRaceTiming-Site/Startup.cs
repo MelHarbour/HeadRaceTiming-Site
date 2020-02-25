@@ -32,6 +32,9 @@ namespace HeadRaceTimingSite
     {
         public Startup(IWebHostEnvironment env)
         {
+            if (env is null)
+                throw new ArgumentNullException(nameof(env));
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -57,8 +60,7 @@ namespace HeadRaceTimingSite
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.Converters.Add(new TimeSpanConverter());
-            })
-            .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            });
 
             services.AddLogging(opt =>
             {
@@ -69,7 +71,6 @@ namespace HeadRaceTimingSite
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-                c.DescribeAllEnumsAsStrings();
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "HeadRaceTimingSite.xml");
                 c.IncludeXmlComments(filePath);
                 c.EnableAnnotations();
@@ -144,6 +145,8 @@ namespace HeadRaceTimingSite
                 options.AddPolicy("CanAdminCompetition", policy => policy.Requirements.Add(new CompetitionAdminRequirement()));
             });
 
+            services.AddApplicationInsightsTelemetry();
+
             services.AddSingleton<IAuthorizationHandler, CompetitionAdminAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, AdminAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHelper, AuthorizationHelper>();
@@ -152,7 +155,9 @@ namespace HeadRaceTimingSite
             services.AddResponseCompression();
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Built in")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

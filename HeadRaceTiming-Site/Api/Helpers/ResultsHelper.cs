@@ -13,9 +13,15 @@ namespace HeadRaceTimingSite.Helpers
     {
         public static List<Api.Resources.Crew> BuildCrewsList(IMapper mapper, IEnumerable<Models.Crew> crews)
         {
+            if (mapper is null)
+                throw new ArgumentNullException(nameof(mapper));
+
+            if (crews is null)
+                throw new ArgumentNullException(nameof(crews));
+
             List<Api.Resources.Crew> apiCrews = new List<Api.Resources.Crew>();
 
-            if (crews.Count() == 0)
+            if (!crews.Any())
                 return apiCrews;
 
             Models.Competition competition = crews.First().Competition;
