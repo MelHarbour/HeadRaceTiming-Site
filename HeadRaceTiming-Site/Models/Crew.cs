@@ -223,6 +223,7 @@ namespace HeadRaceTimingSite.Models
             {
                 if (award.Award.IsMasters)
                 {
+                    TimeSpan? standardTime = Competition.StandardTime;
                     return 0;
                 }
             }

@@ -9,39 +9,24 @@ namespace HeadRaceTimingSite.Tests.Models
     public class CompetitionTests
     {
         [TestMethod]
-        public void StandardTime_WithMastersPennantButNoResults_ShouldReturnNull()
+        public void StandardTime_WithNoResults_ShouldReturnNull()
         {
             Competition competition = new Competition();
             competition.TimingPoints.Add(new TimingPoint { TimingPointId = 1 });
             competition.TimingPoints.Add(new TimingPoint { TimingPointId = 2 });
-            competition.Crews.Add(new Crew());
-            competition.Crews.Add(new Crew());
+            Crew crew1 = new Crew() { Competition = competition };
+            Crew crew2 = new Crew() { Competition = competition };
+            competition.Crews.Add(crew1);
+            competition.Crews.Add(crew2);
             competition.Awards.Add(new Award { IsMasters = true });
 
             TimeSpan? standardTime = competition.StandardTime;
 
-            Assert.AreEqual(null, standardTime);
+            Assert.IsNull(standardTime);
         }
 
         [TestMethod]
-        public void StandardTime_WithNoMastersPennant_ShouldReturnNull()
-        {
-            Competition competition = new Competition();
-            competition.TimingPoints.Add(new TimingPoint { TimingPointId = 1 });
-            competition.TimingPoints.Add(new TimingPoint { TimingPointId = 2 });
-            Crew crew = new Crew();
-            crew.Results.Add(new Result { TimingPointId = 1 });
-            crew.Results.Add(new Result { TimingPointId = 2 });
-            competition.Crews.Add(crew);
-            competition.Crews.Add(new Crew());
-
-            TimeSpan? standardTime = competition.StandardTime;
-
-            Assert.AreEqual(null, standardTime);
-        }
-
-        [TestMethod]
-        public void StandardTime_WithMastersPennantAndResults_ShouldReturnMastersTime()
+        public void StandardTime_WithMastersPennantAndResults_ShouldReturnOverallTime()
         {
             Competition competition = new Competition();
             competition.TimingPoints.Add(new TimingPoint { TimingPointId = 1 });
@@ -63,7 +48,7 @@ namespace HeadRaceTimingSite.Tests.Models
 
             TimeSpan? standardTime = competition.StandardTime;
 
-            Assert.AreEqual(new TimeSpan(0, 16, 0), standardTime);
+            Assert.AreEqual(new TimeSpan(0, 15, 0), standardTime);
         }
 
         [TestMethod]

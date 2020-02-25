@@ -156,6 +156,7 @@ namespace HeadRaceTimingSite.Tests.Api
                 Crew dbCrew = new Crew { CrewId = 1, BroeCrewId = 123456 };
                 context.Crews.Add(dbCrew);
                 Penalty dbPenalty = new Penalty { PenaltyId = 1 };
+                context.Penalties.Add(dbPenalty);
                 dbCrew.Penalties.Add(dbPenalty);
                 context.SaveChanges();
 
