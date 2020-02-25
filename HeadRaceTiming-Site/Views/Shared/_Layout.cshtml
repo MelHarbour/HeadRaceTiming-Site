@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="~/dist/site.css"/>
     @Html.Raw(JavaScriptSnippet.FullScript)
     <link rel="shortcut icon" href="~/favicon.ico">
-    <script src="~/lib/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="/lib/webcomponents/webcomponents-loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="import" href="~/lib/iron-flex-layout/iron-flex-layout.html">
     <link rel="import" href="~/lib/paper-card/paper-card.html">
@@ -78,7 +78,7 @@
             else
             {
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                    <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+                    <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
                     <span class="mdc-top-app-bar__title">@ViewData["Title"]</span>
                 </section>
             }

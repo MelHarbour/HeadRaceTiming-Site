@@ -48,7 +48,7 @@ class TimingApp extends connect(store)(LitElement) {
                     </section>
                     ` : html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                        <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+                        <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
                         <span class="mdc-top-app-bar__title">${this.appTitle}</span>
                         ${this._page === 'results' ? html`
                         <results-menu ?active="${this._page === 'results'}"></results-menu>
@@ -57,8 +57,8 @@ class TimingApp extends connect(store)(LitElement) {
                     ${this._page === 'results' ? html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
                             <button @click="${() => this.searchClickHandler()}" class="mdc-icon-button mdc-top-app-bar__action-item material-icons" aria-label="Search">search</button>
-                            <a href="/Competition/DetailsAsCsv/${this._competition.competitionId}" download class="material-icons mdc-top-app-bar__action-item" aria-label="Download" alt="Download">cloud_download</a>
-                            <a href="#" @click="${(event) => this.infoClickHandler(event)}" class="material-icons mdc-top-app-bar__action-item" aria-label="Info" alt="Info">info</a>
+                            <a href="/Competition/DetailsAsCsv/${this._competition.competitionId}" download class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Download" alt="Download">cloud_download</a>
+                            <a href="#" @click="${(event) => this.infoClickHandler(event)}" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Info" alt="Info">info</a>
                             <basic-dialog><div slot="content">${this._competition.dialogInformation}</div></basic-dialog>
                     </section>
                     `: null}

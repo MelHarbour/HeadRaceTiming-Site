@@ -25,6 +25,7 @@ class CompetitionIndex extends connect(store)(PageViewElement) {
     height: 76px;
     cursor: pointer;
     padding: 1rem;
+    margin-bottom: 1rem;
 }
 @media (min-width: 282px) {
     .mdc-card {

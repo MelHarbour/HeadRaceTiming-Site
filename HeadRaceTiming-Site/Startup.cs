@@ -25,6 +25,7 @@ using AutoMapper;
 using HeadRaceTimingSite.Helpers;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.FileProviders;
 
 namespace HeadRaceTimingSite
 {
@@ -160,6 +161,9 @@ namespace HeadRaceTimingSite
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Built in")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env is null)
+                throw new ArgumentNullException(nameof(env));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -180,6 +184,13 @@ namespace HeadRaceTimingSite
             });
 
             app.UseRouting();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"node_modules\@webcomponents\webcomponentsjs")),
+                RequestPath = PathString.FromUriComponent("/lib/webcomponents"),
+                ServeUnknownFileTypes = true
+            });
 
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
