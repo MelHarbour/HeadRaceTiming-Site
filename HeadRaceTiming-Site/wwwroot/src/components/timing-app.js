@@ -49,7 +49,7 @@ class TimingApp extends connect(store)(LitElement) {
                     ` : html`
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                         <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                        <span class="mdc-top-app-bar__title">${this.appTitle}</span>
+                        <span class="mdc-top-app-bar__title">${this.appTitle}${this._filterAward ? html` - ${this._filterAward.title}` : null}</span >
                         ${this._page === 'results' ? html`
                         <results-menu ?active="${this._page === 'results'}"></results-menu>
                         ` : null}
@@ -79,7 +79,8 @@ class TimingApp extends connect(store)(LitElement) {
             _page: { type: String },
             _offline: { type: Boolean },
             _competition: { type: Object },
-            _showSearch: { type: Boolean }
+            _showSearch: { type: Boolean },
+            _filterAward: { type: Object }
         };
     }
 
@@ -109,6 +110,11 @@ class TimingApp extends connect(store)(LitElement) {
         this._showSearch = state.app.showSearch;
         if (state.app.focussedCompetition) {
             this._competition = state.competitions.competitions[state.competitions.competitionsByFriendlyName[state.app.focussedCompetition]];
+        }
+        if (state.app.filterAward) {
+            this._filterAward = state.awards.awards[state.app.filterAward];
+        } else {
+            this._filterAward = null;
         }
     }
 
