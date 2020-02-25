@@ -5,6 +5,7 @@ import { store } from '../../store';
 import { repeat } from 'lit-html/directives/repeat';
 import { MDCMenu } from '@material/menu';
 import { getCompetitionAwards } from '../../actions/awards';
+import { awardsListSelector } from '../../reducers/awards';
 import { applyFilter } from '../../actions/app';
 
 import awards from '../../reducers/awards';
@@ -55,7 +56,7 @@ class ResultsMenu extends connect(store)(PageViewElement) {
     }
 
     stateChanged(state) {
-        this._awards = Object.values(state.awards.awards);
+        this._awards = awardsListSelector(state);
     }
 
     menuSelected(event) {
