@@ -21,7 +21,7 @@ class ResultsMenu extends connect(store)(PageViewElement) {
         <div id="menu" class="mdc-menu-surface--anchor">
             <button class="mdc-icon-button material-icons" @click="${() => this.clickHandler()}">arrow_drop_down</button>
             <div class="mdc-menu mdc-menu-surface" tabindex="-1">
-                <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
+                <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
                     <li class="mdc-list-item" role="menuitem">
                         <span class="mdc-list-item__text">Overall</span>
                     </li>
