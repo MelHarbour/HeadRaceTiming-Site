@@ -16,7 +16,12 @@ module.exports = [{
             {
                 test: /\.scss$/,
                 use: [
-                    'style-loader',
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'site.css'
+                        }
+                    },
                     'extract-loader',
                     'css-loader',
                     {
