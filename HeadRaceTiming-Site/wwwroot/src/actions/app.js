@@ -2,6 +2,7 @@ export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const APPLY_FILTER = 'APPLY_FILTER';
 export const UPDATE_SEARCH = 'UPDATE_SEARCH';
+export const APPLY_SEARCH = 'APPLY_SEARCH';
 
 export const navigate = (path) => (dispatch) => {
     // Extract the page name from path.
@@ -20,15 +21,16 @@ const loadPage = (page, id) => async (dispatch, getState) => {
             await import('../components/basic-dialog.js');
             const state = getState();
             const awardId = state.app.filterAward;
+            const searchString = state.app.searchString;
             if (!state.competitions || !state.competitions.competitionsByFriendlyName || !state.competitions.competitionsByFriendlyName[id]) {
                 dispatch(module.getCompetition(id)).then(() => {
                     const competitionId = getState().competitions.competitionsByFriendlyName[id];
-                    dispatch(module.getCompetitionCrews(competitionId, awardId));
+                    dispatch(module.getCompetitionCrews(competitionId, awardId, searchString));
                 });
                 break;
             }
             const competitionId = getState().competitions.competitionsByFriendlyName[id];
-            await dispatch(module.getCompetitionCrews(competitionId, awardId));
+            await dispatch(module.getCompetitionCrews(competitionId, awardId, searchString));
             await dispatch(menuModule.getCompetitionAwards(competitionId));
             break;
         case 'competition':
@@ -70,6 +72,13 @@ export const applyFilter = (awardId) => {
         awardId
     };
 };
+
+export const applySearch = (searchString) => {
+    return {
+        type: APPLY_SEARCH,
+        searchString
+    };
+}
 
 export const updateSearch = (visible) => {
     return {

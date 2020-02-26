@@ -16,17 +16,13 @@ module.exports = [{
             {
                 test: /\.scss$/,
                 use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: 'site.css'
-                        }
-                    },
-                    { loader: 'extract-loader' },
-                    { loader: 'css-loader' },
+                    'style-loader',
+                    'extract-loader',
+                    'css-loader',
                     {
                         loader: 'sass-loader',
                         options: {
+                            implementation: require('sass'),
                             sassOptions: {
                                 includePaths: ['./node_modules']
                             }

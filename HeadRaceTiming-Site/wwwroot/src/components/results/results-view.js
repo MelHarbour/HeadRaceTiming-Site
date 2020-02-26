@@ -115,7 +115,8 @@ class ResultsView extends connect(store)(PageViewElement) {
             _firstIntermediatePoint: { type: Number },
             _secondIntermediatePoint: { type: Number },
             _timeout: { type: Number },
-            _filterAwardId: { type: Number }
+            _filterAwardId: { type: Number },
+            _searchString: { type: String }
         };
     }
 
@@ -147,7 +148,7 @@ class ResultsView extends connect(store)(PageViewElement) {
         if (state.app.focussedCompetition && !this._timeout) {
             const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
             this._timeout = setTimeout(() => {
-                store.dispatch(getCompetitionCrews(competitionId, this._filterAwardId));
+                store.dispatch(getCompetitionCrews(competitionId, this._filterAwardId, this._searchString));
                 this._timeout = null;
                 }, 10000);
         }
@@ -156,12 +157,14 @@ class ResultsView extends connect(store)(PageViewElement) {
     stateChanged(state) {
         if (state.app.focussedCompetition) {
             const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
-            if (state.app.filterAward !== this._filterAwardId && this._timeout !== null) {
+            if ((state.app.filterAward !== this._filterAwardId || state.app.searchString !== this._searchString)
+                    && this._timeout !== null) {
                 clearTimeout(this._timeout);
-                store.dispatch(getCompetitionCrews(competitionId, state.app.filterAward));
+                store.dispatch(getCompetitionCrews(competitionId, state.app.filterAward, state.app.searchString));
             }
             this._crews = crewsListSelector(state);
             this._filterAwardId = state.app.filterAward;
+            this._searchString = state.app.searchString;
             this._firstIntermediateName = state.competitions.competitions[competitionId].firstIntermediateName;
             this._firstIntermediatePoint = state.competitions.competitions[competitionId].firstIntermediateId;
             this._secondIntermediateName = state.competitions.competitions[competitionId].secondIntermediateName;

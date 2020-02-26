@@ -1,7 +1,8 @@
 import {
     UPDATE_PAGE,
     UPDATE_OFFLINE,    APPLY_FILTER,
-    UPDATE_SEARCH
+    UPDATE_SEARCH,
+    APPLY_SEARCH
 } from '../actions/app';
 
 const INITIAL_STATE = {
@@ -9,6 +10,7 @@ const INITIAL_STATE = {
     focussedCrew: '',
     focussedCompetition: '',
     filterAward: '',
+    searchString: '',
     showSearch: false,
     offline: false
 };
@@ -48,6 +50,11 @@ const app = (state = INITIAL_STATE, action) => {
                 ...state,
                 filterAward: action.awardId
             };
+        case APPLY_SEARCH:
+            return {
+                ...state,
+                searchString: action.searchString
+            }
         case UPDATE_SEARCH:
             return {
                 ...state,

@@ -12,7 +12,8 @@ import { store } from '../store';
 import {
     navigate,
     updateOffline,
-    updateSearch
+    updateSearch,
+    applySearch
 } from '../actions/app';
 
 import competitions from '../reducers/competitions';
@@ -43,7 +44,7 @@ class TimingApp extends connect(store)(LitElement) {
                     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                         <button @click="${() => this.searchClickHandler()}" class="mdc-icon-button mdc-top-app-bar__navigation-icon material-icons" aria-label="Back">arrow_back</button>
                         <div class="mdc-text-field mdc-text-field--fullwidth">
-                            <input class="mdc-text-field__input" type="text" placeholder="Search" aria-label="Search" @change="${(event) => this.searchTextHandler(event)}">
+                            <input class="mdc-text-field__input" type="text" placeholder="Search" aria-label="Search" @input="${(event) => this.searchTextHandler(event)}">
                         </div>
                     </section>
                     ` : html`
@@ -128,7 +129,7 @@ class TimingApp extends connect(store)(LitElement) {
     }
 
     searchTextHandler(event) {
-        console.log('searchtext:' + event.target);
+        store.dispatch(applySearch(event.target.value));
     }
 }
 
