@@ -58,7 +58,8 @@ const app = (state = INITIAL_STATE, action) => {
         case UPDATE_SEARCH:
             return {
                 ...state,
-                showSearch: action.visible
+                showSearch: action.visible,
+                searchString: ''
             };
         default:
             return state;
