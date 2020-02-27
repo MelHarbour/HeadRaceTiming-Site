@@ -77,7 +77,8 @@ class ResultsView extends connect(store)(PageViewElement) {
                 </div>
                 <div class="name" title="${crew.name}">
                     ${crew.name}
-                    ${crew.isStarted ? html`<span class="material-icons">rowing</span>` : null }
+                    ${crew.isFinished ? html`<span class="material-icons">done</span>` :
+                        (crew.isStarted ? html`<span class="material-icons">rowing</span>` : null) }
                 </div>
                 <div class="intermediate">
                     ${crew.status ? null : html`
