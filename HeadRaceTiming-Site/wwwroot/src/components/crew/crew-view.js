@@ -99,7 +99,9 @@ class CrewView extends connect(store)(PageViewElement) {
     stateChanged(state) {
         if (state.app.focussedCrew && crewsSelector(state)[state.app.focussedCrew]) {
             this._crew = crewsSelector(state)[state.app.focussedCrew];
-            this._athletes = Object.values(state.athletes.athletes);
+            if (state.athletes.athletesByCrew[this._crew.id]) {
+                this._athletes = state.athletes.athletesByCrew[this._crew.id].map(item => state.athletes.athletes[item]);
+            }
         }
         if (state.app.focussedCompetition) {
             this._compLink = "/results/"+state.app.focussedCompetition;

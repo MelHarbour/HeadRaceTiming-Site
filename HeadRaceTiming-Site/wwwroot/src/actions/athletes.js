@@ -10,6 +10,6 @@ const receiveAthletes = (items, crewId) => {
     return {
         type: RECEIVE_ATHLETES,
         athletes: items,
-        crew: crewId
+        crewId: crewId
     };
 };
