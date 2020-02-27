@@ -1,5 +1,4 @@
 export const UPDATE_PAGE = 'UPDATE_PAGE';
-export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const APPLY_FILTER = 'APPLY_FILTER';
 export const UPDATE_SEARCH = 'UPDATE_SEARCH';
 export const APPLY_SEARCH = 'APPLY_SEARCH';
@@ -63,13 +62,6 @@ const updatePage = (page, id) => {
         page: page,
         id : id
     };
-};
-
-export const updateOffline = (offline) => (dispatch, getState) => {
-  dispatch({
-    type: UPDATE_OFFLINE,
-    offline
-  });
 };
 
 export const applyFilter = (awardId) => {

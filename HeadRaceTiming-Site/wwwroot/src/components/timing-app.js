@@ -1,6 +1,5 @@
 import { LitElement, html } from 'lit-element';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { installOfflineWatcher } from 'pwa-helpers/network';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { MDCTopAppBar } from "@material/top-app-bar/index";
@@ -11,7 +10,6 @@ import { store } from '../store';
 
 import {
     navigate,
-    updateOffline,
     updateSearch,
     applySearch
 } from '../actions/app';
@@ -86,7 +84,6 @@ class TimingApp extends connect(store)(LitElement) {
 
     firstUpdated() {
         installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
-        installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
         const topAppBar = new MDCTopAppBar(this.shadowRoot.querySelector('.mdc-top-app-bar'));
     }
 

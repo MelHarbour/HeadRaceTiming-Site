@@ -226,6 +226,7 @@ namespace HeadRaceTimingSite
                 .ForMember(d => d.TimingPoint, opt => opt.Ignore())
                 .ForMember(d => d.TimingPointId, opt => opt.Ignore());
             CreateMap<CrewAthlete, Api.Resources.Athlete>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Athlete.AthleteId))
                 .ForMember(d => d.FirstName, opt => opt.MapFrom(s => s.Athlete.FirstName))
                 .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.Athlete.LastName))
                 .ForMember(d => d.MembershipNumber, opt => opt.MapFrom(s => s.Athlete.MembershipNumber))

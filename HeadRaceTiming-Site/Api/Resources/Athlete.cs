@@ -11,6 +11,10 @@ namespace HeadRaceTimingSite.Api.Resources
     public class Athlete
     {
         /// <summary>
+        /// The id of the athlete
+        /// </summary>
+        public int Id { get; set; }
+        /// <summary>
         /// The first name of the athlete
         /// </summary>
         public string FirstName { get; set; }
