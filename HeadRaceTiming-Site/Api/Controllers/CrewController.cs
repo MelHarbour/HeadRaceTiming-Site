@@ -97,11 +97,12 @@ namespace HeadRaceTimingSite.Api.Controllers
         /// <param name="id">The BROE ID for the crew</param>
         /// <response code="200">The crew is returned</response>
         /// <response code="404">The crew was not found</response>
+        [Produces("application/json")]
         [HttpGet("/api/crews/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             Models.Crew crew = await _context.Crews.Include(x => x.Competition.TimingPoints)
-                .Include(x => x.Results).Include(x => x.Penalties).Include("Crews.Athletes")
+                .Include(x => x.Results).Include(x => x.Penalties).Include(x => x.Athletes)
                 .FirstOrDefaultAsync(x => x.BroeCrewId == id);
 
             if (crew == null)

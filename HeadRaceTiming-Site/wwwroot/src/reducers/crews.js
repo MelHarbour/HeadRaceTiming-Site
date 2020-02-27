@@ -1,4 +1,4 @@
-﻿import { RECEIVE_CREWS } from '../actions/crews';
+﻿import { RECEIVE_CREWS, RECEIVE_CREW } from '../actions/crews';
 import { RECEIVE_CREW_AWARDS } from '../actions/awards';
 import { createSelector } from 'reselect';
 import { RECEIVE_PENALTIES } from '../actions/penalties';
@@ -21,6 +21,11 @@ const crews = (state = INITIAL_STATE, action) => {
                     return obj;
                 }, {}),
                 orderedCrews: action.crews.map(item => item.id)
+            };
+        case RECEIVE_CREW:
+            return {
+                ...state,
+                crews: { [action.crew.id]: action.crew },
             };
         case RECEIVE_CREW_AWARDS:
             var crew = {

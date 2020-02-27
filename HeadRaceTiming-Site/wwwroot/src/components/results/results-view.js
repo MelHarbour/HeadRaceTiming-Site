@@ -159,17 +159,19 @@ class ResultsView extends connect(store)(PageViewElement) {
         if (state.app.focussedCompetition) {
             const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
             if ((state.app.filterAward !== this._filterAwardId || state.app.searchString !== this._searchString)
-                    && this._timeout !== null) {
+                && this._timeout !== null) {
                 clearTimeout(this._timeout);
                 store.dispatch(getCompetitionCrews(competitionId, state.app.filterAward, state.app.searchString));
             }
             this._crews = crewsListSelector(state);
             this._filterAwardId = state.app.filterAward;
             this._searchString = state.app.searchString;
-            this._firstIntermediateName = state.competitions.competitions[competitionId].firstIntermediateName;
-            this._firstIntermediatePoint = state.competitions.competitions[competitionId].firstIntermediateId;
-            this._secondIntermediateName = state.competitions.competitions[competitionId].secondIntermediateName;
-            this._secondIntermediatePoint = state.competitions.competitions[competitionId].secondIntermediateId;
+            if (competitionId) {
+                this._firstIntermediateName = state.competitions.competitions[competitionId].firstIntermediateName;
+                this._firstIntermediatePoint = state.competitions.competitions[competitionId].firstIntermediateId;
+                this._secondIntermediateName = state.competitions.competitions[competitionId].secondIntermediateName;
+                this._secondIntermediatePoint = state.competitions.competitions[competitionId].secondIntermediateId;
+            }
         }
     }
 

@@ -3,6 +3,7 @@ import { PageViewElement } from '../page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store';
 import { crewsSelector } from '../../reducers/crews';
+import { getCrew } from '../../actions/crews';
 import { getCrewAthletes } from '../../actions/athletes';
 import { getCrewAwards } from '../../actions/awards';
 import { getCrewPenalties } from '../../actions/penalties';
@@ -110,4 +111,4 @@ class CrewView extends connect(store)(PageViewElement) {
 
 window.customElements.define('crew-view', CrewView);
 
-export { getCrewAthletes, getCrewAwards, getCrewPenalties };
+export { getCrewAthletes, getCrewAwards, getCrewPenalties, getCrew };

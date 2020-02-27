@@ -14,12 +14,12 @@ export const navigate = (path) => (dispatch) => {
 
 const loadPage = (page, id) => async (dispatch, getState) => {
     let module, menuModule;
+    const state = getState();
     switch(page) {
         case 'results':
             module = await import('../components/results/results-view.js');
             menuModule = await import('../components/results/results-menu.js');
             await import('../components/basic-dialog.js');
-            const state = getState();
             const awardId = state.app.filterAward;
             const searchString = state.app.searchString;
             if (!state.competitions || !state.competitions.competitionsByFriendlyName || !state.competitions.competitionsByFriendlyName[id]) {
@@ -39,6 +39,12 @@ const loadPage = (page, id) => async (dispatch, getState) => {
             break;
         case 'crew':
             module = await import('../components/crew/crew-view.js');
+            if (!state.app.crews) {
+                await dispatch(module.getCrew(id));
+            }
+            if (!state.app.focussedCrew) {
+                state.app.focussedCrew = id;
+            }
             await dispatch(module.getCrewAthletes(id));
             await dispatch(module.getCrewPenalties(id));
             await dispatch(module.getCrewAwards(id));
