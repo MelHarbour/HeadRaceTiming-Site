@@ -101,7 +101,8 @@ namespace HeadRaceTimingSite.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             Models.Crew crew = await _context.Crews.Include(x => x.Competition.TimingPoints)
-                .Include(x => x.Results).Include(x => x.Penalties).FirstOrDefaultAsync(x => x.BroeCrewId == id);
+                .Include(x => x.Results).Include(x => x.Penalties).Include("Crews.Athletes")
+                .FirstOrDefaultAsync(x => x.BroeCrewId == id);
 
             if (crew == null)
                 return NotFound();
@@ -154,7 +155,7 @@ namespace HeadRaceTimingSite.Api.Controllers
             if (award == null)
             {
                 Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).Include("Crews.Results")
-                .Include("Crews.Penalties").FirstOrDefaultAsync(c => c.CompetitionId == id);
+                .Include("Crews.Penalties").Include("Crews.Athletes").FirstOrDefaultAsync(c => c.CompetitionId == id);
 
                 if (comp == null)
                     return NotFound();

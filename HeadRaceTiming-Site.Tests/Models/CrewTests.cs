@@ -334,5 +334,61 @@ namespace HeadRaceTimingSite.Tests.Models
 
             Assert.AreEqual(handicap, crewTwo.CalculateMastersHandicap(lowerBounds, upperBounds));
         }
+
+        [TestMethod]
+        public void Cri_ShouldReturnSumOfPri()
+        {
+            Crew crew = new Crew();
+            crew.BoatClass = BoatClass.CoxlessPair;
+            Athlete athlete1 = new Athlete();
+            Athlete athlete2 = new Athlete();
+            crew.Athletes.Add(new CrewAthlete { Athlete = athlete1, Position = 1, Pri = 1, Crew = crew });
+            crew.Athletes.Add(new CrewAthlete { Athlete = athlete2, Position = 2, Pri = 1, Crew = crew });
+
+            Assert.AreEqual(2, crew.Cri);
+        }
+
+        [TestMethod]
+        public void CriMax_ShouldReturnSumOfPriMax()
+        {
+            Crew crew = new Crew();
+            crew.BoatClass = BoatClass.CoxlessPair;
+            Athlete athlete1 = new Athlete();
+            Athlete athlete2 = new Athlete();
+            crew.Athletes.Add(new CrewAthlete { Athlete = athlete1, Position = 1, PriMax = 1, Crew = crew });
+            crew.Athletes.Add(new CrewAthlete { Athlete = athlete2, Position = 2, PriMax = 1, Crew = crew });
+
+            Assert.AreEqual(2, crew.CriMax);
+        }
+
+        [TestMethod]
+        public void Cri_ShouldIgnoreCox()
+        {
+            Crew crew = new Crew();
+            crew.BoatClass = BoatClass.CoxedPair;
+            Athlete athlete1 = new Athlete();
+            Athlete athlete2 = new Athlete();
+            Athlete cox = new Athlete();
+            crew.Athletes.Add(new CrewAthlete { Athlete = athlete1, Position = 1, Pri = 1, Crew = crew });
+            crew.Athletes.Add(new CrewAthlete { Athlete = athlete2, Position = 2, Pri = 1, Crew = crew });
+            crew.Athletes.Add(new CrewAthlete { Athlete = cox, Position = 3, Pri = 1, Crew = crew });
+
+            Assert.AreEqual(2, crew.Cri);
+        }
+
+        [TestMethod]
+        public void CriMax_ShouldIgnoreCox()
+        {
+            Crew crew = new Crew();
+            crew.BoatClass = BoatClass.CoxedPair;
+            Athlete athlete1 = new Athlete();
+            Athlete athlete2 = new Athlete();
+            Athlete cox = new Athlete();
+            crew.Athletes.Add(new CrewAthlete { Athlete = athlete1, Position = 1, PriMax = 1, Crew = crew });
+            crew.Athletes.Add(new CrewAthlete { Athlete = athlete2, Position = 2, PriMax = 1, Crew = crew });
+            crew.Athletes.Add(new CrewAthlete { Athlete = cox, Position = 3, PriMax = 1, Crew = crew });
+
+            Assert.AreEqual(2, crew.CriMax);
+        }
     }
 }
