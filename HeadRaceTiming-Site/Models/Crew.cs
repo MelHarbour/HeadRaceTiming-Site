@@ -114,7 +114,6 @@ namespace HeadRaceTimingSite.Models
             if (results is null)
                 throw new ArgumentNullException(nameof(results));
 
-            string returnString = string.Empty;
             int rank = 1;
 
             for (int i = 0; i < results.Count; i++)
@@ -236,6 +235,11 @@ namespace HeadRaceTimingSite.Models
         public List<Result> Results
         {
             get { return _results ?? (_results = new List<Result>()); }
+        }
+
+        public bool IsStarted
+        {
+            get { return Results.Count > 0; }
         }
         public List<CrewAthlete> Athletes
         {

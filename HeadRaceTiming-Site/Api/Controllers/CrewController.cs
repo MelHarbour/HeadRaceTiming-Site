@@ -114,7 +114,13 @@ namespace HeadRaceTimingSite.Api.Controllers
             Crew output = ResultsHelper.BuildCrew(_mapper, comp, comp.TimingPoints.First(), crew);
             if (comp.TimingPoints.Count > 0)
             {
-                output.Rank = crew.Rank(comp.Crews, comp.TimingPoints.First(), comp.TimingPoints.Last());
+                List<Models.Crew> crews = ResultsHelper.OrderCrews(comp.Crews, comp, comp.TimingPoints.Last());
+                output.Rank = crew.Rank(crews, comp.TimingPoints.First(), comp.TimingPoints.Last());
+            }
+            for (int i = 1; i < crew.Results.Count; i++)
+            {
+                List<Models.Crew> crews = ResultsHelper.OrderCrews(comp.Crews, comp, comp.TimingPoints[i]);
+                output.Results[i].Rank = crew.Rank(crews, comp.TimingPoints.First(), comp.TimingPoints[i]); 
             }
             return Ok(output);
         }

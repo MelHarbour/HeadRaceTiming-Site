@@ -37,10 +37,9 @@ namespace HeadRaceTimingSite.Helpers
 
             for (int i = 1; i < competition.TimingPoints.Count - 1; i++)
             {
+                apiCrews = OrderCrews(apiCrews, competition, competition.TimingPoints[i]);
+                
                 int currentTimingPointId = competition.TimingPoints[i].TimingPointId;
-                apiCrews = apiCrews.OrderByDescending(x => x.Results.FirstOrDefault(y => y.Id == currentTimingPointId)?.RunTime != null)
-                    .ThenBy(x => x.Results.FirstOrDefault(y => y.Id == currentTimingPointId)?.RunTime).ToList();
-
                 int rank = 1;
                 for (int j = 0; j < apiCrews.Count; j++)
                 {
@@ -51,8 +50,8 @@ namespace HeadRaceTimingSite.Helpers
                     {
                         if (apiCrews.Count > 1)
                         {
-                            apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId).Rank = 
-                                rank.ToString(CultureInfo.CurrentCulture) 
+                            apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId).Rank =
+                                rank.ToString(CultureInfo.CurrentCulture)
                                     + (apiCrews[j + 1].Results.FirstOrDefault(y => y.Id == currentTimingPointId)?.RunTime == apiCrews[j].Results.FirstOrDefault(y => y.Id == currentTimingPointId).RunTime ? "=" : String.Empty);
                         }
                         else
@@ -75,33 +74,8 @@ namespace HeadRaceTimingSite.Helpers
                 }
             }
 
-            if (competition.TimingPoints.Count > 2)
-            {
-                int firstIntermediateId = competition.TimingPoints[1].TimingPointId;
-                if (competition.TimingPoints.Count > 3)
-                {
-                    int secondIntermediateId = competition.TimingPoints[2].TimingPointId;
-                    apiCrews = apiCrews.OrderByDescending(x => (x.IsStarted) ? (x.IsTimeOnly ? 1 : 2) : 0)
-                        .ThenByDescending(x => x.OverallTime.HasValue).ThenBy(x => x.OverallTime)
-                        .ThenByDescending(x => x.Results.FirstOrDefault(y => y.Id == secondIntermediateId)?.RunTime != null)
-                        .ThenBy(x => x.Results.FirstOrDefault(y => y.Id == secondIntermediateId)?.RunTime)
-                        .ThenByDescending(x => x.Results.FirstOrDefault(y => y.Id == firstIntermediateId)?.RunTime != null)
-                        .ThenBy(x => x.Results.FirstOrDefault(y => y.Id == firstIntermediateId)?.RunTime).ToList();
-                }
-                else
-                {
-                    apiCrews = apiCrews.OrderByDescending(x => (x.IsStarted) ? (x.IsTimeOnly ? 1 : 2) : 0)
-                        .ThenByDescending(x => x.OverallTime.HasValue).ThenBy(x => x.OverallTime)
-                        .ThenByDescending(x => x.Results.FirstOrDefault(y => y.Id == firstIntermediateId)?.RunTime != null)
-                        .ThenBy(x => x.Results.FirstOrDefault(y => y.Id == firstIntermediateId)?.RunTime).ToList();
-                }
-            }
-            else
-            {
-                apiCrews = apiCrews.OrderByDescending(x => (x.IsStarted) ? (x.IsTimeOnly ? 1 : 2) : 0)
-                .ThenByDescending(x => x.OverallTime.HasValue).ThenBy(x => x.OverallTime).ToList();
-            }
-            
+            apiCrews = OrderCrews(apiCrews, competition);
+
             int overallRank = 1;
             for (int i = 0; i < apiCrews.Count; i++)
             {
@@ -134,6 +108,65 @@ namespace HeadRaceTimingSite.Helpers
             }
 
             return apiCrews;
+        }
+
+        public static List<Api.Resources.Crew> OrderCrews(List<Api.Resources.Crew> apiCrews, Models.Competition competition, Models.TimingPoint timingPoint)
+        {
+            if (apiCrews is null)
+                throw new ArgumentNullException(nameof(apiCrews));
+
+            if (competition is null)
+                throw new ArgumentNullException(nameof(competition));
+
+            if (timingPoint is null)
+                throw new ArgumentNullException(nameof(timingPoint));
+
+            int timingPointIndex = competition.TimingPoints.IndexOf(timingPoint);
+
+            var ordered = apiCrews.OrderByDescending(x => (x.IsStarted) ? (x.IsTimeOnly ? 1 : 2) : 0);
+
+            for (int i = timingPointIndex; i > 0; i--)
+            {
+                ordered = ordered.ThenByDescending(x => x.Results.FirstOrDefault(y => y.Id == competition.TimingPoints[timingPointIndex].TimingPointId)?.RunTime != null)
+                    .ThenBy(x => x.Results.FirstOrDefault(y => y.Id == competition.TimingPoints[timingPointIndex].TimingPointId)?.RunTime);
+            }
+            
+            return ordered.ToList();
+        }
+
+        public static List<Models.Crew> OrderCrews(List<Models.Crew> crews, Models.Competition competition, Models.TimingPoint timingPoint)
+        {
+            if (crews is null)
+                throw new ArgumentNullException(nameof(crews));
+
+            if (competition is null)
+                throw new ArgumentNullException(nameof(competition));
+
+            if (timingPoint is null)
+                throw new ArgumentNullException(nameof(timingPoint));
+
+            int timingPointIndex = competition.TimingPoints.IndexOf(timingPoint);
+
+            var ordered = crews.OrderByDescending(x => (x.IsStarted) ? (x.IsTimeOnly ? 1 : 2) : 0);
+
+            for (int i = timingPointIndex; i > 0; i--)
+            {
+                ordered = ordered.ThenByDescending(x => x.Results.FirstOrDefault(y => y.TimingPointId == competition.TimingPoints[timingPointIndex].TimingPointId) != null)
+                    .ThenBy(x => x.RunTime(competition.TimingPoints.First(), timingPoint));
+            }
+
+            return ordered.ToList();
+        }
+
+        public static List<Api.Resources.Crew> OrderCrews(List<Api.Resources.Crew> apiCrews, Models.Competition competition)
+        {
+            if (apiCrews is null)
+                throw new ArgumentNullException(nameof(apiCrews));
+
+            if (competition is null)
+                throw new ArgumentNullException(nameof(competition));
+
+            return OrderCrews(apiCrews, competition, competition.TimingPoints.Last());
         }
 
         public static Api.Resources.Crew BuildCrew(IMapper mapper, Models.Competition competition, TimingPoint startPoint, Models.Crew modelCrew)
