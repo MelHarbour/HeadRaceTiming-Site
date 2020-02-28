@@ -25,12 +25,11 @@ namespace HeadRaceTimingSite.Helpers
                 return apiCrews;
 
             Models.Competition competition = crews.First().Competition;
-            TimingPoint startPoint = competition.TimingPoints.First();
             TimingPoint finishPoint = competition.TimingPoints.Last();
 
             foreach (Models.Crew modelCrew in crews)
             {
-                Api.Resources.Crew apiCrew = BuildCrew(mapper, competition, startPoint, modelCrew);
+                Api.Resources.Crew apiCrew = BuildCrew(mapper, competition, modelCrew);
 
                 apiCrews.Add(apiCrew);
             }
@@ -169,16 +168,16 @@ namespace HeadRaceTimingSite.Helpers
             return OrderCrews(apiCrews, competition, competition.TimingPoints.Last());
         }
 
-        public static Api.Resources.Crew BuildCrew(IMapper mapper, Models.Competition competition, TimingPoint startPoint, Models.Crew modelCrew)
+        public static Api.Resources.Crew BuildCrew(IMapper mapper, Models.Competition competition, Models.Crew modelCrew)
         {
             if (mapper is null)
                 throw new ArgumentNullException(nameof(mapper));
             if (competition is null)
                 throw new ArgumentNullException(nameof(competition));
-            if (startPoint is null)
-                throw new ArgumentNullException(nameof(startPoint));
             if (modelCrew is null)
                 throw new ArgumentNullException(nameof(modelCrew));
+
+            TimingPoint startPoint = competition.TimingPoints.First();
 
             Api.Resources.Crew apiCrew = mapper.Map<Api.Resources.Crew>(modelCrew);
 

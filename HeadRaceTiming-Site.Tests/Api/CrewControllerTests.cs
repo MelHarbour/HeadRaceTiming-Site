@@ -69,6 +69,7 @@ namespace HeadRaceTimingSite.Tests.Api
                     Competition = competition
                 };
                 competition.Crews.Add(dbCrew);
+                competition.TimingPoints.Add(new TimingPoint());
                 context.Competitions.Add(competition);
                 context.SaveChanges();
                 var result = await controller.GetById(1).ConfigureAwait(false);
@@ -249,7 +250,9 @@ namespace HeadRaceTimingSite.Tests.Api
                     IsTimeOnly = false,
                     Name = "Another BC",
                     StartNumber = 5,
-                    Status = Crew.ResultStatus.Dsq
+                    Status = Crew.ResultStatus.Dsq,
+                    CompetitionId = competition.CompetitionId,
+                    Competition = competition
                 };
                 competition.Crews.Add(dbCrew);
                 context.SaveChanges();
@@ -262,7 +265,8 @@ namespace HeadRaceTimingSite.Tests.Api
                     IsTimeOnly = true,
                     Name = "Leander A",
                     StartNumber = 1,
-                    Status = Crew.ResultStatus.Dns
+                    Status = Crew.ResultStatus.Dns,
+                    CompetitionId = competition.CompetitionId
                 };
 
                 var result = await controller.Put(1, 123456, crew).ConfigureAwait(false);
