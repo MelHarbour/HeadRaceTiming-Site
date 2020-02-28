@@ -24,11 +24,7 @@ const loadPage = (page, id) => async (dispatch, getState) => {
             const searchString = state.app.searchString;
             await dispatch(fetching());
             if (!state.competitions || !state.competitions.competitionsByFriendlyName || !state.competitions.competitionsByFriendlyName[id]) {
-                dispatch(module.getCompetition(id)).then(() => {
-                    const competitionId = getState().competitions.competitionsByFriendlyName[id];
-                    dispatch(module.getCompetitionCrews(competitionId, awardId, searchString));
-                });
-                break;
+                await dispatch(module.getCompetition(id));
             }
             const competitionId = getState().competitions.competitionsByFriendlyName[id];
             await dispatch(module.getCompetitionCrews(competitionId, awardId, searchString));
