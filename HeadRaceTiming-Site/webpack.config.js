@@ -11,6 +11,17 @@ module.exports = [{
         path: path.resolve(__dirname, 'wwwroot/dist'),
         publicPath: '/dist/'
     },
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    output: {
+                        comments: false
+                    }
+                }
+            })
+        ]
+    },
     module: {
         rules: [
             {
