@@ -3,8 +3,8 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { MDCTopAppBar } from "@material/top-app-bar/index";
+import { MDCLinearProgress } from "@material/linear-progress";
 import { MDCTextField } from "@material/textfield";
-import { MDCRipple } from "@material/ripple";
 
 import { store } from '../store';
 
@@ -62,6 +62,17 @@ class TimingApp extends connect(store)(LitElement) {
                     `: null}
                     `}
                 </div>
+                ${this._isLoading ? html`
+                <div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate">
+                  <div class="mdc-linear-progress__buffering-dots"></div>
+                  <div class="mdc-linear-progress__buffer"></div>
+                  <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+                    <span class="mdc-linear-progress__bar-inner"></span>
+                  </div>
+                  <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+                    <span class="mdc-linear-progress__bar-inner"></span>
+                  </div>
+                </div>` : null}
             </header>
             <main role="main" class="mdc-top-app-bar--fixed-adjust">
                 <competition-index class="page" ?active="${this._page === 'competition'}"></competition-index>
@@ -75,16 +86,17 @@ class TimingApp extends connect(store)(LitElement) {
         return {
             appTitle: { type: String },
             _page: { type: String },
-            _offline: { type: Boolean },
             _competition: { type: Object },
             _showSearch: { type: Boolean },
-            _filterAward: { type: Object }
+            _filterAward: { type: Object },
+            _isLoading: { type: Boolean }
         };
     }
 
     firstUpdated() {
         installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
-        const topAppBar = new MDCTopAppBar(this.shadowRoot.querySelector('.mdc-top-app-bar'));
+        const linearProgress = new MDCLinearProgress(this.shadowRoot.querySelector('.mdc-linear-progress'));
+        linearProgress.setProgress(0.5);
     }
 
     updated(changedProps) {
@@ -105,6 +117,7 @@ class TimingApp extends connect(store)(LitElement) {
     stateChanged(state) {
         this._page = state.app.page;
         this._showSearch = state.app.showSearch;
+        this._isLoading = state.app.isLoading;
         if (state.app.focussedCompetition) {
             this._competition = state.competitions.competitions[state.competitions.competitionsByFriendlyName[state.app.focussedCompetition]];
         }

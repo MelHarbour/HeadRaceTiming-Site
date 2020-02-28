@@ -1,9 +1,17 @@
 import {
-    UPDATE_PAGE,
-    UPDATE_OFFLINE,    APPLY_FILTER,
+    UPDATE_PAGE,    APPLY_FILTER,
     UPDATE_SEARCH,
-    APPLY_SEARCH
+    APPLY_SEARCH,
+    FETCHING
 } from '../actions/app';
+
+import {
+    RECEIVE_COMPETITIONS
+} from '../actions/competitions';
+
+import {
+    RECEIVE_CREWS
+} from '../actions/crews';
 
 const INITIAL_STATE = {
     page: '',
@@ -12,7 +20,7 @@ const INITIAL_STATE = {
     filterAward: '',
     searchString: '',
     showSearch: false,
-    offline: false
+    isLoading: false
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -40,11 +48,6 @@ const app = (state = INITIAL_STATE, action) => {
                         showSearch: false
                     };
             }
-        case UPDATE_OFFLINE:
-            return {
-                ...state,
-                offline: action.offline
-            };
         case APPLY_FILTER:
             return {
                 ...state,
@@ -60,6 +63,17 @@ const app = (state = INITIAL_STATE, action) => {
                 ...state,
                 showSearch: action.visible,
                 searchString: ''
+            };
+        case FETCHING:
+            return {
+                ...state,
+                isLoading: true
+            };
+        case RECEIVE_COMPETITIONS:
+        case RECEIVE_CREWS:
+            return {
+                ...state,
+                isLoading: false
             };
         default:
             return state;
