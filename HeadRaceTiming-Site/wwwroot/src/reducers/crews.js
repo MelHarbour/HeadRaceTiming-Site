@@ -25,7 +25,10 @@ const crews = (state = INITIAL_STATE, action) => {
         case RECEIVE_CREW:
             return {
                 ...state,
-                crews: { [action.crew.id]: action.crew },
+                crews: {
+                    ...state.crews,
+                    [action.crew.id]: action.crew
+                },
             };
         case RECEIVE_CREW_AWARDS:
             var crew = {

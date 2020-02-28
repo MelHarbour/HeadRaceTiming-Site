@@ -37,7 +37,7 @@ const loadPage = (page, id) => async (dispatch, getState) => {
             break;
         case 'crew':
             module = await import('../components/crew/crew-view.js');
-            if (!state.app.crews) {
+            if (!state.crews.crews[id]) {
                 await dispatch(module.getCrew(id));
             }
             await dispatch(module.getCrewAthletes(id));

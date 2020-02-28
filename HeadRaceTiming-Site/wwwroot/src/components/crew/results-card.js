@@ -4,12 +4,8 @@ import { store } from '../../store';
 import { repeat } from 'lit-html/directives/repeat';
 import { CardTableStyles } from '../card-table-styles';
 
-import results from '../../reducers/results';
 import '../basic-card';
-import { getCrewResults } from '../../actions/results';
-store.addReducers({
-    results
-});
+import { getCrewResults } from '../../actions/crews';
 
 class ResultsCard extends connect(store)(LitElement) {
     render() {
@@ -37,10 +33,6 @@ class ResultsCard extends connect(store)(LitElement) {
             crewId: { type: Number },
             _results: { type: Array }
         };
-    }
-
-    firstUpdated() {
-        store.dispatch(getCrewResults(this.crewId));
     }
 
     stateChanged(state) {

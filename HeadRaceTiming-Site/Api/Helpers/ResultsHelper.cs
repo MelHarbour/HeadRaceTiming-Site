@@ -34,7 +34,7 @@ namespace HeadRaceTimingSite.Helpers
                 apiCrews.Add(apiCrew);
             }
 
-            for (int i = 1; i < competition.TimingPoints.Count - 1; i++)
+            for (int i = 1; i < competition.TimingPoints.Count; i++)
             {
                 apiCrews = OrderCrews(apiCrews, competition, competition.TimingPoints[i]);
                 
