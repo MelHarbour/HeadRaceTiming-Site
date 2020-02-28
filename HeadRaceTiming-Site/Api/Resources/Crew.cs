@@ -82,5 +82,9 @@ namespace HeadRaceTimingSite.Api.Resources
         /// Whether the crew has incurred any penalties
         /// </summary>
         public bool HasPenalty { get; set; }
+        /// <summary>
+        /// The competition ID for that crew
+        /// </summary>
+        public int CompetitionId { get; set; }
     }
 }

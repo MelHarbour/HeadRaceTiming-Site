@@ -102,11 +102,8 @@ class CrewView extends connect(store)(PageViewElement) {
             if (state.athletes.athletesByCrew[this._crew.id]) {
                 this._athletes = state.athletes.athletesByCrew[this._crew.id].map(item => state.athletes.athletes[item]);
             }
-        }
-        if (state.app.focussedCompetition) {
-            this._compLink = "/results/"+state.app.focussedCompetition;
-            const competitionId = state.competitions.competitionsByFriendlyName[state.app.focussedCompetition];
-            this._competitionName = state.competitions.competitions[competitionId].name;
+            this._competitionName = state.competitions.competitions[this._crew.competitionId].name;
+            this._compLink = "/results/" + state.competitions.competitions[this._crew.competitionId].friendlyName;
         }
     }
 }
