@@ -44,9 +44,6 @@ const loadPage = (page, id) => async (dispatch, getState) => {
             if (!state.app.crews) {
                 await dispatch(module.getCrew(id));
             }
-            if (!state.app.focussedCrew) {
-                state.app.focussedCrew = id;
-            }
             await dispatch(module.getCrewAthletes(id));
             await dispatch(module.getCrewPenalties(id));
             await dispatch(module.getCrewAwards(id));
