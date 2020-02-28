@@ -44,7 +44,7 @@ class ResultsCard extends connect(store)(LitElement) {
     }
 
     stateChanged(state) {
-        this._results = Object.values(state.results.results);
+        this._results = state.crews.crews[this.crewId].results;
     }
 }
 

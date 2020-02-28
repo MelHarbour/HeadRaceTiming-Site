@@ -30,20 +30,7 @@ namespace HeadRaceTimingSite.Helpers
 
             foreach (Models.Crew modelCrew in crews)
             {
-                Api.Resources.Crew apiCrew = mapper.Map<Api.Resources.Crew>(modelCrew);
-
-                foreach (Models.Result modelResult in modelCrew.Results)
-                {
-                    Api.Resources.Result apiResult = new Api.Resources.Result()
-                    {
-                        Id = modelResult.TimingPointId,
-                        TimeOfDay = modelResult.TimeOfDay,
-                        RunTime = modelCrew.RunTime(startPoint.TimingPointId, modelResult.TimingPointId),
-                        SectionTime = startPoint.TimingPointId != modelResult.TimingPointId ? 
-                            modelCrew.RunTime(competition.TimingPoints.IndexOf(modelResult.TimingPoint) - 1, modelResult.TimingPointId) : null
-                    };
-                    apiCrew.Results.Add(apiResult);
-                }
+                Api.Resources.Crew apiCrew = BuildCrew(mapper, competition, startPoint, modelCrew);
 
                 apiCrews.Add(apiCrew);
             }
@@ -147,6 +134,37 @@ namespace HeadRaceTimingSite.Helpers
             }
 
             return apiCrews;
+        }
+
+        public static Api.Resources.Crew BuildCrew(IMapper mapper, Models.Competition competition, TimingPoint startPoint, Models.Crew modelCrew)
+        {
+            if (mapper is null)
+                throw new ArgumentNullException(nameof(mapper));
+            if (competition is null)
+                throw new ArgumentNullException(nameof(competition));
+            if (startPoint is null)
+                throw new ArgumentNullException(nameof(startPoint));
+            if (modelCrew is null)
+                throw new ArgumentNullException(nameof(modelCrew));
+
+            Api.Resources.Crew apiCrew = mapper.Map<Api.Resources.Crew>(modelCrew);
+
+            foreach (Models.Result modelResult in modelCrew.Results)
+            {
+                Api.Resources.Result apiResult = new Api.Resources.Result()
+                {
+                    Id = modelResult.TimingPointId,
+                    TimeOfDay = modelResult.TimeOfDay,
+                    Name = modelResult.TimingPoint.Name,
+                    RunTime = modelCrew.RunTime(startPoint.TimingPointId, modelResult.TimingPointId),
+                    SectionTime = startPoint.TimingPointId != modelResult.TimingPointId ?
+                        modelCrew.RunTime(competition.TimingPoints[competition.TimingPoints.IndexOf(modelResult.TimingPoint) - 1].TimingPointId,
+                            modelResult.TimingPointId) : null
+                };
+                apiCrew.Results.Add(apiResult);
+            }
+
+            return apiCrew;
         }
     }
 }

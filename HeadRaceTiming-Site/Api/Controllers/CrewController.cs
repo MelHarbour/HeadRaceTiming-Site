@@ -111,7 +111,7 @@ namespace HeadRaceTimingSite.Api.Controllers
             Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).Include("Crews.Results")
                 .Include("Crews.Penalties").FirstOrDefaultAsync(c => c.CompetitionId == crew.CompetitionId);
 
-            Crew output = _mapper.Map<Crew>(crew);
+            Crew output = ResultsHelper.BuildCrew(_mapper, comp, comp.TimingPoints.First(), crew);
             if (comp.TimingPoints.Count > 0)
             {
                 output.Rank = crew.Rank(comp.Crews, comp.TimingPoints.First(), comp.TimingPoints.Last());
