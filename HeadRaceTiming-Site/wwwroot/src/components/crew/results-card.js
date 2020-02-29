@@ -20,7 +20,7 @@ class ResultsCard extends connect(store)(LitElement) {
                     <td>${result.name}</td>
                     <td>${result.timeOfDay}</td>
                     <td>${result.sectionTime}</td>
-                    <td>${result.runTime ? html`${result.runTime} (${result.rank})` : null}</td>
+                    <td>${result.runTime ? html`${result.runTime} ${result.rank ? html` (${result.rank})` : null}` : null}</td>
                 </tr>
            `)}
         </table>

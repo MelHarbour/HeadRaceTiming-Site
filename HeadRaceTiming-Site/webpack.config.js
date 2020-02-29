@@ -1,4 +1,4 @@
-﻿/// <binding AfterBuild='Run - Production' />
+﻿/// <binding BeforeBuild='Run - Production' />
 const path = require('path');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
