@@ -36,12 +36,6 @@ class CrewView extends connect(store)(PageViewElement) {
         </div>
         </basic-card>
 
-        <basic-card headline="Certificate">
-        <div slot="content" style="padding: 1rem">
-        <a href="/Crew/Certificate?crewId=${this._crew.id}" download>Download</a>
-        </div>
-        </basic-card>
-
         <basic-card headline="Athletes">
             <table slot="content">
                 <thead>
