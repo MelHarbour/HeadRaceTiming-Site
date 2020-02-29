@@ -41,7 +41,6 @@ namespace HeadRaceTimingSite
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("connectionStrings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile("authentication.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
