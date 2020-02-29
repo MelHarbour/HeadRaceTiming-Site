@@ -14,9 +14,13 @@ const crews = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 crews: action.crews.reduce((obj, item) => {
-                    obj[item.id] = item;
                     if (state.crews[item.id]) {
-                        obj[item.id].awards = state.crews[item.id].awards;
+                        obj[item.id] = {
+                            ...state.crews[item.id],
+                            item
+                        }
+                    } else {
+                        obj[item.id] = item;
                     }
                     return obj;
                 }, {}),
