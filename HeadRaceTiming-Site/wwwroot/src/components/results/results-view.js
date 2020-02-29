@@ -163,9 +163,11 @@ class ResultsView extends connect(store)(PageViewElement) {
                 clearTimeout(this._timeout);
                 store.dispatch(getCompetitionCrews(competitionId, state.app.filterAward, state.app.searchString));
             }
-            this._crews = crewsListSelector(state);
             this._filterAwardId = state.app.filterAward;
             this._searchString = state.app.searchString;
+            if (state.crews.crewsByAward && state.crews.crewsByAward[this._filterAwardId] && state.crews.crewsByAward[this._filterAwardId][this._searchString]) {
+                this._crews = state.crews.crewsByAward[this._filterAwardId][this._searchString].map(item => state.crews.crews[item]);
+            }
             if (competitionId) {
                 this._firstIntermediateName = state.competitions.competitions[competitionId].firstIntermediateName;
                 this._firstIntermediatePoint = state.competitions.competitions[competitionId].firstIntermediateId;

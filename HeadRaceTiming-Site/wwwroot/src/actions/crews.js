@@ -12,7 +12,7 @@ export const getCompetitionCrews = (id, awardId, searchString) => (dispatch) => 
     }
     fetch('/api/competitions/' + id + '/crews' + (queryString != '' ? '?' + queryString : ''))
         .then(res => res.json())
-        .then(data => dispatch(receiveCrews(data)));
+        .then(data => dispatch(receiveCrews(data, awardId, searchString)));
 };
 
 export const getCrewResults = (id) => (dispatch) => {
@@ -34,10 +34,12 @@ const receiveCrew = (item) => {
     }
 }
 
-const receiveCrews = (items) => {
+const receiveCrews = (items, awardId, searchString) => {
     return {
         type: RECEIVE_CREWS,
-        crews: items
+        crews: items,
+        awardId: awardId,
+        searchString: searchString
     };
 };
 

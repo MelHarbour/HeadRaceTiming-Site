@@ -5,7 +5,7 @@ import { RECEIVE_PENALTIES } from '../actions/penalties';
 
 const INITIAL_STATE = {
     crews: {},
-    orderedCrews: []
+    crewsByAward: {}
 };
 
 const crews = (state = INITIAL_STATE, action) => {
@@ -23,8 +23,14 @@ const crews = (state = INITIAL_STATE, action) => {
                         obj[item.id] = item;
                     }
                     return obj;
-                }, {}),
-                orderedCrews: action.crews.map(item => item.id)
+                }, state.crews),
+                crewsByAward: {
+                    ...state.crewsByAward,
+                    [action.awardId]: {
+                        ...state.crewsByAward[action.awardId], 
+                        [action.searchString]: action.crews.map(item => item.id)
+                    }
+                }
             };
         case RECEIVE_CREW:
             return {
@@ -66,14 +72,3 @@ const crews = (state = INITIAL_STATE, action) => {
 export default crews;
 
 export const crewsSelector = state => state.crews && state.crews.crews;
-const orderedCrewsSelector = state => state.crews && state.crews.orderedCrews;
-
-export const crewsListSelector = createSelector(
-    crewsSelector, orderedCrewsSelector,
-    (crews, order) => {
-        if (!crews) {
-            return;
-        }
-        return order.map(key => crews[key]);
-    }
-);
