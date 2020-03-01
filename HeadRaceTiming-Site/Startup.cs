@@ -68,13 +68,13 @@ namespace HeadRaceTimingSite
                 opt.AddDebug();
             });
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-                var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "HeadRaceTimingSite.xml");
-                c.IncludeXmlComments(filePath);
-                c.EnableAnnotations();
-            });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            //    var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "HeadRaceTimingSite.xml");
+            //    c.IncludeXmlComments(filePath);
+            //    c.EnableAnnotations();
+            //});
 
             services.AddDbContext<TimingSiteContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TimingSiteDatabase")));
 
@@ -145,7 +145,7 @@ namespace HeadRaceTimingSite
                 options.AddPolicy("CanAdminCompetition", policy => policy.Requirements.Add(new CompetitionAdminRequirement()));
             });
 
-            services.AddApplicationInsightsTelemetry();
+            //services.AddApplicationInsightsTelemetry();
 
             services.AddSingleton<IAuthorizationHandler, CompetitionAdminAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, AdminAuthorizationHandler>();
@@ -176,20 +176,20 @@ namespace HeadRaceTimingSite
 
             app.UseResponseCompression();
             app.UseStaticFiles();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Timing API v1");
-            });
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Timing API v1");
+            //});
 
             app.UseRouting();
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"node_modules\@webcomponents\webcomponentsjs")),
-                RequestPath = PathString.FromUriComponent("/lib/webcomponents"),
-                ServeUnknownFileTypes = true
-            });
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"node_modules\@webcomponents\webcomponentsjs")),
+            //    RequestPath = PathString.FromUriComponent("/lib/webcomponents"),
+            //    ServeUnknownFileTypes = true
+            //});
 
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

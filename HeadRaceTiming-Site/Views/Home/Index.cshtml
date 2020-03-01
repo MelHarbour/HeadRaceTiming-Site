@@ -16,17 +16,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="~/dist/site.css" />
     <script>
-        // Load and register pre-caching Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register('service-worker.js', {
-                    scope: '/',
-                });
-            });
-        }
-
-        // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
-        // https://github.com/reactjs/redux/issues/2907
         window.process = { env: { NODE_ENV: 'production' } };
     </script>
 </head>
@@ -37,7 +26,7 @@
         Please enable JavaScript to view this website.
     </noscript>
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
-    <script src="/lib/webcomponents/webcomponents-loader.js"></script>
+    <script src="~/dist/webcomponents-loader.js"></script>
     <script type="module" src="~/dist/site.js" crossorigin>
     </script>
 </body>

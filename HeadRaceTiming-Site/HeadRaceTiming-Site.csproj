@@ -9,8 +9,6 @@
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <RootNamespace>HeadRaceTimingSite</RootNamespace>
     <AssemblyName>HeadRaceTimingSite</AssemblyName>
-    <ApplicationInsightsResourceId>/subscriptions/9d891c91-f51f-42c9-87d6-dfe8c2e9e9dd/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/HeadRaceTiming-Site</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/9d891c91-f51f-42c9-87d6-dfe8c2e9e9dd/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/HeadRaceTiming-Site</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -52,13 +50,22 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\dist\" />
-  </ItemGroup>
 
 
   <ItemGroup>
     <DotNetCliToolReference Include="Amazon.ElasticBeanstalk.Tools" Version="1.1.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="wwwroot\dist\bundles\webcomponents-ce.js" />
+    <None Include="wwwroot\dist\bundles\webcomponents-ce.js.map" />
+    <None Include="wwwroot\dist\bundles\webcomponents-sd-ce-pf.js" />
+    <None Include="wwwroot\dist\bundles\webcomponents-sd-ce-pf.js.map" />
+    <None Include="wwwroot\dist\bundles\webcomponents-sd-ce.js" />
+    <None Include="wwwroot\dist\bundles\webcomponents-sd-ce.js.map" />
+    <None Include="wwwroot\dist\bundles\webcomponents-sd.js" />
+    <None Include="wwwroot\dist\bundles\webcomponents-sd.js.map" />
   </ItemGroup>
 </Project>
 
