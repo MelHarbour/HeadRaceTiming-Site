@@ -162,7 +162,7 @@ namespace HeadRaceTimingSite.Api.Controllers
             if (award == null)
             {
                 Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).Include("Crews.Results")
-                .Include("Crews.Penalties").Include("Crews.Athletes").FirstOrDefaultAsync(c => c.CompetitionId == id);
+                    .FirstOrDefaultAsync(c => c.CompetitionId == id);
 
                 if (comp == null)
                     return NotFound();
@@ -171,7 +171,7 @@ namespace HeadRaceTimingSite.Api.Controllers
             else
             {
                 Models.Award dbAward = await _context.Awards.Include("Crews.Crew.Results")
-                    .Include("Crews.Crew.Penalties").Include("Crews.Crew.Competition.TimingPoints")
+                    .Include("Crews.Crew.Competition.TimingPoints")
                     .FirstOrDefaultAsync(a => a.AwardId == award);
                 crews = dbAward.Crews.Select(x => x.Crew).ToList();
             }
