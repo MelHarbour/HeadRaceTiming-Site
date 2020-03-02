@@ -170,7 +170,6 @@ namespace HeadRaceTimingSite.Api.Controllers
             else
             {
                 Models.Award dbAward = await _context.Awards.Include("Crews.Crew.Results")
-                    .Include("Crews.Crew.Competition.TimingPoints")
                     .FirstOrDefaultAsync(a => a.AwardId == award);
                 crews = dbAward.Crews.Select(x => x.Crew).ToList();
             }
