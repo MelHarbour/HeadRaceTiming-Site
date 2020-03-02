@@ -11,11 +11,12 @@ namespace HeadRaceTimingSite.Helpers
 {
     public static class ResultsHelper
     {
-        public static List<Api.Resources.Crew> BuildCrewsList(IMapper mapper, IEnumerable<Models.Crew> crews)
+        public static List<Api.Resources.Crew> BuildCrewsList(IMapper mapper, Models.Competition competition, IEnumerable<Models.Crew> crews)
         {
             if (mapper is null)
                 throw new ArgumentNullException(nameof(mapper));
-
+            if (competition is null)
+                throw new ArgumentNullException(nameof(competition));
             if (crews is null)
                 throw new ArgumentNullException(nameof(crews));
 
@@ -24,7 +25,6 @@ namespace HeadRaceTimingSite.Helpers
             if (!crews.Any())
                 return apiCrews;
 
-            Models.Competition competition = crews.First().Competition;
             TimingPoint finishPoint = competition.TimingPoints.Last();
 
             foreach (Models.Crew modelCrew in crews)

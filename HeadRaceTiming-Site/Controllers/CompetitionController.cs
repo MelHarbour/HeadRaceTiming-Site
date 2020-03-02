@@ -25,12 +25,11 @@ namespace HeadRaceTimingSite.Controllers
         [Produces("text/csv")]
         public async Task<IActionResult> DetailsAsCsv(int? id)
         {
-            IEnumerable<Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id)
-                .Include(x => x.Competition.TimingPoints).Include(x => x.Results)
-                .Include("Athletes.Athlete")
-                .Include(x => x.Penalties).ToListAsync();
+            Competition competition = await _context.Competitions.Include(c => c.TimingPoints).FirstOrDefaultAsync(c => c.CompetitionId == id);
+            IEnumerable<Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id).Include(x => x.Results)
+                .Include("Athletes.Athlete").Include(x => x.Penalties).ToListAsync();
 
-            return Ok(ResultsHelper.BuildCrewsList(_mapper, crews));
+            return Ok(ResultsHelper.BuildCrewsList(_mapper, competition, crews));
         }
     }
 }

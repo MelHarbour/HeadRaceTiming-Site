@@ -158,15 +158,14 @@ namespace HeadRaceTimingSite.Api.Controllers
         public async Task<IActionResult> ListByCompetition(int id, string s, int? award = null)
         {
             List<Models.Crew> crews;
+            Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).FirstOrDefaultAsync(c => c.CompetitionId == id);
+
+            if (comp is null)
+                return NotFound();
 
             if (award == null)
             {
-                Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).Include("Crews.Results")
-                    .FirstOrDefaultAsync(c => c.CompetitionId == id);
-
-                if (comp == null)
-                    return NotFound();
-                crews = comp.Crews;
+                crews = await _context.Crews.Include(c => c.Results).Where(c => c.CompetitionId == id).ToListAsync();
             }
             else
             {
@@ -176,7 +175,7 @@ namespace HeadRaceTimingSite.Api.Controllers
                 crews = dbAward.Crews.Select(x => x.Crew).ToList();
             }
 
-            List<Crew> results = ResultsHelper.BuildCrewsList(_mapper, crews);
+            List<Crew> results = ResultsHelper.BuildCrewsList(_mapper, comp, crews);
             if (String.IsNullOrEmpty(s))
                 return Ok(results);
             else

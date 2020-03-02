@@ -49,7 +49,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
             crews.Add(crew2);
 
-            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, crews);
+            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, Competition, crews);
 
             Assert.AreEqual(2, results[0].Id);
             Assert.AreEqual(1, results[1].Id);
@@ -69,7 +69,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
             crews.Add(crew2);
 
-            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, crews);
+            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, Competition, crews);
 
             Assert.AreEqual(2, results[0].Id);
             Assert.AreEqual(1, results[1].Id);
@@ -89,7 +89,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
             crews.Add(crew2);
 
-            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, crews);
+            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, Competition, crews);
 
             Assert.AreEqual(1, results[0].Id);
             Assert.AreEqual(2, results[1].Id);
@@ -111,7 +111,7 @@ namespace HeadRaceTimingSite.Tests
             crew2.Results.Add(new Result(FinishPoint, crew2, new TimeSpan(2, 20, 0)));
             crews.Add(crew2);
 
-            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, crews);
+            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, Competition, crews);
 
             Assert.AreEqual(1, results[0].Id);
             Assert.AreEqual(2, results[1].Id);
@@ -127,7 +127,7 @@ namespace HeadRaceTimingSite.Tests
             Crew crew2 = new Crew { BroeCrewId = 2, Competition = Competition };
             crews.Add(crew2);
 
-            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, crews);
+            List<HeadRaceTimingSite.Api.Resources.Crew> results = ResultsHelper.BuildCrewsList(mapper, Competition, crews);
 
             Assert.AreEqual(1, results[0].Id);
             Assert.AreEqual(2, results[1].Id);
