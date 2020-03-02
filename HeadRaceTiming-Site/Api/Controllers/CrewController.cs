@@ -101,21 +101,20 @@ namespace HeadRaceTimingSite.Api.Controllers
         [HttpGet("/api/crews/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            Models.Crew crew = await _context.Crews.Include(x => x.Competition.TimingPoints)
-                .Include(x => x.Results).Include(x => x.Penalties).Include(x => x.Athletes)
-                .FirstOrDefaultAsync(x => x.BroeCrewId == id);
+            Models.Crew crew = await _context.Crews.Include(x => x.Results).FirstOrDefaultAsync(x => x.BroeCrewId == id);
 
             if (crew == null)
                 return NotFound();
 
-            Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints).Include("Crews.Results")
-                .Include("Crews.Penalties").FirstOrDefaultAsync(c => c.CompetitionId == crew.CompetitionId);
+            Models.Competition comp = await _context.Competitions.Include(c => c.TimingPoints)
+                .FirstOrDefaultAsync(c => c.CompetitionId == crew.CompetitionId);
 
             Crew output = ResultsHelper.BuildCrew(_mapper, comp, crew);
             if (comp.TimingPoints.Count > 0)
             {
-                List<Models.Crew> crews = ResultsHelper.OrderCrews(comp.Crews, comp, comp.TimingPoints.Last());
-                output.Rank = crew.Rank(crews, comp.TimingPoints.First(), comp.TimingPoints.Last());
+                Models.TimingPoint lastPoint = comp.TimingPoints.Last();
+                List<Models.Crew> crews = ResultsHelper.OrderCrews(comp.Crews, comp, lastPoint);
+                output.Rank = crew.Rank(crews, comp.TimingPoints.First(), lastPoint);
             }
             for (int i = 1; i < crew.Results.Count; i++)
             {
