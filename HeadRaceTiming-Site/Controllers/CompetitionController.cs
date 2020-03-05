@@ -29,7 +29,7 @@ namespace HeadRaceTimingSite.Controllers
             IEnumerable<Crew> crews = await _context.Crews.Where(c => c.CompetitionId == id).Include(x => x.Results)
                 .Include("Athletes.Athlete").Include(x => x.Penalties).ToListAsync();
 
-            return Ok(ResultsHelper.BuildCrewsList(_mapper, competition, crews));
+            return Ok(_mapper.Map<IList<CsvCrewViewModel>>(ResultsHelper.BuildCrewsList(_mapper, competition, crews)));
         }
     }
 }

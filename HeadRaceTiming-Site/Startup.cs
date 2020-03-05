@@ -200,6 +200,16 @@ namespace HeadRaceTimingSite
         }
     }
 
+    public class CsvProfile : Profile
+    {
+        public CsvProfile()
+        {
+            CreateMap<Api.Resources.Crew, ViewModels.CsvCrewViewModel>()
+                .ForMember(d => d.BarnesTime, opt => opt.MapFrom(s => (s.Results == null || s.Results.Count < 2) ? null : s.Results[1].RunTime))
+                .ForMember(d => d.HammersmithTime, opt => opt.MapFrom(s => (s.Results == null || s.Results.Count < 3) ? null : s.Results[2].RunTime));
+        }
+    }
+
     public class ApiProfile : Profile
     {
         public ApiProfile()

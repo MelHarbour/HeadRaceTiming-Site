@@ -28,36 +28,19 @@ namespace HeadRaceTimingSite.Formatters
 
             var response = context.HttpContext.Response;
 
-            StringWriter sw = new StringWriter();
-
-            using (var csv = new CsvWriter(sw, CultureInfo.InvariantCulture))
+            using (StringWriter sw = new StringWriter())
             {
-
-                csv.WriteField("Name");
-                csv.WriteField("Start Number");
-                csv.WriteField("Max CRI");
-                csv.WriteField("Barnes");
-                csv.WriteField("Hammersmith");
-                csv.WriteField("Overall");
-                csv.NextRecord();
-
-                foreach (Crew result in (IList<Crew>)context.Object)
+                using (var csv = new CsvWriter(sw, CultureInfo.InvariantCulture))
                 {
-                    csv.WriteField(result.Name);
-                    csv.WriteField(result.StartNumber);
-                    csv.WriteField(result.CriMax);
-                    csv.WriteField(result.Results[1]?.RunTime);
-                    csv.WriteField(result.Results[2]?.RunTime);
-                    csv.WriteField(result.OverallTime);
-                    csv.NextRecord();
+                    csv.WriteRecords((IList<CsvCrewViewModel>)context.Object);
                 }
-            }
 
-            response.Headers.Add("content-disposition", "attachment; filename=\"export.csv\"");
-            using (var streamWriter = new StreamWriter(response.Body))
-            {
-                await streamWriter.WriteAsync(sw.ToString());
-                await streamWriter.FlushAsync();
+                response.Headers.Add("content-disposition", "attachment; filename=\"export.csv\"");
+                using (var streamWriter = new StreamWriter(response.Body))
+                {
+                    await streamWriter.WriteAsync(sw.ToString());
+                    await streamWriter.FlushAsync();
+                }
             }
         }
     }
